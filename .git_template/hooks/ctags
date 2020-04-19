@@ -1,0 +1,9 @@
+#!/bin/sh
+# load exuberant ctags for python.
+set -e
+PATH="/usr/local/bin:$PATH"
+dir="`git rev-parse --git-dir`"
+trap 'rm -f "$dir/$$.tags"' EXIT
+git ls-files --recurse-submodules | \
+  ctags --tag-relative=always -L - -f"$dir/$$.tags" --languages=python
+mv "$dir/$$.tags" "$dir/tags"

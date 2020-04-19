@@ -1,0 +1,74 @@
+[user]
+    email = jonathf@gmail.com
+    name = Jonathan Feinberg
+    signingkey = F16566254E4175D8
+[push]
+    default = current
+[fetch]
+    prune = true
+[core]
+    editor = nvim
+    excludesfile = ~/.gitignore
+    autocrlf = input
+    filemode = false
+[alias]
+    ll = log --pretty=format:"%C(yellow)%h%Creset\\ %C(green)%ar%C(cyan)%d\\ %Creset%s%C(yellow)\\ [%cn]" --graph --decorate --all
+    edit = "!nvim `git ls-files -m | uniq` -c '/\\v^[<=>|]{7}( |$)'"
+    add-all = "!git add `git ls-files -m | uniq`"
+    accept-ours = "!f() { git checkout --ours -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
+    accept-theirs = "!f() { git checkout --theirs -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
+    amend = "commit --amend"
+    gmerge = "!f() { \
+        declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
+        declare branch=\"${2:-$currentBranch}\"; \
+        if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
+            git fetch origin refs/pull/$1/head:pr/$1 && \
+            git checkout -B $branch && \
+            git rebase $branch pr/$1 && \
+            git checkout -B $branch && \
+            git merge --no-ff pr/$1 && \
+            git branch -D pr/$1; \
+        fi \
+    }; f"
+    gcheckout = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && \
+    git checkout pr/$1; }; f"
+    git = "!exec git"
+    aliases = config --get-regexp alias
+    pr = "!git-blame-pr"
+    prune = "!f() { git branch -d $(git branch --merged=\"$1\" | grep -v \"$1\") \
+    git fetch --prune }; f"
+[pager]
+    diff = diff-so-fancy | less --tabs=1,5 -RFX
+[color]
+    ui = auto
+[color "branch"]
+    current = yellow
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    untracked = dim
+    added = green
+    changed = cyan
+[diff]
+    tool = vimdiff
+    noprefix = true
+[pull]
+    rebase = true
+[merge]
+    conflictstyle=diff3
+[init]
+    templatedir = ~/.git_template
+[commit]
+    gpgsign = true
+[tag]
+    forceSignAnnotated = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

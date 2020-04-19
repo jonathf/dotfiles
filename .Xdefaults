@@ -1,0 +1,59 @@
+Xft.rgba: rgb
+Xft.hintstyle: hintfull
+
+URxvt.font: xft:Operator Mono Book:size=20,xft:Ubuntu Mono\ derivative\ Powerline:size=20,xft:Ubuntu Mono:size=20
+URxvt.letterSpace: -1
+
+URxvt.dpi: 200
+URxvt.antialias: true
+URxvt.hinting: true
+
+URxvt.borderless: 1
+URxvt.internalBorder: 10
+URxvt.scrollBar: false
+URxvt.saveLines: 5000
+URxvt.termName: rxvt-unicode
+URxvt.urlLauncher: vivaldi
+URxvt.skipScroll:  true
+URxvt.fading: 40
+URxvt.bell: false
+
+URxvt.matcher.button: 1
+
+URxvt.depth:32
+URxvt.foreground: #ffffff
+URxvt.background: rgba:0000/0000/0000/5555
+
+! Hybrid color scheme:
+URxvt.color0: #2d3c46
+URxvt.color1: #a54242
+URxvt.color2: #8c9440
+URxvt.color3: #de935f
+URxvt.color4: #f5819d
+URxvt.color5: #85678f
+URxvt.color6: #5e8d87
+URxvt.color7: #6c7a80
+URxvt.color8: #425059
+URxvt.color9: #cc6666
+URxvt.color10: #b5bd68
+URxvt.color11: #f0c674
+URxvt.color12: #81a2be
+URxvt.color13: #b294bb
+URxvt.color14: #8abeb7
+URxvt.color15: #c5c8c6
+
+URxvt.iso14755: false
+URxvt.urlLauncher: firefox
+
+! extensions and keybinding:
+URxvt.perl-ext: reactivity,vim-scrollback
+!,keyboard-select
+URxvt.keysym.C-0: perl:reactivity:resetfont
+URxvt.keysym.C-minus: perl:reactivity:smallerfont
+URxvt.keysym.C-plus: perl:reactivity:largerfont
+!URxvt.keysym.M-z: perl:keyboard-select:activate
+
+urxvt.vim-scrollback: M-z
+urxvt.vim-scrollback-paste: M-p
+urxvt.vim-scrollback-bg: 16
+urxvt.vim-scrollback-fg: 10
