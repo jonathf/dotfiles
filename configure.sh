@@ -26,3 +26,7 @@ ln -sv $CFG_ROOT/urxvt ~/.urxvt
 
 rm -v ~/.config/user-dirs.dirs
 ln -svf $CFG_ROOT/user-dirs.dirs ~/.config/user-dirs.dirs
+
+mkdir -p ~/.local/bin
+ln -svf $CFG_ROOT/git-blame-pr ~/.local/bin
+ln -svf $CFG_ROOT/git-fancy-diff ~/.local/bin

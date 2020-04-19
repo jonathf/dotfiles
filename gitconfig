@@ -38,7 +38,7 @@
     prune = "!f() { git branch -d $(git branch --merged=\"$1\" | grep -v \"$1\") \
     git fetch --prune }; f"
 [pager]
-    diff = diff-so-fancy | less --tabs=1,5 -RFX
+    diff = git-fancy-diff | less --tabs=1,5 -RFX
 [color]
     ui = auto
 [color "branch"]
