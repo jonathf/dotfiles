@@ -3,7 +3,7 @@ Various Dot-Configuration Files
 
 Personal configurations for the following programs:
 
-* git
+* Git
 * IPython
 * Matplotlib
 * URxvt
