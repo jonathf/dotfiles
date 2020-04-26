@@ -7,17 +7,12 @@
 [fetch]
     prune = true
 [core]
-    editor = nvim
     excludesfile = ~/.gitignore
     autocrlf = input
     filemode = false
 [alias]
     ll = log --pretty=format:"%C(yellow)%h%Creset\\ %C(green)%ar%C(cyan)%d\\ %Creset%s%C(yellow)\\ [%cn]" --graph --decorate --all
-    edit = "!nvim `git ls-files -m | uniq` -c '/\\v^[<=>|]{7}( |$)'"
-    add-all = "!git add `git ls-files -m | uniq`"
-    accept-ours = "!f() { git checkout --ours -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
-    accept-theirs = "!f() { git checkout --theirs -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
-    amend = "commit --amend"
+    edit = "!$EDITOR `git ls-files -m | uniq` -c '/\\v^[<=>|]{7}( |$)'"
     gmerge = "!f() { \
         declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
         declare branch=\"${2:-$currentBranch}\"; \
@@ -33,8 +28,7 @@
     gcheckout = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && \
     git checkout pr/$1; }; f"
     git = "!exec git"
-    aliases = config --get-regexp alias
-    pr = "!git-blame-pr"
+    gblame = "!git-blame-pr"
     prune = "!f() { git branch -d $(git branch --merged=\"$1\" | grep -v \"$1\") \
     git fetch --prune }; f"
 [pager]
