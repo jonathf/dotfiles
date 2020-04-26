@@ -29,25 +29,33 @@ To install, follow the steps:
 
     .. code:: bash
 
-       sh ~/.config/configure.sh
+       bash ~/.config/configure.sh
 
-3. (Optional) Install ``direnv`` by running the code on Arch Linux:
+3. (Optional) Install ``direnv`` for some extra features.
+
+   On Arch Linux:
 
    .. code:: bash
 
-      fish -c "aurbuild direnv/direnv-archlinux"
+       fish -c "aurbuild direnv/direnv-archlinux"
+
+   On Ubuntu Linux:
+
+   .. code:: bash
+
+       sudo apt install direnv
 
    On systems without root access, run the following command instead:
 
    .. code:: bash
 
-      bash ~/.config/fish/direnv_install.sh
+       bash ~/.config/fish/direnv_install.sh
 
 4. (Optional) Install ``pyenv`` by cloning the repository:
 
    .. code:: bash
 
-      git clone https://github.com/pyenv/pyenv ~/.pyenv
+       git clone https://github.com/pyenv/pyenv ~/.pyenv
 
 Features
 --------

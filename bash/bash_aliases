@@ -70,19 +70,27 @@ if [[ "$NVIM_LISTEN_ADDRESS" != "" ]]; then
         fi
         export incd="1"
         builtin cd "$@"
-        ~/cfg/bin/nvim-terminal-cd "$NVIM_LISTEN_ADDRESS" "$(pwd)"
+        ~/.config/nvim/venv/bin/python -c "import neovim
+with neovim.attach('socket', path='$NVIM_LISTEN_ADDRESS') as session:
+    session.vars['__autocd_cwd'] = '$argv'
+    session.command('execute \"lcd \" . fnameescape(g:__autocd_cwd)')"
         export incd="0"
     }
+
+    function _D(){
+        ~/.config/nvim/venv/bin/python -c "import neovim
+with neovim.attach('socket', path='$NVIM_LISTEN_ADDRESS') as session:
+    session.command('setlocal bufhidden=hide')
+    session.command('close')"
+    }
+
     function vi(){
-        ~/cfg/bin/nvim-terminal-edit "$@"
+        ~/.config/nvim/venv/bin/nvr "$@"
     }
     function vim(){
-        ~/cfg/bin/nvim-terminal-edit "$@"
+        ~/.config/nvim/venv/bin/nvr "$@"
     }
     function nvim(){
-        ~/cfg/bin/nvim-terminal-edit "$@"
-    }
-    function _D(){
-        ~/cfg/bin/nvim-terminal-unload "$NVIM_LISTEN_ADDRESS"
+        ~/.config/nvim/venv/bin/nvr "$@"
     }
 fi
