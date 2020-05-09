@@ -1,64 +1,52 @@
 Various Dot-Configuration Files
 ===============================
 
-Personal configurations for the following programs:
+This repository is meant to be used using git bare, as described here:
+https://www.atlassian.com/git/tutorials/dotfiles
 
-* Git
-* IPython
-* Matplotlib
-* URxvt/Alacritty
+To install, clone anywhere and copy the ``.git`` to ``~/.config/dotfiles``:
 
-Installation
-------------
+.. code:: bash
 
-Note that installation is done by deleting the old configurations, then create
-new symbolic link to various files and folders.
-If there are something important you want to keep there, save the
-relevant configurations first.
+   clone https://github.com/jonathf/dotfiles ~/dotfiles
+   mv ~/dotfiles/.git ~/.config/dotfiles
+   rm -rf ~/dotfiles
 
-To install, follow the steps:
+Interaction with the git repository folder requires extra flags, so to start
+configuring, start by add a temporary alias for your session:
 
-1. Clone the repository to your system. It doesn't matter where, though it is
-   expected that the folder is not removed, so perhaps:
+.. code:: bash
 
-   .. code:: bash
+   alias .git="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 
-       git clone https://github.com/jonathf/dotfiles ~/.config/dotfiles
+With it in place, check which files are in conflict with:
 
-2. Run the configuration script:
+.. code:: bash
 
-    .. code:: bash
+   .git status
 
-       bash ~/.config/configure.sh
+Delete or move the files that are in the way. Then do the following to copy
+files from the git folder to your home:
 
-3. (Optional) Install ``direnv`` for some extra features.
+.. code:: bash
 
-   On Arch Linux:
+   .git checkout ~
 
-   .. code:: bash
+If using ``bash``, the ``.git`` command should now be available permanently
+through ``.bash_aliases``.
 
-       fish -c "aurbuild direnv/direnv-archlinux"
+To get a more sane ``.git`` behavior, you can also add the following two
+configurations values:
 
-   On Ubuntu Linux:
+.. code:: bash
 
-   .. code:: bash
-
-       sudo apt install direnv
-
-   On systems without root access, run the following command instead:
-
-   .. code:: bash
-
-       bash ~/.config/fish/direnv_install.sh
-
-4. (Optional) Install ``pyenv`` by cloning the repository:
-
-   .. code:: bash
-
-       git clone https://github.com/pyenv/pyenv ~/.pyenv
+   .git config --local advice.addIgnoredFiles false
+   .git config --local status.showUntrackedFiles no
 
 Features
 --------
+
+Personal configurations for the following programs:
 
 ``git diff``
     An updated fancy ``git diff`` with nice colors and stuff.

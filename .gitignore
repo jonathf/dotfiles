@@ -1,1 +1,11 @@
-history.sqlite
+experiments
+*-vimbackup
+*.egg-info
+*__pycache__
+*.pyc
+*.class
+*.o
+*.log
+*.aux
+.*
+TODO
