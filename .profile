@@ -1,0 +1,31 @@
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export QT_AUTO_SCREEN_SCALE_FACTOR="0"
+export XDG_CURRENT_DESKTOP="XFCE"
+export XDG_CONFIG_DIRS="/etc/xdg"
+
+export BROWSER="qutebrowser"
+export DIRENV_LOG_FORMAT=""
+export EDITOR="nvim"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en"
+export LC_ALL="en_US.UTF-8"
+export LC_MESSAGES="C"
+export PIPENV_DEFAULT_PYTHON_VERSION="3.8"
+export PIPENV_IGNORE_VIRTUALENVS="1"
+export PIPENV_VENV_IN_PROJECT="true"
+export REQUIREMENTS="mypy ipython pep257 pylint"
+export VISUAL="nvim"
+export VIRTUAL_ENV_DISABLE_PROMPT="1"
+
+# BASH specifics
+export HISTCONTROL="ignoreboth"
+export HISTSIZE="500000"
+export HISTFILESIZE="100000"
+export PROMPT_COMMAND="history -a"
+
+# Extend PATH
+[[ "$PATH" != *"$HOME/.local/bin"* ]] && export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.cargo" ] && export CARGO_ROOT="$HOME/.cargo"
+[ -d "$HOME/.cargo" ] && [[ "$PATH" != *"$HOME/.cargo"* ]] && export PATH="$PATH:$CARGO_ROOT/bin"
+[ -d "$HOME/.pyenv" ] && export PYENV_ROOT="$HOME/.pyenv"
+[ -d "$HOME/.pyenv" ] && [[ "$PATH" != *"$HOME/.pyenv"* ]] && export PATH="$PATH:$PYENV_ROOT/bin"
