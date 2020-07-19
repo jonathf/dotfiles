@@ -2,96 +2,47 @@
 
 __prompt()
 {
-    reset="\033[m"
-    black="\033[0;30m"
-    brblack="\033[0;90m"
-    red="\033[0;31m"
-    brred="\033[0;91m"
-    green="\033[0;32m"
-    brgreen="\033[0;92m"
-    yellow="\033[0;33m"
-    bryellow="\033[0;93m"
-    blue="\033[0;34m"
-    brblue="\033[0;94m"
-    magenta="\033[0;35m"
-    brmagenta="\033[0;95m"
-    cyan="\033[0;36m"
-    brcyan="\033[0;96m"
-    gray="\033[0;37m"
-    white="\033[0;97m"
-
-    # Get the branch name of the current directory
-    _branch_name()
+    _git_info()
     {
         git rev-parse --inside-work-tree >/dev/null 2>&1 || return
-        # get branch name
+
         local branch_name="$(git symbolic-ref --short HEAD)"
-        if [ "$branch_name" != "" ]; then
-            # strip unnecessary prefix
-            branch_name="${branch_name#refs/heads/}"
-        else
-            # short hash if in detached head mode
-            branch_name="$(git rev-parse --short -q HEAD)"
-        fi
-        if [ "$(git status --porcelain | grep -v '^??')" != "" ]; then
-            branch_name=$branch_name*
-        fi
-        echo -ne "$brblack$branch_name "
-    }
+        [ -n "$branch_name" ] && branch_name="${branch_name#refs/heads/}"  # strip prefix
+        [ -z "$branch_name" ] && branch_name="$(git rev-parse --short -q HEAD)"  # use short-hash if detached
+        [ -n "$(git status --porcelain | grep -v '^??')" ] && branch_name="$branch_name*"  # note untracked
+        [ -n "$branch_name" ] && echo -ne "\e[0;90m$branch_name "
 
-    _distance_to_remote(){
-        git rev-parse --inside-work-tree >/dev/null 2>&1 || return
-
-        # branch symbolic ref
         local ref_branch="$(git symbolic-ref -q HEAD 2> /dev/null)"
-        # branch upstream tracing name
         local remote_branch="$(git for-each-ref --format='%(upstream:short)' $ref_branch)"
-        # no upstream
-        [ "$remote_branch" = "" ] && return
 
-        # upstream have been deleted
-        [ "$(git branch -a | grep "$remote_branch" | wc -l)" = "0" ] && return
+        [ -z "$remote_branch" ] && return # no upstream
+        [ "$(git branch -a | grep "$remote_branch" | wc -l)" = "0" ] && return # upstream deleted
 
         local forwards="$(git rev-list --count $remote_branch..$1 2> /dev/null)"
-        [ "$forwards" = "0" ] && forwards=""
-        [ "$forwards" != "" ] && forwards="+$forwards"
+        [ "$forwards" != "0" ] && echo -ne "\e[0;36m+$forwards"
 
         local backwards="$(git rev-list --count $1..$remote_branch 2> /dev/null)"
-        [ "$backwards" = "0" ] && backwards=""
-        [ "$backwards" != "" ] && backwards="-$backwards"
-        echo -ne "$cyan$forwards$backwards"
+        [ "$backwards" != "0" ] && echo -ne "\e[0;36m-$backwards"
     }
 
-    _virtualenv(){
-        [ "$VIRTUAL_ENV" != "" ] && echo -ne "$brblack$(basename $VIRTUAL_ENV) "
-    }
-
-    _pwd(){
-        [ "$SSH_TTY" != "" ] && echo -ne "$blue\h:"
-        echo -ne "$bryellow\w "
-    }
-
-    _jobs(){
+    _ps1() {
         job_count="$(jobs -r | wc -l | xargs)"
-        if [ "$job_count" != "0" ]; then
-            for _ in $(seq $job_count); do
-                out="${out}&"
-            done
-        fi
+        [ "$job_count" != "0" ] && echo -ne "\e[0;33m"$(eval "printf '&%.0s' {1..$job_count}")
+
         sleep_count="$(jobs -s | wc -l | sed -e 's/ //g')"
-        if [ "$sleep_count" != "0" ]; then
-            for _ in $(seq $sleep_count); do
-                out="${out}z"
-            done
-        fi
-        if [ "$out" != "" ]; then
-            echo -ne "$yellow$out"
-        fi
+        [ "$sleep_count" != "0" ] && echo -ne "\e[0;33m"$(eval "printf 'z%.0s' {1..$sleep_count}")
+
+        [ -n "$SSH_TTY" ] && echo -ne "\e[0;34m\h:"  # on remote
+        echo -ne "\e[0;93m\w "  # user name
+        _git_info
+        echo -e ""  # newline
+        [ -n "$VIRTUAL_ENV" ] && echo -ne "\e[0;90m$(basename $VIRTUAL_ENV) "
+        echo -ne "\e[0;92m\\$ "
     }
 
     ps1() {
         local end="\[$( { tput sgr0 || tput me ; } 2>/dev/null )\]"
-        PS1="$(_jobs)$(_pwd)$(_branch_name)$(_distance_to_remote)\n$(_virtualenv)$brgreen\\$ $end$reset"
+        PS1="$(_ps1)$end\e[m"
     }
     PROMPT_COMMAND="ps1${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 }
