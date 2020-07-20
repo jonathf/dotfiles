@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+! [ git rev-parse --is-inside-work-tree >/dev/null 2>&1 ] && \
+    extra_args="--git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
+git $extra_args status --short --branch "$@"
