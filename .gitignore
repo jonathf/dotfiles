@@ -8,4 +8,5 @@ experiments
 *.log
 *.aux
 .*
+!.config/
 TODO

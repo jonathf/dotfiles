@@ -1,7 +1,7 @@
 [user]
     email = jonathf@gmail.com
     name = Jonathan Feinberg
-    signingkey = F16566254E4175D8
+    signingkey = 558C5F4DBB8597A140DA91C53673F898D24A40A7
 [push]
     default = current
 [fetch]
@@ -62,7 +62,9 @@
 [tag]
     forceSignAnnotated = true
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+[gpg]
+    program = gpg
