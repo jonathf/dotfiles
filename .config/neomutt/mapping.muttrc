@@ -1,0 +1,61 @@
+set abort_key = "<Esc>"
+bind index                      -   collapse-thread
+bind index                      _   collapse-all
+bind index                      r   group-reply
+
+bind index                      d   delete-thread
+bind index                      U   undelete-thread
+
+bind attach,browser,index,pager g   noop
+
+bind attach,browser,index       gg  first-entry
+bind pager                      gg  top
+
+macro index,pager               gi  "<change-folder>=inbox<enter>" "go to inbox"
+macro index,pager               gd  "<change-folder>=drafts<enter>" "go to drafts"
+macro index,pager               gs  "<change-folder>=sent<enter>" "go to sent"
+macro index,pager               ga  "<change-folder>=all<enter>" "go to all"
+macro index,pager               gu  "<shell-escape>mbsync --config=$HOME/.config/neomutt/mbsyncrc-inbox --all<enter>" "Update inbox through mbsync"
+macro index,pager               gU  "<shell-escape>mbsync --config=$HOME/.config/neomutt/mbsyncrc-all --all<enter>" "Update all mail through mbsync"
+
+bind index,pager                <space>     noop
+bind index,pager                <space>k    half-up
+bind index,pager                <space>j    half-down
+bind pager                      k   previous-line
+bind pager                      j   next-line
+bind pager                      G   bottom
+bind index                      G   last-entry
+
+bind attach                     <return>    view-mailcap
+macro pager     S               "<pipe-message> ripmime -i - -d ~/tmp && rm ~/tmp/textfile*" "Save all non-text attachments using ripmime"
+
+macro index,pager               Y   "<pipe-message> urlview<Enter>"     "call urlview to extract URLs out of a message"
+macro index,pager               y   "<pipe-message> python /home/jonathf/viewpy/viewpy/__init__.py<Enter>"     "call viewpy to extract URLs out of a message"
+macro attach,compose            Y   "<pipe-entry> urlview<Enter>"       "call urlview to extract URLs out of a message"
+macro index,pager               p   "<pipe-message> asdf<Enter>"     "call urlview to extract URLs out of a message"
+
+macro index                     I   "<clear-flag>N"
+
+macro index A \
+    "<tag-pattern>~N<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" \
+    "mark all new as read"
+
+bind editor <Tab> complete-query
+
+macro index <F8> \
+    "<enter-command>set my_old_pipe_decode=\$pipe_decode my_old_wait_key=\$wait_key nopipe_decode nowait_key<enter>\
+    <shell-escape>notmuch-mutt -r --prompt search<enter>\
+    <change-folder-readonly>`echo $HOME/.cache/notmuch/mutt/results`<enter>\
+    <enter-command>set pipe_decode=\$my_old_pipe_decode wait_key=\$my_old_wait_key<enter>" \
+    "notmuch: search mail"
+
+macro index <F6> \
+    "<enter-command>set my_old_pipe_decode=\$pipe_decode nopipe_decode nowait_key<enter>\
+    <pipe-message>notmuch-mutt -r thread<enter>\
+    <change-folder-readonly>`echo $HOME/.cache/notmuch/mutt/results`<enter>\
+    <enter-command>set pipe_decode=\$my_old_pipe_decode wait_key<enter>i" \
+    "notmuch: reconstruct thread" \
+
+macro compose <F5> "F pandoc -s -f markdown -t html \ny^T^Utext/html; charset=utf-8\n"
+
+# vim:filetype=neomuttrc

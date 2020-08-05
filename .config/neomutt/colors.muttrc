@@ -1,0 +1,58 @@
+# Common stuff
+color normal color7 default
+color indicator default color8
+color options red green
+color error red default
+color tilde black default
+color message cyan default
+color markers red white
+color attachment brightcolor0 default
+color search brightmagenta default
+color status brightcolor15 default
+color signature brightgreen default
+color bold black default
+color underline black default
+color tree brightcolor15 default
+
+# Pager
+color index_number color15 default
+color index color11 default '.*'
+color index_author color12 default '.*'
+color index_subject color15 default '.*'
+color index_collapsed color1 default
+color index_date yellow default
+color index_label color3 default
+color index_size color5 default
+
+color index bold default color8 "~T"
+color index_author bold default color8 "~T"
+color index_subject bold default color8 "~T"
+
+color index bold brightcolor2 color8 "~N"
+color index_author bold brightcolor2 color8 "~N"
+color index_subject bold brightcolor2 color8 "~N"
+
+color index bold brightcolor9 color8 "~D"
+color index_author bold brightcolor9 color8 "~D"
+color index_subject bold brightcolor9 color8 "~D"
+
+color hdrdefault color0 default
+color header brightcolor11 default '^(From|To|CC|BCC|Date|Subject):'
+color header brightcolor12 default '<[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+\.[a-z]{2,3}>' # Email addresses
+
+color body brightcolor12 default '<[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+\.[a-z]{2,3}>' # Email addresses
+color body brightcolor12 default '[\-\.+_a-zA-Z0-9]+@[\-\.a-zA-Z0-9]+\.[a-z]{2,3}' # Email addresses
+color body brightcolor12 default "(https?://|www.)[\-\.,/%~_:?&=\#a-zA-Z0-9]+" # URL
+
+color quoted        magenta             default # Quoting Ebene 1
+color quoted1       red                 default # Quoting Ebene 2
+color quoted2       green               default # Quoting Ebene 3
+color quoted3       magenta             default # Quoting Ebene 4
+color quoted4       blue                default # Quoting Ebene 5
+color quoted5       cyan                default # Quoting Ebene 6
+color quoted6       green               default # Quoting Ebene 7
+color quoted7       red                 default # Quoting Ebene 8
+color quoted8       magenta             default # Quoting Ebene 9
+color quoted9       blue                default # Quoting Ebene 10
+
+# vim:filetype=neomuttrc

@@ -1,0 +1,11 @@
+set attach_format = "%2n%I%?u?%u&?%?D?%D&?%?t?%t&? %T%.40d%> %s %.7m/%.15M"
+set compose_format = "Compose [size:%l atts:%a]"  # Compose status line
+set index_format = "%2C%Z%<M?%M&%<X?%X& >> %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%[%d %b]>&%[%m/%y ]> %4c %-20.20L %s"
+set message_format = "%s"
+set pager_format = "%C/%m %Z%<M?%M&%<X?%X& >> %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%[%d %b]>&%[%m/%y ]> %4c %-20.20L %s%* %P"
+set query_format = "%2c %-30.30n %-30.30a"
+set status_format = "%D%> Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?"
+# set status_format = ""
+# set folder_format = "%2C %t %N %F %2l %-8.8u %-8.8g %8s %d %i"  # ????
+
+# vim:filetype=neomuttrc

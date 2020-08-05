@@ -1,0 +1,36 @@
+set realname = "Jonathan Feinberg"
+set from = "jonathf@gmail.com"
+set sendmail = "msmtp -a gmail"
+set smtp_authenticators = 'gssapi:login'
+set mbox_type = Maildir             # what kind of mailbox
+set editor = "mutt-trim %s; $EDITOR %s"
+set visual = "mutt-trim %s; $EDITOR %s"
+
+set certificate_file = "/etc/ssl/certs/ca-certificates.crt"
+set folder = "/home/jonathf/.config/neomutt/mail"
+set header_cache = "/home/jonathf/.config/neomutt/cache/headers"
+set message_cachedir = "/home/jonathf/.config/neomutt/cache/bodies"
+set mailcap_path = "/home/jonathf/.config/neomutt/mailcap"
+set tmpdir = "/home/jonathf/.config/neomutt/tmp"
+set attach_save_dir = "/home/jonathf/.config/neomutt/tmp/"
+
+set spoolfile = "+inbox"
+set record = "+sent"
+set postponed = "+drafts"
+set trash = ""
+
+mailboxes "=inbox" "=drafts" "=sent" "=all"
+
+# Header Options -------------------------------------
+ignore *                                # ignore all headers
+unignore from: to: cc: date: subject:   # show only these
+unhdr_order *                           # some distros order things by default
+hdr_order from: to: cc: date: subject:  # and in this order
+
+auto_view text/* application/* image/* audio/* # Don't ask, display filetypes at once
+folder-hook . push '<collapse-all>' # Everything collapsed by default
+
+source ./formats.muttrc
+source ./settings.muttrc
+source ./colors.muttrc
+source ./mapping.muttrc

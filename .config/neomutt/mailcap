@@ -1,0 +1,7 @@
+text/plain; $EDITOR %s
+text/html; w3m -I %{charset} -T text/html; nametemplate=%s.html; copiousoutput;
+
+audio/*; /usr/bin/xdg-open %s && sleep 3; test=test -n "$DISPLAY"; needsterminal;
+image/*; /usr/bin/xdg-open %s && sleep 3; test=test -n "$DISPLAY"; needsterminal;
+video/*; /usr/bin/xdg-open %s && sleep 3; test=test -n "$DISPLAY"; needsterminal;
+application/*; /usr/bin/xdg-open %s && sleep 3; test=test -n "$DISPLAY"; needsterminal;
