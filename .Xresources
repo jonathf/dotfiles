@@ -30,7 +30,7 @@ URxvt.color0: #2d3c46
 URxvt.color1: #a54242
 URxvt.color2: #8c9440
 URxvt.color3: #de935f
-URxvt.color4: #f5819d
+URxvt.color4: #5f819d
 URxvt.color5: #85678f
 URxvt.color6: #5e8d87
 URxvt.color7: #6c7a80
@@ -44,7 +44,6 @@ URxvt.color14: #8abeb7
 URxvt.color15: #c5c8c6
 
 URxvt.iso14755: false
-URxvt.urlLauncher: firefox
 
 ! extensions and keybinding:
 URxvt.perl-ext: reactivity,vim-scrollback
@@ -58,3 +57,6 @@ urxvt.vim-scrollback: M-z
 urxvt.vim-scrollback-paste: M-p
 urxvt.vim-scrollback-bg: 16
 urxvt.vim-scrollback-fg: 10
+
+rofi.run-command: fish -c '{cmd}'
+rofi.run-list-command: 'fish -c functions'
