@@ -44,6 +44,8 @@ def set_mappings(c, config):
     config.bind('J', 'scroll-page 0 0.5')
     config.bind('K', 'scroll-page 0 -0.5')
 
+    config.bind('d', 'tab-move - ;; tab-close')
+
     # config.bind("'", 'enter-mode jump_mark')
     # config.bind('.', 'repeat-command')
     # config.bind('/', 'set-cmd-text /')
@@ -128,7 +130,6 @@ def set_mappings(c, config):
     # config.bind('b', 'set-cmd-text -s :quickmark-load')
     # config.bind('cd', 'download-clear')
     # config.bind('co', 'tab-only')
-    # config.bind('d', 'tab-close')
     # config.bind('f', 'hint')
     # config.bind('g$', 'tab-focus -1')
     # config.bind('g0', 'tab-focus 1')
