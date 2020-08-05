@@ -39,4 +39,4 @@ if is_module("chaospy") is not None:
 if is_module("numpoly") is not None:
     import numpoly
     import numpoly as nu
-    X, Y = nu.symbols("X Y")
+    X, Y = nu.symbols("q:2")
