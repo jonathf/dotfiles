@@ -1,0 +1,11 @@
+# switch to PCRE2 when e.g. backreferences are used
+--engine=auto
+
+# --count returns 0 on no match
+--include-zero
+
+# when --multiline/-U us used, allow '.' to match '\n'
+--multiline-dotall
+
+# no case means ignore case
+--smart-case
