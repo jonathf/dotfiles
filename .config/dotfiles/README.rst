@@ -42,32 +42,3 @@ configurations values:
 
    .git config --local advice.addIgnoredFiles false
    .git config --local status.showUntrackedFiles no
-
-Features
---------
-
-Personal configurations for the following programs:
-
-``git diff``
-    An updated fancy ``git diff`` with nice colors and stuff.
-``git edit``
-    Use your default ``$EDITOR`` to edit all "dirty" files in your
-    repository. This can be used both to "resume" editing where you left off,
-    and to go straight to conflict files during merge/rebase.
-``git gblame``/``git gcheckout``/``git gmerge``
-    Same as ``git {blame,checkout,merge}``, but uses Github pull-request as reference.
-``git git git``
-    Multiple repeating git is interpreted as one.
-``git ll``
-    Git log with single line commits, graph tree and pretty colors.
-``git prune``
-    Remove all branches flagged as merged that (usually) only exist as
-    artifacts after completed pull-requests.
-``<alt-z>``
-    Detach from the prompt using the ``urxvt`` extension
-    ``vim-scrollback``. great for scrolling backwards in a (bastardized)
-    vi-mode, and select content from what is visually present on the
-    screen. Great for getting server content over to the clipboard.
-``<ctrl--><ctrl-+><ctrl-0>``
-    Zooming out, in and back to default using the ``urxvt`` extension
-    ``reactivity`` and natively in ``alactritty``.
