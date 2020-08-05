@@ -1,0 +1,38 @@
+priority -50
+
+snippet "sn(i(pp?)?)?" "snippet" br
+`!p snip.rv="snippet"`
+endsnippet
+snippet snippet "snippet" b
+`!p snip.rv = "snippet "`"$3" "$2" ${1:b}
+$4
+`!p snip.rv = "endsnippet"`
+endsnippet
+snippet "(snippet (\w+)) " "" br
+`!p snip.rv=match.group(1)` "`!p snip.rv=match.group(2)`" ${1:b}
+
+`!p snip.rv = "endsnippet"`
+endsnippet
+
+snippet "!p ?(s(n(ip?)?)?)?" "snip.rv" r
+!p snip.rv=
+endsnippet
+
+snippet "m(a(tc?)?)?" "match" r
+match.group($1)
+endsnippet
+
+snippet "gl(o(ba?)?)?" "" br
+global
+endsnippet
+snippet global "Global snippet" b
+`!p snip.rv = "global"` !p
+$0
+`!p snip.rv = "endglobal"`
+endsnippet
+
+snippet "pr(i(o(ri?)?)?)?" "priority" br
+priority ${0:-50}
+endsnippet
+
+# vim:ft=snippets:

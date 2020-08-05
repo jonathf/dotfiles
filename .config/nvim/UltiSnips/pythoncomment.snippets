@@ -1,0 +1,106 @@
+global !p
+
+def get_args(snip):
+    l = snip.line
+    space = re.findall(r"^\s*", snip.buffer[l])[0]
+
+    while l and not re.findall(r"^ *def", snip.buffer[l]):
+        l -= 1
+
+    out = snip.buffer[l]
+
+    while l-len(snip.buffer) and not re.findall(r"\)[^:]*:$", snip.buffer[l]):
+        l += 1
+        out += snip.buffer[l]
+
+    out = out.replace(" ", "")
+    out = re.sub(r"\[[^\]\[]+\]", "", out)
+    out = re.findall(r"\((.*)\)", out)[0].split(",")
+    out = [o.split("=")[0] for o in out]
+    if "self" in out:
+        out.remove("self")
+    if "cls" in out:
+        out.remove("cls")
+    out = [o for o in out if o[:1] not in ("*", "")]
+    out = "Args:" + ";".join(out)
+    out = space + out
+    snip.buffer[snip.line] = out
+    snip.cursor.set(snip.line, len(out))
+
+endglobal
+
+snippet "\)[^:)]*:" "comment" wr
+`!p snip.rv = match.group(0)`
+    """
+    $0
+    """
+endsnippet
+pre_expand "get_args(snip)"
+snippet "(\s*)Arg(s:?)?" "Args" br
+$0
+endsnippet
+snippet "Args:([^:;]+)" "Args" br
+Args:
+    `!p snip.rv=match.group(1)` ($1):
+        $0
+endsnippet
+snippet "Args:([^;:]+?) *: *[^;:]+$" "Args" br
+Args:
+    `!p snip.rv=match.group(1)`:
+        $0
+endsnippet
+snippet "Args:(.+);([^;:]+)" "Args" br
+Args:`!p snip.rv=match.group(1)`$0
+    `!p snip.rv=match.group(2)` ($1):
+        $2
+endsnippet
+snippet "Args:(.+);([^;:]+) *: *[^;:]+$" "Args" br
+Args:`!p snip.rv=match.group(1)`$0
+    `!p snip.rv=match.group(2)`:
+        $1
+endsnippet
+
+snippet "Ret(u(r(n(s:?)?)?)?)?" "Returns" br
+Returns:
+    $0
+endsnippet
+
+snippet "\# ?do(c(t(es?)?)?)?" "doctest" wr
+# doctest: +
+endsnippet
+snippet "\# doctest: ?\+?N(O(R(MA?)?)?)?" "doctest" wr
+# doctest: +NORMALIZE_WHITESPACE
+endsnippet
+snippet "\# doctest: ?\+?E(L(LI?)?)?" "doctest" wr
+# doctest: +ELLIPSIS
+endsnippet
+snippet "\# doctest: ?\+?S(KI?)?" "doctest" wr
+# doctest: +SKIP
+endsnippet
+snippet "\# doctest: ?\+?I(G(N(OR?)?)?)?" "doctest" wr
+# doctest: +IGNORE_EXCEPTION_DETAIL
+endsnippet
+
+snippet "\# doctest: \+" "doctest" wr
+# doctest: +SKIP
+endsnippet
+snippet "\# doctest: \+SKIP" "doctest" wr
+# doctest: +NORMALIZE_WHITESPACE
+endsnippet
+snippet "\# doctest: \+NORMALIZE_WHITESPACE" "doctest" wr
+# doctest: +ELLIPSIS
+endsnippet
+snippet "\# doctest: \+ELLIPSIS" "doctest" wr
+# doctest: +IGNORE_EXCEPTION_DETAIL
+endsnippet
+snippet "\# doctest: \+IGNORE_EXCEPTION_DETAIL" "doctest" wr
+# doctest: +
+endsnippet
+
+snippet "\# ?co(v(e(ra?)?)?)?" "coverage" wr
+# coverage: ignore
+endsnippet
+
+snippet "\# ?t(yp?)?" "typing" wr
+# type: ignore
+endsnippet

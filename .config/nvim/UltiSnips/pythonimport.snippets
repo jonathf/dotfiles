@@ -1,0 +1,80 @@
+priority -50
+
+global !p
+def env(snip):
+    if "import" in snip.buffer[snip.line] or\
+            "from" in snip.buffer[snip.line]:
+        return True
+    return False
+
+def envi(snip):
+    regex = r"^import [\w\d_\.]+"
+    line = snip.buffer[snip.line]
+    if re.findall(regex, line):
+        return True
+    return False
+
+def envf(snip):
+    regex = r"^from [\w\d_\.]+"
+    line = snip.buffer[snip.line]
+    if re.findall(regex, line):
+        return True
+    return False
+endglobal
+
+snippet "imp?" "import" br
+import 
+endsnippet
+snippet "import ([\w\d_\.]+) +(as?)?" "import as" "envi(snip)" ber
+import `!p snip.rv=match.group(1)` as 
+endsnippet
+snippet "fro?" "from import" br
+from $1 import $0
+endsnippet
+snippet "from ([\.\w\d_]+) (i(m(po?)?)?)?" "import" br
+from `!p snip.rv=match.group(1)` import 
+endsnippet
+
+priority -40
+
+snippet "num?" "numpy" "env(snip)" wer
+numpy
+endsnippet
+snippet "numpy( a?)?" "numpy" "envi(snip)" wer
+numpy as np
+endsnippet
+
+snippet "sci?" "scipy" "env(snip)" wer
+scipy
+endsnippet
+snippet "scipy( a?)?" "scipy" "envi(snip)" wer
+scipy as sp
+endsnippet
+
+snippet "pan(da?)?" "pandas" "env(snip)" wer
+pandas
+endsnippet
+snippet "pandas( a?)?" "pandas" "envi(snip)" wer
+pandas as pd
+endsnippet
+
+snippet "cha(o(sp?)?)?" "chaospy" "env(snip)" wer
+chaospy
+endsnippet
+snippet "chaospy( a?)?" "chaospy" "env(snip)" wer
+chaospy as cp
+endsnippet
+
+snippet "mat?" "matplotlib" "env(snip)" wer
+matplotlib
+endsnippet
+snippet "matplotlib(.(py?)?)?" "matplotlib" wr
+matplotlib.pyplot
+endsnippet
+snippet "matplotlib.pyplot( a?)?" "matplotlib" "envi(snip)" wer
+matplotlib.pyplot as plt
+endsnippet
+
+snippet "skl?" "sklearn" "env(snip)" wer
+sklearn.
+endsnippet

@@ -1,0 +1,92 @@
+priority 11
+
+snippet "\s*\#\s*py(l(i(nt?)?)?)?" "pylint" br
+# pylint: disable=
+endsnippet
+
+priority 10
+snippet "\s*\#\s*py(l(i(nt?)?)?)?" "pylint" wr
+  # pylint: disable=
+endsnippet
+
+snippet "# pylint: disable=(([a-z\-]+,)*)ar(gu?)?" "arguments-differ" wr
+# pylint: disable=`!p snip.rv=match.group(1)`arguments-differ
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)ac(ce?)?" "access-member-before-definition" wr
+# pylint: disable=`!p snip.rv=match.group(1)`access-member-before-definition
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)ab(st?)?" "abstract-method" wr
+# pylint: disable=`!p snip.rv=match.group(1)`abstract-method
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)at(tr?)?" "attribute-defined-outside-init" wr
+# pylint: disable=`!p snip.rv=match.group(1)`attribute-defined-outside-init
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)g(lo?)?" "global-statement" wr
+# pylint: disable=`!p snip.rv=match.group(1)`global-statement
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)in(v(al?)?)?" "invalid-" wr
+# pylint: disable=`!p snip.rv=match.group(1)`invalid-
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)invalid-n(am?)?" "invalid-name" wr
+# pylint: disable=`!p snip.rv=match.group(1)`invalid-name
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)invalid-u(na?)?" "invalid-unary-operand-type" wr
+# pylint: disable=`!p snip.rv=match.group(1)`invalid-unary-operand-type
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)li(ne?)?" "line-too-long" wr
+# pylint: disable=`!p snip.rv=match.group(1)`line-too-long
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)le(n-?)?" "len-as-condition" wr
+# pylint: disable=`!p snip.rv=match.group(1)`len-as-condition
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)n(o-?)?" "no-" wr
+# pylint: disable=`!p snip.rv=match.group(1)`no-
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)no-?m(em?)?" "no-member" wr
+# pylint: disable=`!p snip.rv=match.group(1)`no-member
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)no-?s(el?)?" "no-self-use" wr
+# pylint: disable=`!p snip.rv=match.group(1)`no-self-use
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)t(oo?)?" "too-" wr
+# pylint: disable=`!p snip.rv=match.group(1)`too-
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)too-m(a(ny?)?)?" "too-many-" wr
+# pylint: disable=`!p snip.rv=match.group(1)`too-many-
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)too-many-ar(gu?)?" "too-many-arguments" wr
+# pylint: disable=`!p snip.rv=match.group(1)`too-many-arguments
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)too-many-an(ce?)?" "too-many-ancestors" wr
+# pylint: disable=`!p snip.rv=match.group(1)`too-many-ancestors
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)too-many-b(ra?)?" "too-many-branches" wr
+# pylint: disable=`!p snip.rv=match.group(1)`too-many-branches
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)too-many-l(oc?)?" "too-many-locals" wr
+# pylint: disable=`!p snip.rv=match.group(1)`too-many-locals
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)too-many-s(ta?)?" "too-many-statements" wr
+# pylint: disable=`!p snip.rv=match.group(1)`too-many-statements
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)too-f(ew?)?" "too-few-public-methods" wr
+# pylint: disable=`!p snip.rv=match.group(1)`too-few-public-methods
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)un?" "un" wr
+# pylint: disable=`!p snip.rv=match.group(1)`un
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)unu(se?)?" "unused-import" wr
+# pylint: disable=`!p snip.rv=match.group(1)`unused-import
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)une(xp?)?" "unused-import" wr
+# pylint: disable=`!p snip.rv=match.group(1)`unexpected-keyword-arg
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)uns(up?)?" "unsupported-assignment-operation" wr
+# pylint: disable=`!p snip.rv=match.group(1)`unsupported-assignment-operation
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)p(ro?)?" "protected-access" wr
+# pylint: disable=`!p snip.rv=match.group(1)`protected-access
+endsnippet
+snippet "# pylint: disable=(([a-z\-]+,)*)w(il?)?" "wildcard-import" wr
+# pylint: disable=`!p snip.rv=match.group(1)`wildcard-import
+endsnippet

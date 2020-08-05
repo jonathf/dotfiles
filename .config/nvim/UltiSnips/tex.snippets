@@ -1,0 +1,76 @@
+priority 1000
+
+snippet "\\be(g(in?)?)?" "begin" br
+\begin{
+endsnippet
+
+snippet "\\begin{do(c(u(me?)?)?)" "document" br
+\begin{document}
+endsnippet
+
+snippet "\\begin{([^}]+)}" "begin-end" br
+\begin{`!p snip.rv=match.group(1)`}
+$1
+\end{`!p snip.rv=match.group(1)`}
+endsnippet
+
+snippet "\\(begin|end){al(ig?)?" "align" br
+\\`!p snip.rv=match.group(1)`{align*}
+endsnippet
+
+
+
+
+priority -50
+
+extends texenviroment
+extends texmath
+
+snippet #! "preamble" b
+\documentclass{$1}
+endsnippet
+snippet "\\documentclass\{a(r(ti?)?)?" "preamble" br
+\documentclass[10pt, USenglish, twocoloumn]{article
+endsnippet
+snippet "\\documentclass\{b(e(am?)?)?" "beamer" br
+\documentclass{beamer
+endsnippet
+
+snippet "\\documentclass([^{}]+)?\{[^{}]+\}" "preamble" br
+`!p snip.rv=match.group(0)`
+
+\usepackage[british]{babel}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath, amssymb, graphicx, bm, verbatim}
+
+\\author{Jonathan Feinberg}
+
+\begin{document}
+$0
+\end{document}
+endsnippet
+
+snippet "\\inc(l(ud?)?)?" "includegraphics" br
+includegraphics
+endsnippet
+snippet "\\includegraphics" "includegraphics" br
+\includegraphics[width=$1\textwidth]{$2}
+endsnippet
+
+snippet "\\column\{[^{}]+\}" "column" br
+`!p snip.rv=match.group(0)`
+\\column{$1\\textwidth}
+endsnippet
+
+snippet "\\mul(t(i(co?)?)?)?" "multicolumn" br
+multicolumn
+endsnippet
+snippet "\\multicolumn" "multicolumn" br
+\\multicolumn{${1:2}}{${2:c}}{$3}
+endsnippet
+
+snippet "\\bib(l(i(og?)?)?)?" "bibliography" br
+\\bibliographystyle{plain}
+\\bibliography{$1}
+endsnippet

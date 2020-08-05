@@ -1,0 +1,349 @@
+priority -60
+
+global !p
+
+def jump_back(snip, s, e):
+	l = snip.line
+	c = snip.column
+	while l:
+		while c-len(e)+1 >= 0:
+			if snip.buffer[l][c+1-len(e):c+1] == e:
+			     snip.cursor.set(l, c)	
+			     return True
+			if snip.buffer[l][c+1-len(s):c+1] == s:
+			     jump_back(snip, s, e)
+			c -= 1
+		l -= 1
+		c = len(snip.buffer[l])
+	return False
+
+endglobal
+
+snippet frac "fraction" w
+\frac{$1}{$2}$0
+endsnippet
+snippet tfrac "tfraction" w
+\tfrac{$1}{$2}$0
+endsnippet
+
+snippet matrix "matrix"
+\begin{$1matrix}$0
+\end{$1matrix}
+endsnippet
+snippet pmatrix "pmatrix"
+\begin{${1:p}matrix}$0
+\end{$1matrix}
+endsnippet
+snippet Pmatrix "Pmatrix"
+\begin{${1:P}matrix}$0
+\end{$1matrix}
+endsnippet
+snippet bmatrix "bmatrix"
+\begin{${1:b}matrix}$0
+\end{$1matrix}
+endsnippet
+
+snippet "[^$]\$" "inline math" r
+`!p snip.rv=match.group(0)`\$
+endsnippet
+snippet "\$\$" "inline math" r
+\$$1\$$0
+endsnippet
+
+snippet ( "paren"
+( $0 )
+endsnippet
+snippet (( "paren"
+\left($0\right)
+endsnippet
+# snippet "\(([^()]*(\([^()]*(\([^()](\([^()]*\)[^()]*)*\)[^()]*)*\)[^()]*)*)\)" "paren" wr
+# \left(`!p snip.rv = match.group(1)`\right)
+# endsnippet
+
+snippet [ "brackets" w
+[$0]
+endsnippet
+snippet [[ "brackets" w
+\left[$0\right]
+endsnippet
+# snippet "\[([^\[\]]*(\[[^\[\]]*(\[[^\[\]](\[[^\[\]]*\][^\[\]]*)*\][^\[\]]*)*\][^\[\]]*)*)\]" "brackets" wr
+# \\left[`!p snip.rv = match.group(1)`\\right]
+# endsnippet
+
+snippet "([^\w*])\{" "braces" r
+`!p snip.rv=match.group(1)`\\\{$0\\\}
+endsnippet
+snippet "\\\{" "braces" wr
+\\\{$0\\\}
+endsnippet
+snippet "\\?\{\{" "braces" wr
+\\left\\\{$0\\right\\\}
+endsnippet
+# snippet "\\\{([^{}]*(\\\{[^{}]*(\\\{[^{}](\\\{[^{}]*\\\}[^{}]*)*\\\}[^{}]*)*\\\}[^{}]*)*)\\\}" "braces" wr
+# \left\{`!p snip.rv = match.group(1)`\right\}
+# endsnippet
+
+snippet alpha "alpha" w
+\\alpha
+endsnippet
+snippet "\\a(l(ph?)?)?" "alpha" wr
+\\alpha
+endsnippet
+
+snippet beta "beta" w
+\\beta
+endsnippet
+snippet "\\b(et?)?" "beta" wr
+\\beta
+endsnippet
+
+snippet chi "chi" w
+\\chi
+endsnippet
+snippet "\\ch?" "chi" wr
+\\chi
+endsnippet
+
+snippet delta "delta" w
+\\delta
+endsnippet
+snippet "\\d(el?)?" "delta" wr
+\\delta
+endsnippet
+
+snippet Delta "Delta" w
+\\Delta
+endsnippet
+snippet "\\D(el?)?" "Delta" wr
+\\Delta
+endsnippet
+
+snippet epsilon "epsilon" w
+\\varepsilon
+endsnippet
+snippet "\\e(ps?)?" "epsilon" wr
+\\varepsilon
+endsnippet
+
+snippet phi "phi" w
+\\phi
+endsnippet
+snippet "\\ph?" "phi" wr
+\\phi
+endsnippet
+
+snippet Phi "Phi" w
+\\Phi
+endsnippet
+snippet "\\Ph?" "Phi" wr
+\\Phi
+endsnippet
+
+snippet gamma "gamma" w
+\\gamma
+endsnippet
+snippet "\\g(am?)?" "gamma" wr
+\\gamma
+endsnippet
+
+snippet Gamma "Gamma" w
+\\Gamma
+endsnippet
+snippet "\\G(am?)?" "Gamma" wr
+\\Gamma
+endsnippet
+
+snippet eta "eta" w
+\\eta
+endsnippet
+snippet "\\et?" "eta" wr
+\\eta
+endsnippet
+
+snippet iota "iota" w
+\\iota
+endsnippet
+snippet "\\i(ot?)?" "iota" wr
+\\iota
+endsnippet
+
+snippet kappa "kappa" w
+\\kappa
+endsnippet
+snippet "\\k(ap?)?" "kappa" wr
+\\kappa
+endsnippet
+
+snippet lambda "lambda" w
+\\lambda
+endsnippet
+snippet "\\l(am?)?" "lambda" wr
+\\lambda
+endsnippet
+
+snippet Lambda "Lambda" w
+\\Lambda
+endsnippet
+snippet "\\L(am?)?" "Lambda" wr
+\\Lambda
+endsnippet
+
+snippet mu "mu" w
+\\mu
+endsnippet
+snippet "\\m" "mu" wr
+\\mu
+endsnippet
+
+snippet nu "nu" w
+\\nu
+endsnippet
+snippet "\\n" "nu" wr
+\\nu
+endsnippet
+
+snippet omega "omega" w
+\\omega
+endsnippet
+snippet "\\o(me?)?" "omega" wr
+\\omega
+endsnippet
+
+snippet Omega "Omega" w
+\\Omega
+endsnippet
+snippet "\\O(me?)?" "Omega" wr
+\\Omega
+endsnippet
+
+snippet theta "theta" w
+\\theta
+endsnippet
+snippet "\\t(he?)?" "theta" wr
+\\theta
+endsnippet
+
+snippet rho "rho" w
+\\rho
+endsnippet
+snippet "\\rh?" "rho" wr
+\\rho
+endsnippet
+
+snippet sigma "sigma" w
+\\sigma
+endsnippet
+snippet "\\s(ig?)?" "sigma" wr
+\\sigma
+endsnippet
+
+snippet Sigma "Sigma" w
+\\Sigma
+endsnippet
+snippet "\\S(ig?)?" "Sigma" wr
+\\Sigma
+endsnippet
+
+snippet tau "tau" w
+\\tau
+endsnippet
+snippet "\\ta?" "tau" wr
+\\tau
+endsnippet
+
+snippet upsilon "upsilon" w
+\\upsilon
+endsnippet
+snippet "\\u(ps?)?" "upsilon" wr
+\\upsilon
+endsnippet
+
+snippet Upsilon "Upsilon" w
+\\Upsilon
+endsnippet
+snippet "\\U(ps?)?" "Upsilon" wr
+\\Upsilon
+endsnippet
+
+snippet xi "xi" w
+\\xi
+endsnippet
+snippet "\\x" "xi" wr
+\\xi
+endsnippet
+
+snippet Xi "Xi" w
+\\Xi
+endsnippet
+snippet "\\X" "Xi" wr
+\\Xi
+endsnippet
+
+snippet psi "psi" w
+\\psi
+endsnippet
+snippet "\\ps?" "psi" wr
+\\psi
+endsnippet
+
+snippet psi "Psi" w
+\\Psi
+endsnippet
+snippet "\\ps?" "Psi" wr
+\\Psi
+endsnippet
+
+snippet zeta "zeta" w
+\\zeta
+endsnippet
+snippet "\\z(et?)?" "zeta" wr
+\\zeta
+endsnippet
+
+snippet "([a-zA-Z]*[æøå])+[a-zA-Z]*" "NO->EN" wr
+`!p snip.rv=match.group(0).replace(u"\xe6", "\\ae{}").replace(u"\xf8",
+		"\\o{}").replace(u"\xe5", "\\aa{}")`
+endsnippet
+
+snippet | "mid" w
+\\mid
+endsnippet
+snippet ~= "approx"
+\\approx
+endsnippet
+snippet approx "approx" w
+\\approx
+endsnippet
+snippet ~ "sim" w
+\\sim
+endsnippet
+snippet != "neq" w
+\\neq
+endsnippet
+
+snippet ;; "verb" 
+\verb;$1;
+endsnippet
+
+snippet sqrt "sqrt" w
+\\sqrt\{$0\}
+endsnippet
+
+snippet ... "dots" w
+\\dots
+endsnippet
+snippet "\\dots" "cdots" wr
+\\cdots
+endsnippet
+snippet "\\cdots" "dots" wr
+\\dots
+endsnippet
+
+snippet "_" "sub" r
+_\{$1\}
+endsnippet
+snippet "\^" "sup" r
+^\{$1\}
+endsnippet
+
+# vim:ft=snippets:

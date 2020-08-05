@@ -1,0 +1,37 @@
+priority -100
+
+snippet "^( *)(.+?) print" "print" br
+`!p snip.rv=match.group(1)`print(`!p
+snip.rv=match.group(2)`)
+endsnippet
+
+snippet "print\(([^"]+)\)" "print" wr
+print("`!p snip.rv=match.group(1)`", `!p
+snip.rv=match.group(1)`)
+endsnippet
+
+priority -40
+
+snippet "print (.*\S) +" "print" br
+print(`!p snip.rv=match.group(1)`)
+endsnippet
+snippet "pr(in?)?" "print" br
+print
+endsnippet
+
+snippet "warn(?:ing)? (.*\S) +" "warning" br
+logger.warning(`!p snip.rv=match.group(1)`)
+endsnippet
+snippet "logger.(warning|debug|info)\(([^"]+)\)" "logging" wr
+logger.`!p snip.rv=match.group(1)`("`!p
+snip.rv=match.group(2)`", `!p
+snip.rv=match.group(2)`)
+endsnippet
+
+snippet "logger = logging.getLogger" "logging" br
+logger = logging.getLogger(__name__)
+endsnippet
+
+snippet "pytest.main" "testing" br
+pytest.main([__file__])
+endsnippet

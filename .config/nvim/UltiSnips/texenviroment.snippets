@@ -1,0 +1,213 @@
+priority -50
+
+global !p
+
+def rename_backwards(snip):
+    l = endline = snip.line
+    regex = r"^(\s*)\\end\{([^{}]+)\} ?([\w*]+) ?" 
+    endspace, old, new = re.findall(regex, snip.buffer[l])[0]
+
+    regex = re.compile(r"^(\s*)\\begin\{" + re.escape(old) + r"\}")
+    while l:
+        space = re.findall(regex, snip.buffer[l])
+        if space:
+            break
+        l -= 1
+
+    if "\\begin{" in snip.buffer[l]:
+        snip.buffer[l] = "%s\\begin{%s}" % (space[0], new)
+        snip.buffer[endline] = "%s\\end{%s}" % (endspace, new)
+        snip.cursor.set(endline, len(snip.buffer[endline]))
+
+
+def rename_forwards(snip):
+    l = beginline = snip.line
+    regex = r"^(\s*)\\begin\{([^{}]+)\} ?([\w*]+) ?"
+    beginspace, old, new = re.findall(regex, snip.buffer[l])[0]
+
+    regex = re.compile(r"^(\s*)\\end\{" + re.escape(old) + r"\}")
+    while l < len(snip.buffer):
+        space = re.findall(regex, snip.buffer[l])
+        if space:
+            break
+        l += 1
+
+    if "\\end{" in snip.buffer[l]:
+        snip.buffer[beginline] = "%s\\begin{%s}" % (beginspace, new)
+        snip.buffer[l] = "%s\\end{%s}" % (space[0], new)
+        snip.cursor.set(beginline, len(snip.buffer[beginline]))
+
+def env(snip):
+    if "\\begin{" in snip.buffer[snip.line] or\
+            "\\end{" in snip.buffer[snip.line]:
+        return True
+    return False
+
+endglobal
+
+snippet "[\w*]+ (b(e(gi?)?)?)?" "begin" br
+`!p snip.rv=match.group(0)`begin
+endsnippet
+
+snippet "align " "align" br
+\begin{align}$1
+\end{align}
+endsnippet
+
+priority -40
+
+pre_expand "rename_forwards(snip)"
+snippet "\\begin\{([^{}]+)\} ?([\w*]+) ?" "rename forwards" br
+endsnippet
+pre_expand "rename_backwards(snip)"
+snippet "\\end\{([^{}]+)\} ?([\w*]+) ?" "rename backwards" br
+endsnippet
+
+snippet "([\w*]+) begin" "begin" br
+\begin{`!p snip.rv=match.group(1)`}$1
+$2
+\end{`!p snip.rv=match.group(1)`}
+endsnippet
+
+priority -30
+
+snippet "be(gi?)?" "begin" r
+begin
+endsnippet
+
+
+snippet table "table" b
+\begin{table}$1
+\end{table}
+endsnippet
+snippet "\\begin{table}" "table" br
+\begin{table}[htb!]
+\label{tab:$1}
+\caption{$2}
+\begin{center}
+\begin{tabular}{$3}
+$4
+\end{tabular}
+\end{center}
+endsnippet
+
+
+snippet "fi(g(ur?)?)?" "figure" br
+figure
+endsnippet 
+snippet "fi(g(ur?)?)?" "figure" "env(snip)" er
+figure
+endsnippet 
+snippet figure "figure" b
+\begin{figure}$1
+\end{figure}
+endsnippet
+snippet "\\begin\{figure\}" "figure" br
+\begin{figure}[htb!]
+\label{fig:$2}
+\caption{$3}
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[width=$4\textwidth]{$5}$6
+\end{tabular}
+\end{center}
+endsnippet
+
+
+snippet "tabu(la?)?" "tabular" br
+tabular
+endsnippet
+snippet "tabu(la?)?" "tabular" "env(snip)" er
+tabular
+endsnippet
+snippet tabular "tabular" w
+\begin{tabular}$0
+\end{tabular}
+endsnippet
+snippet "\\begin\{tabular\}" "tabular" br
+\begin{tabular}{${1:c}}
+endsnippet
+
+snippet "fr(am?)?" "frame" br
+frame
+endsnippet
+snippet "fr(am?)?" "frame" "env(snip)" er
+frame
+endsnippet
+snippet frame "frame" b
+\\begin{frame}$0
+\\end{frame}
+endsnippet
+snippet "\\begin\{frame\}(\[[^\]\[]+\])?" "frame" br
+`!p snip.rv=match.group(0)`{$0}
+endsnippet
+snippet "\\begin\{frame\}(\[[^\]\[]+\])?\{([^}]+)\}" "frame" br
+`!p snip.rv=match.group(0)`{$0}
+endsnippet
+snippet "(\\begin\{frame\})(.*) ?fr(a(g(il?)?)?)?" "frame" br
+`!p snip.rv=match.group(1)+match.group(2)` fragile
+endsnippet
+snippet "(\\begin\{frame\})(.*) ?fragile" "frame" br
+`!p snip.rv=match.group(1)`[fragile]`!p snip.rv=match.group(2)`
+endsnippet
+
+
+snippet "ve(r(ba?)?)?" "verbatim" br
+verbatim
+endsnippet
+snippet "ve(r(ba?)?)?" "verbatim" "env(snip)" er
+verbatim
+endsnippet
+snippet verbatim "verbatim" b
+\\begin{verbatim}$0
+\\end{verbatim}
+endsnippet
+
+
+snippet "co(l(u(mn?)?)?)?" "columns" br
+columns
+endsnippet
+snippet "co(l(u(mn?)?)?)?" "columns" "env(snip)" er
+columns
+endsnippet
+snippet columns "columns" b
+\\begin{columns}$1
+\\end{columns}
+endsnippet
+snippet "\\begin\{columns\}" "columns" br
+`!p snip.rv=match.group(0)`
+\\column{$1\\textwidth}
+endsnippet
+
+snippet "ce(n(te?)?)?" "center" br
+center
+endsnippet
+snippet "ce(n(te?)?)?" "center" "env(snip)" er
+center
+endsnippet
+snippet center "center" b
+\\begin{center}
+$0
+\\end{center}
+endsnippet
+
+snippet "it(e(mi?)?)?" "itemize" br
+itemize
+endsnippet
+snippet "it(e(mi?)?)?" "itemize" "env(snip)" er
+itemize
+endsnippet
+snippet itemize "itemize" b
+\\begin{itemize}$1
+\\item$2
+\\end{itemize}
+endsnippet
+snippet "\\begin\{itemize\}" "itemize" br
+\\begin{itemize}$1
+\\item
+endsnippet
+snippet "\\end\{itemize\}" "itemize" br
+\\item
+\\end{itemize}
+endsnippet
+

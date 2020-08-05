@@ -1,0 +1,68 @@
+priority -50
+
+global !p
+def venv(snip):
+	line = snip.buffer[snip.line][:snip.column]
+	if re.findall(r"^\s*\w+$", line):
+		return True
+	if re.findall(r"[\w_][\w\d_]*\( *(\w+ *(\w+ *)?[\w_][\w\d_]* *, *)*\w*$", line):
+		return True
+	return False
+endglobal
+
+snippet "#i(n(c(lu?)?)?)?" "include" br
+#include <$1>
+endsnippet
+snippet "inc(l(ud?)?)?" "include" br
+include
+endsnippet
+snippet "#?include" "include" br
+#include <$1>
+endsnippet
+snippet #include "include" b
+#include <$1>
+endsnippet
+
+snippet "^([\w_]+ [\w_][\w\d_]+) " "function" br
+`!p snip.rv=match.group(1)`($1)
+{
+	$2
+}
+endsnippet
+
+priority -40
+
+snippet "^(struct [\w_][\w\d_]+) " "struct" br
+`!p snip.rv=match.group(1)`
+{
+	$1
+}
+endsnippet
+
+priority -30
+
+snippet "stru?" "struct" br
+struct 
+endsnippet
+
+snippet "do(u(bl?)?)?" "double" "venv(snip)" wer
+double 
+endsnippet
+snippet double "double" "venv(snip)" we
+double 
+endsnippet
+
+snippet "fl(oa?)?" "float" "venv(snip)" wer
+float 
+endsnippet
+snippet float "float" "venv(snip)" we
+float 
+endsnippet
+
+snippet "int?" "int" "venv(snip)" wer
+int 
+endsnippet
+snippet int "int" "venv(snip)" we
+int 
+endsnippet
+

@@ -1,0 +1,28 @@
+# -*- coding: utf-8 -*-
+
+priority 50
+
+snippet "au(to?)?" "auto" rb
+.. auto
+endsnippet
+snippet "\.\. au(to?)?" "auto" rb
+.. auto
+endsnippet
+snippet "\.\. autof(un?)?" "function" rb
+.. autofunction:: $0
+endsnippet
+snippet "\.\. autoc(la?)?" "class" rb
+.. autoclass:: $0
+endsnippet
+snippet "\.\. autom(od?)?" "module" rb
+.. automodule:: $0
+endsnippet
+snippet "\.\. autop(ro?)?" "program" rb
+.. autoprogram:: $0
+endsnippet
+
+snippet "TODO|DONE" "" wr
+`!p snip.rv={"TODO": "DONE", "DONE": "TODO"}[match.group(0)]`
+endsnippet
+
+# vim:ft=snippets:

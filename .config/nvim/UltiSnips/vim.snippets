@@ -1,0 +1,24 @@
+priority -50
+
+###########################################################################
+#                            SnipMate Snippets                            #
+###########################################################################
+
+snippet "fu(n(ct?)?)?" "function" br
+function
+endsnippet
+snippet function "function" b
+function! $1($2)
+$3
+endfunction
+endsnippet
+snippet "aug(r(ou?)?)?" "augroup" br
+augroup
+endsnippet
+snippet augroup "augroup" b
+augroup $1
+    autocmd!
+    $2
+augroup end
+endsnippet
+# vim:ft=snippets:

@@ -1,0 +1,28 @@
+priority -50
+
+snippet "cl(as?)?" "class" br
+class
+endsnippet
+snippet class "class" b
+class $0(${2:object}):
+endsnippet
+snippet "class [\w\d_]+" "class" br
+endsnippet
+snippet "class [\w\d_]+\(" "class" br
+`!p snip.rv = match.group(0)`$1):
+endsnippet
+snippet "class ([\w\d_]+)\(o(b(je?)?)?" "class" br
+class `!p snip.rv=match.group(1)`(object
+endsnippet
+
+snippet "( *)def?" "def" br
+`!p snip.rv=match.group(1)`def $1(`!p
+snip.rv=match.group(1) and "self, " or ""`$2):
+endsnippet
+snippet "( *)def ([\w\d_]+)\(" "function" br
+`!p snip.rv=match.group(1)`def `!p snip.rv = match.group(2)`(`!p
+snip.rv=match.group(1) and "self, " or ""`$1):
+endsnippet
+snippet "( +def [\w\d_]+)\(s(el?)?" "method" br
+`!p snip.rv=match.group(1)`(self, 
+endsnippet
