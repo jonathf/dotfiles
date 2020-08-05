@@ -41,6 +41,7 @@ alias rbs="git rebase --skip"
 alias rbi="git rebase -i"
 alias gd="git diff --color-words"
 alias s="git status -sb"
+alias .git="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 
 function clone(){
     git clone --recurse-submodules git@github.com:$1
@@ -63,18 +64,16 @@ alias vim="nvim"
 # stuff that only trigger inside Neovim terminal:
 if [[ "$NVIM_LISTEN_ADDRESS" != "" ]]; then
 
-    export incd="0"
+    nvim_cd_in_progress=""
     function cd(){
-        if [[ "$incd" == "1" ]]; then
-            return 0
-        fi
-        export incd="1"
+        [ -n "$nvim_cd_in_progress" ] && return 0
+        nvim_cd_in_progress="$NVIM_LISTEN_ADDRESS"
         builtin cd "$@"
         ~/.config/nvim/venv/bin/python -c "import neovim
 with neovim.attach('socket', path='$NVIM_LISTEN_ADDRESS') as session:
     session.vars['__autocd_cwd'] = '$argv'
     session.command('execute \"lcd \" . fnameescape(g:__autocd_cwd)')"
-        export incd="0"
+        nvim_cd_in_progress=""
     }
 
     function _D(){

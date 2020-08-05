@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+bind '"jk":vi-movement-mode'
+bind 'Space:magic-space'
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+bind '"\e[C": forward-char'
+bind '"\e[D": backward-char'
+bind 'set completion-ignore-case on'
+bind 'set show-all-if-ambiguous on'
+bind 'set show-mode-in-prompt on'
+bind 'set vi-ins-mode-string \1\033]12;White\007\2'
+bind 'set vi-cmd-mode-string \1\033]12;Red\007\2'
