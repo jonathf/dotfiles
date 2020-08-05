@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+pushd ~/.password-store
+choices=$(command ls */*.gpg 2>/dev/null)
+selected=$(printf "%s\n" $choices | sed -e 's/.gpg//' | rofi -dmenu -no-custom)
+popd
+
+[ -z "$selected" ] && exit
+
+domain=$(dirname $selected)
+username=$(basename $selected)
+choices="**password** $domain $username autotype"
+action=$(printf "%s\n" $choices | rofi -dmenu -no-custom)
+
+[ "$action" = "**password**" ] && pass show $selected | sed -e 's/\n//' | xsel -b
+[ "$action" = "$domain" ] && printf "$domain" | xsel -b
+[ "$action" = "$username" ] && printf "$username" | xsel -b
+if [ "$action" = "autotype" ]; then
+  sleep 0.2
+  printf "$username" | xdotool type --delay 12 --clearmodifiers --file -
+  xdotool key Tab
+  pass show $selected | sed -e 's/\n//' | xdotool type --delay 12 --clearmodifiers --file -
+fi

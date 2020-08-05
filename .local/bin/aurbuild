@@ -1,0 +1,21 @@
+#!/bin/bash
+
+argv=("$@")
+uri=${argv[0]}
+if [[ $uri != *"/"* ]]; then
+    folder=$uri
+    uri="https://aur.archlinux.org/$uri"
+else
+    folder=$(echo $uri | sed -e 's,.*/,,')
+fi
+folder="$HOME/src/$folder"
+if [[ -d $folder ]]; then
+    echo "folder $folder already exist; aborting"
+    return 1
+fi
+
+git clone $uri $folder
+pushd $folder
+makepkg --syncdeps --install "${argv[@]:1}"
+popd
+end

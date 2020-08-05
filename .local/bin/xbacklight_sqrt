@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cur_light=$(xbacklight -get)
+adjust=$(echo "$2*sqrt($cur_light)" | bc 2>/dev/null)
+adjust=$(echo $adjust | sed -e "s/\\.[0-9]\\+//")
+if [[ "$adjust" == "0" ]]; then
+    adjust=1
+fi
+xbacklight $1 $adjust

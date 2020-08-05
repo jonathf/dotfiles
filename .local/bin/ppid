@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+# Get parent process id.
+
+if [[ -n "$1" ]]; then
+    process=$1
+else
+    process=$(cat /proc/$$/status | grep PPid | sed -r 's/PPid:\s+//')
+fi
+cat /proc/$process/status | grep PPid | sed -r 's/PPid:\s+//'
