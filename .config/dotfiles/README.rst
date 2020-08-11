@@ -42,3 +42,10 @@ configurations values:
 
    .git config --local advice.addIgnoredFiles false
    .git config --local status.showUntrackedFiles no
+
+Optional installs
+-----------------
+
+On Termux::
+
+   pkg install starship exa direnv python

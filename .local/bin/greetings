@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [[ -f /etc/os-release ]]; then
+    name=$(cat /etc/os-release | grep "PRETTY_NAME" | sed -e 's/PRETTY_NAME="//') | sed -e 's/"//'
+else
+    name="Android Linux"
+fi
+echo -en "\e[1;30;41m01"
+echo -en "\e[1;30;101m09"
+echo -en "\e[0m "
+echo -en "\e[1;30;42m02"
+echo -en "\e[1;30;102m10"
+echo -en "\e[0m "
+echo -en "\e[1;30;43m03"
+echo -en "\e[1;30;103m11"
+echo -en "\e[0m "
+echo -en "\e[1;30;44m04"
+echo -en "\e[1;30;104m12"
+echo -en "\e[0m "
+echo -en "\e[1;30;45m05"
+echo -en "\e[1;30;105m13"
+echo -en "\e[0m "
+echo -en "\e[1;30;46m06"
+echo -en "\e[1;30;106m14"
+echo -en "\e[0m "
+echo -en "\e[1;30;47m07"
+echo -en "\e[1;30;107m15"
+echo -en "\e[0m "
+echo -en "$name"
+echo -e "\e[0m"
