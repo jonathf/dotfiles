@@ -1,11 +1,11 @@
 # Defined in - @ line 1
-function nvim --description 'alias nvim nvim' --wraps '/usr/bin/nvim'
+function nvim --description 'alias nvim nvim' --wraps 'nvim'
     # for some reason 'nvim --version' is called during tab-completion of vi
     if test "$argv" = '--version'
-        /usr/bin/nvim --version
+        command nvim --version
     else if test -z "$NVIM_LISTEN_ADDRESS"
-        /usr/bin/nvim $argv;
+        command nvim $argv;
     else
-        ~/.config/nvim/venv/bin/nvr $argv
+        nvr $argv
     end
 end

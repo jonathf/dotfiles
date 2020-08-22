@@ -1,4 +1,4 @@
 # Defined in - @ line 1
-function a --description 'alias a a' --wraps 'git add --force'
-    $HOME/.local/bin/a
+function a --description 'alias a git add' --wraps 'git add'
+    git add $argv;
 end

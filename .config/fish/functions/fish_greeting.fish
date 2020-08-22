@@ -1,3 +1,3 @@
 function fish_greeting
-    $HOME/.local/bin/greetings
+    greetings
 end
