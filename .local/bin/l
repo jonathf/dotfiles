@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    extra_args="--git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
-fi
-git $extra_args --no-pager ll -20 "$@"
