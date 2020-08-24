@@ -16,8 +16,9 @@ if is_module("numpy") is not None:
     t = np.linspace(0, 1, 100)
     a = np.arange(12).reshape(3, 4)
 
-# if is_module("matplotlib") is not None:
-#     import matplotlib.pyplot as plt
+if is_module("matplotlib") is not None:
+    from matplotlib import pyplot
+    import matplotlib.pyplot as plt
 
 if is_module("scipy") is not None:
     import scipy
@@ -26,7 +27,12 @@ if is_module("scipy") is not None:
 if is_module("pandas") is not None:
     import pandas
     import pandas as pd
-    frame = pd.DataFrame({"a": ["b", "c", "d"], "b": [0.1, 0.2, 0.3]})
+    frame = pd.DataFrame({
+        "st": ["b", "c", "d"],
+        "fl": [0.1, 0.2, 0.3],
+        "nu": [1, 2, 3],
+        "da": pd.date_range("2020-01-01", "2020-01-03"),
+    })
 
 if is_module("h5py") is not None:
     import h5py

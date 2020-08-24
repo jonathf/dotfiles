@@ -17,25 +17,25 @@ window:
   #
   # Specified in number of columns/lines, not pixels.
   # If both are `0`, this setting is ignored.
-  dimensions:
-    columns: 0
-    lines: 0
+  #dimensions:
+  #  columns: 0
+  #  lines: 0
 
   # Window position (changes require restart)
   #
   # Specified in number of pixels.
   # If the position is not set, the window manager will handle the placement.
-  position:
-    x: 0
-    y: 0
+  #position:
+  #  x: 0
+  #  y: 0
 
   # Window padding (changes require restart)
   #
   # Blank space added around the window in pixels. This padding is scaled
   # by DPI and the specified value is always added at both opposing sides.
-  padding:
-    x: 0
-    y: 0
+  #padding:
+  #  x: 0
+  #  y: 0
 
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: true
@@ -60,31 +60,34 @@ window:
   #
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
-  startup_mode: Windowed
+  #startup_mode: Windowed
 
   # Window title
-  title: Alacritty
+  #title: Alacritty
+
+  # Allow terminal applications to change Alacritty's window title.
+  #dynamic_title: true
 
   # Window class (Linux/BSD only):
-  class:
+  #class:
     # Application instance name
-    instance: Alacritty
+    #instance: Alacritty
     # General application class
-    general: Alacritty
+    #general: Alacritty
 
   # GTK theme variant (Linux/BSD only)
   #
   # Override the variant of the GTK theme. Commonly supported values are `dark` and `light`.
   # Set this to `None` to use the default theme variant.
-  gtk_theme_variant: dark
+  #gtk_theme_variant: None
 
-scrolling:
+#scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
-  history: 10000
+  #history: 10000
 
   # Scrolling distance multiplier.
-  multiplier: 3
+  #multiplier: 3
 
 # Font configuration
 font:
@@ -139,25 +142,25 @@ font:
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
-  offset:
-    x: 0
-    y: 0
+  #offset:
+  #  x: 0
+  #  y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
-  # increasing `y` moves the glyph upwards.
-  glyph_offset:
-    x: 0
-    y: 0
+  # increasing `y` moves the glyph upward.
+  #glyph_offset:
+  #  x: 0
+  #  y: 0
 
   # Thin stroke font rendering (macOS only)
   #
   # Thin strokes are suitable for retina displays, but for non-retina screens
-  # it is recommended to set `use_thin_strokes` to `false`
+  # it is recommended to set `use_thin_strokes` to `false`.
   #use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: false
+#draw_bold_text_with_bright_colors: false
 
 # Colors (Tomorrow Night)
 colors:
@@ -174,15 +177,15 @@ colors:
     dim_foreground: '#9a9a9a'
     bright_foreground: '#ffffff'
 
-  # Cursor colors  #TODO
+  # Cursor colors
   #
-  # Colors which should be used to draw the terminal cursor. If these are unset,
-  # the cursor color will be the inverse of the cell color.
-  cursor:
-    #text: CellBackground
-    #cursor: CellForeground
-    text: '#000000'
-    cursor: '#ffffff'
+  # Colors which should be used to draw the terminal cursor.
+  #
+  # Allowed values are CellForeground and CellBackground, which reference the
+  # affected cell, or hexadecimal colors like #ff00ff.
+  #cursor:
+  #  text: CellBackground
+  #  cursor: CellForeground
 
   # Vi mode cursor colors
   #
@@ -200,36 +203,34 @@ colors:
   #
   # Allowed values are CellForeground and CellBackground, which reference the
   # affected cell, or hexadecimal colors like #ff00ff.
-  selection:
-    #text: CellBackground
-    #background: CellForeground
-    text:       '#eaeaea'
-    background: '#404040'
+  #selection:
+  #  text: CellBackground
+  #  background: CellForeground
+
   # Search colors
   #
   # Colors used for the search bar and match highlighting.
-  #
-  # Allowed values are CellForeground and CellBackground, which reference the
-  # affected cell, or hexadecimal colors like #ff00ff.
   #search:
-  #  matches:
-  #    foreground: '#000000'
-  #    background: '#ffffff'
-  #
-  #  bar:
-  #    background: CellForeground
-  #    foreground: CellBackground
+    # Allowed values are CellForeground and CellBackground, which reference the
+    # affected cell, or hexadecimal colors like #ff00ff.
+    #matches:
+    #  foreground: '#000000'
+    #  background: '#ffffff'
+
+    #bar:
+    #  background: '#c5c8c6'
+    #  foreground: '#1d1f21'
 
   # Normal colors
-  normal:
-    black:   '#425059'
-    red:     '#cc6666'
-    green:   '#b5bd68'
-    yellow:  '#f0c674'
-    blue:    '#81a2be'
-    magenta: '#b294bb'
-    cyan:    '#8abeb7'
-    white:   '#c5c8c6'
+  #normal:
+  #  black:   '#1d1f21'
+  #  red:     '#cc6666'
+  #  green:   '#b5bd68'
+  #  yellow:  '#f0c674'
+  #  blue:    '#81a2be'
+  #  magenta: '#b294bb'
+  #  cyan:    '#8abeb7'
+  #  white:   '#c5c8c6'
 
   # Bright colors
   bright:
@@ -246,15 +247,15 @@ colors:
   #
   # If the dim colors are not set, they will be calculated automatically based
   # on the `normal` colors.
-  # dim:
-  #   black:   '#000000'
-  #   red:     '#8c3336'
-  #   green:   '#7a8530'
-  #   yellow:  '#97822e'
-  #   blue:    '#506d8f'
-  #   magenta: '#80638e'
-  #   cyan:    '#497e7a'
-  #   white:   '#9a9a9a'
+  #dim:
+  #  black:   '#131415'
+  #  red:     '#864343'
+  #  green:   '#777c44'
+  #  yellow:  '#9e824c'
+  #  blue:    '#556a7d'
+  #  magenta: '#75617b'
+  #  cyan:    '#5b7d78'
+  #  white:   '#828482'
 
   # Indexed Colors
   #
@@ -264,12 +265,11 @@ colors:
   # Example:
   #   `- { index: 16, color: '#ff00ff' }`
   #
-  indexed_colors: []
+  #indexed_colors: []
 
 # Bell
 #
 # The bell is rung every time the BEL control character is received.
-visual_bell:
 #bell:
   # Visual Bell Animation
   #
@@ -286,14 +286,14 @@ visual_bell:
   #   - EaseOutExpo
   #   - EaseOutCirc
   #   - Linear
-  animation: EaseOutExpo
+  #animation: EaseOutExpo
 
   # Duration of the visual bell flash. A `duration` of `0` will disable the
   # visual bell animation.
-  duration: 0
+  #duration: 0
 
   # Visual bell animation color.
-  color: '#ffffff'
+  #color: '#ffffff'
 
   # Bell Command
   #
@@ -312,27 +312,24 @@ visual_bell:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.6
+background_opacity: 0.3
 
 selection:
-  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+  #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
   save_to_clipboard: true
 
-# Allow terminal applications to change Alacritty's window title.
-dynamic_title: true
-
-cursor:
+#cursor:
   # Cursor style
   #
   # Values for `style`:
   #   - ▇ Block
   #   - _ Underline
   #   - | Beam
-  style: Block
+  #style: Block
 
-  # Vi mode cursor style  TODO
+  # Vi mode cursor style
   #
   # If the vi mode cursor style is `None` or not specified, it will fall back to
   # the style of the active value of the normal cursor.
@@ -342,14 +339,14 @@ cursor:
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
-  unfocused_hollow: true
+  #unfocused_hollow: true
 
   # Thickness of the cursor relative to the cell width as floating point number
-  # from `0.0` to `1.0`.  TODO
+  # from `0.0` to `1.0`.
   #thickness: 0.15
 
 # Live config reload (changes require restart)
-live_config_reload: true
+#live_config_reload: true
 
 # Shell
 #
@@ -368,7 +365,7 @@ shell:
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
-working_directory: None
+#working_directory: None
 
 # WinPTY backend (Windows only)
 #
@@ -389,8 +386,8 @@ mouse:
   # The `double_click` and `triple_click` settings control the time
   # alacritty should wait for accepting multiple clicks as one double
   # or triple click.
-  double_click: { threshold: 300 }
-  triple_click: { threshold: 300 }
+  #double_click: { threshold: 300 }
+  #triple_click: { threshold: 300 }
 
   # If this is `true`, the cursor is temporarily hidden when typing.
   hide_when_typing: true
@@ -415,7 +412,7 @@ mouse:
     #
     # These are the modifiers that need to be held down for opening URLs when clicking
     # on them. The available modifiers are documented in the key binding section.
-    modifiers: None
+    #modifiers: None
 
 # Mouse bindings
 #
@@ -439,8 +436,8 @@ mouse:
 # And optionally:
 #
 # - `mods` (see key bindings)
-mouse_bindings:
-  - { mouse: Middle, action: PasteSelection }
+#mouse_bindings:
+#  - { mouse: Middle, action: PasteSelection }
 
 # Key bindings
 #
@@ -480,9 +477,9 @@ mouse_bindings:
 #
 # - `action`: Execute a predefined action
 #
-#   - ToggleViMode  TODO
-#   - SearchForward  TODO
-#   - SearchBackward  TODO
+#   - ToggleViMode
+#   - SearchForward
+#   - SearchBackward
 #   - Copy
 #   - Paste
 #   - PasteSelection
@@ -491,8 +488,8 @@ mouse_bindings:
 #   - ResetFontSize
 #   - ScrollPageUp
 #   - ScrollPageDown
-#   - ScrollHalfPageUp  TODO
-#   - ScrollHalfPageDown  TODO
+#   - ScrollHalfPageUp
+#   - ScrollHalfPageDown
 #   - ScrollLineUp
 #   - ScrollLineDown
 #   - ScrollToTop
@@ -504,11 +501,11 @@ mouse_bindings:
 #   - ToggleFullscreen
 #   - SpawnNewInstance
 #   - ClearLogNotice
-#   - ClearSelection  TODO
+#   - ClearSelection
 #   - ReceiveChar
 #   - None
 #
-#   (`mode: Vi` only): TODO
+#   (`mode: Vi` only):
 #   - Open
 #   - Up
 #   - Down
@@ -541,7 +538,7 @@ mouse_bindings:
 #   (macOS only):
 #   - ToggleSimpleFullscreen: Enters fullscreen without occupying another space
 #
-#   (Linux/BSD only):  TODO
+#   (Linux/BSD only):
 #   - CopySelection: Copies into selection buffer
 #
 # - `command`: Fork and execute a specified command plus arguments
@@ -598,8 +595,9 @@ key_bindings:
   - { key: Z,        mods: Alt, command: {program: "alacritty-invert-colours", args: [] }}
 
   # Vi Mode
+  #- { key: V,      mods: Alt,                     action: ToggleViMode            }
+
   #- { key: Space,  mods: Shift|Control, mode: Vi, action: ScrollToBottom          }
-  #- { key: Space,  mods: Shift|Control,           action: ToggleViMode            }
   #- { key: Escape,                      mode: Vi, action: ClearSelection          }
   #- { key: I,                           mode: Vi, action: ScrollToBottom          }
   #- { key: I,                           mode: Vi, action: ToggleViMode            }
@@ -680,13 +678,12 @@ key_bindings:
   #- { key: F,      mods: Command,            action: SearchForward    }
   #- { key: B,      mods: Command,            action: SearchBackward   }
 
-
-debug:
+#debug:
   # Display the time it takes to redraw each frame.
-  render_timer: false
+  #render_timer: false
 
   # Keep the log file after quitting Alacritty.
-  persistent_logging: false
+  #persistent_logging: false
 
   # Log level
   #
@@ -697,7 +694,7 @@ debug:
   #   - Info
   #   - Debug
   #   - Trace
-  log_level: Warn
+  #log_level: Warn
 
   # Print all received window events.
-  print_events: false
+  #print_events: false

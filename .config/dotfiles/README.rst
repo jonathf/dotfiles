@@ -17,35 +17,33 @@ configuring, start by add a temporary alias for your session:
 
 .. code:: bash
 
-   alias .git="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
+   alias git="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 
 With it in place, check which files are in conflict with:
 
 .. code:: bash
 
-   .git status
+   git status
 
 Delete or move the files that are in the way. Then do the following to copy
 files from the git folder to your home:
 
 .. code:: bash
 
-   .git checkout ~
+   git checkout ~
 
-If using ``bash``, the ``.git`` command should now be available permanently
-through ``.bash_aliases``.
-
-To get a more sane ``.git`` behavior, you can also add the following two
-configurations values:
-
-.. code:: bash
-
-   .git config --local advice.addIgnoredFiles false
-   .git config --local status.showUntrackedFiles no
+If using ``bash`` or ``fish``, the ``git`` command will now get a permanent
+function wrapper such that it works with dot files, but will be smart enough to
+turn it off when you are in a git folder.
 
 Optional installs
 -----------------
 
+On Arch::
+
+   sudo pacman -Syyu yay exa ripgrep
+   sudo yay -Syu starship delta-bin
+
 On Termux::
 
-   pkg install starship exa direnv python
+   pkg install git openssh starship exa python ripgrep

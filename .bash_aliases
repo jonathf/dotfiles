@@ -1,3 +1,8 @@
+function git(){
+    command git rev-parse --is-inside-work-tree >/dev/null 2>&1 || a1="--git-dir=$HOME/.config/dotfiles" && a2="--work-tree=$HOME"
+    command git $a1 $a2 $@
+}
+
 alias sba="source ~/.bash_aliases"
 
 # Make 'D' exit, except in Neovim terminal, then it is close split
@@ -21,17 +26,18 @@ function t(){
 alias i="ipython --nosep"
 
 
-alias l="git ll -20"
+alias a="git add"
+alias aa="git add -a"
+alias am="git commit --amend"
+alias ama="git commit --amend -a"
+alias l="git --no-pager ll -20"
 alias pl="git pull --rebase"
 alias ps="git push"
-alias a="git add"
 alias aa="git add-all"
 alias psf="git push -f --force-with-lease"
 alias psu="git push -u"
 alias cm="git commit"
 alias cma="git commit -a"
-alias am="git commit --amend"
-alias ama="git commit --amend -a"
 alias co="git checkout"
 alias cob="git checkout -b"
 alias rb="git rebase"
@@ -41,7 +47,6 @@ alias rbs="git rebase --skip"
 alias rbi="git rebase -i"
 alias gd="git diff --color-words"
 alias s="git status -sb"
-alias .git="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 
 function clone(){
     git clone --recurse-submodules git@github.com:$1
@@ -60,6 +65,9 @@ alias la='exa -a'
 
 alias vi="nvim"
 alias vim="nvim"
+
+alias yay="yay -Syu --noconfirm"
+alias pac="yayman -Syyu --noconfirm"
 
 # stuff that only trigger inside Neovim terminal:
 if [[ "$NVIM_LISTEN_ADDRESS" != "" ]]; then

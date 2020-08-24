@@ -23,7 +23,7 @@ URxvt.matcher.button: 1
 
 URxvt.depth:32
 URxvt.foreground: #ffffff
-URxvt.background: rgba:0000/0000/0000/9999
+URxvt.background: rgba:0000/0000/0000/7777
 
 ! Hybrid color scheme:
 URxvt.color0: #2d3c46

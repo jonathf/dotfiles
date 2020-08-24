@@ -18,6 +18,7 @@ export REQUIREMENTS="mypy ipython pep257 pylint"
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgreprc
 export VISUAL="nvim"
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
+export MANPAGER='nvim +Man!'
 
 # Man page colors
 export LESS_TERMCAP_md=$(printf "\e[01;32m")    # bold
@@ -30,10 +31,9 @@ export LESS_TERMCAP_ue=$(printf "\e[0m")
 export LESS="--RAW-CONTROL-CHARS"
 
 # BASH specifics
-export HISTCONTROL="ignoreboth"
+export HISTCONTROL="ignoredups:erasedups"
 export HISTSIZE="500000"
 export HISTFILESIZE="100000"
-export PROMPT_COMMAND="history -a"
 
 # FISH specifics
 export fish_color_autosuggestion="brblack"
