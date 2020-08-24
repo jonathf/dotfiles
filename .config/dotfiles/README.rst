@@ -8,9 +8,7 @@ To install, clone anywhere and copy the ``.git`` to ``~/.config/dotfiles``:
 
 .. code:: bash
 
-   clone https://github.com/jonathf/dotfiles ~/dotfiles
-   mv ~/dotfiles/.git ~/.config/dotfiles
-   rm -rf ~/dotfiles
+   git clone --bare https://github.com/jonathf/dotfiles ~/.config/dotfiles
 
 Interaction with the git repository folder requires extra flags, so to start
 configuring, start by add a temporary alias for your session:
