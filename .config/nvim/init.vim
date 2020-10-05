@@ -18,9 +18,6 @@ let g:RecoverPlugin_Edit_Unmodified = 1
 " Git interface
 Plug 'tpope/vim-fugitive'
 
-" Remember cursor position between sessions
-Plug 'kopischke/vim-stay'
-
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 
 Plug 'cespare/vim-toml', {'for': 'toml'}

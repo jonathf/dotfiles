@@ -1,6 +1,9 @@
 " save document, wait for escape-s command:
 nmap s :silent! w<cr>
 
+" skip autocmd when closing all tabs at once. (speed gain when lots of linting)
+cnoremap xa noau xa
+
 " 0: jump to first char. Or jump to 0 col if at first char.
 nnoremap <expr> <silent> 0 col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
 

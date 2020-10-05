@@ -27,7 +27,7 @@ alias i="ipython --nosep"
 
 
 alias a="git add"
-alias aa="git add -a"
+alias aa="git add-all"
 alias am="git commit --amend"
 alias ama="git commit --amend -a"
 alias l="git --no-pager ll -20"
@@ -40,13 +40,14 @@ alias cm="git commit"
 alias cma="git commit -a"
 alias co="git checkout"
 alias cob="git checkout -b"
+alias gls="git ls-files"
 alias rb="git rebase"
 alias rbc="git rebase --continue"
 alias rba="git rebase --abort"
 alias rbs="git rebase --skip"
 alias rbi="git rebase -i"
-alias gd="git diff --color-words"
 alias s="git status -sb"
+
 
 function clone(){
     git clone --recurse-submodules git@github.com:$1

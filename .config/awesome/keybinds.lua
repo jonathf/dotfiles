@@ -84,6 +84,10 @@ globalkeys = awful.util.table.join(
            awful.util.spawn("amixer -D pulse sset Master 10%+ unmute") end),
    awful.key({}, "XF86AudioLowerVolume", function()
            awful.util.spawn("amixer -D pulse sset Master 10%- unmute") end),
+   awful.key({modkey}, "F3", function()
+           awful.util.spawn("amixer -D pulse sset Master 100% unmute") end),
+   awful.key({modkey}, "F2", function()
+           awful.util.spawn("amixer -D pulse sset Master 10% unmute") end),
    awful.key({}, "XF86AudioMute", function()
            awful.util.spawn("amixer -D pulse sset Master toggle") end),
    awful.key({}, "XF86MonBrightnessDown", function()
@@ -95,9 +99,9 @@ globalkeys = awful.util.table.join(
    awful.key({modkey}, "XF86MonBrightnessUp", function()
            awful.spawn.with_shell('xbacklight -set 100') end),
    awful.key({modkey}, "F4", function()
-           awful.spawn.with_shell("bluetoothctl connect 4c:87:5d:2d:1b:99") end),
+           awful.util.spawn("bluetoothctl connect 4c:87:5d:2d:1b:99") end),
    awful.key({modkey}, "F7", function()
-           awful.spawn.with_shell("xrandr --output eDP1 --below $(xrandr -q | grep '^[^e].* \bconnected\b' | sed -e 's/ connected.*//')") end),
+           awful.spawn.with_shell("xrandr --output eDP1 --below HDMI1") end),
    awful.key({modkey}, "F8", function()
            awful.spawn.with_shell("nmcli connection up 'unifon'") end),
    awful.key({}, "Print", function()

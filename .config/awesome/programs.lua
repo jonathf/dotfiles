@@ -1,7 +1,7 @@
 local awful = require("awful")
 
-terminal = "alacritty"
 terminal = "urxvt --meta8"
+terminal = "alacritty"
 editor = "nvim"
 editor_cmd = terminal .. " -e " .. editor
 

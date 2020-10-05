@@ -30,7 +30,7 @@ set spelllang=en,nb             " Dual English/Norwegian spell checker
 set splitbelow                  " make splits on below
 set splitright                  " make splits on right side
 set tabstop=4                   " number of spaces in a tab
-set tags^=./.git/tags;
+set tags^=.git/tags;~
 set textwidth=79                " generate newline at col
 set undodir=~/.config/nvim/shada/undo
 set undofile

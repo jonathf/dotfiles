@@ -24,6 +24,7 @@
     edit = "!$EDITOR `git ls-files -m | uniq` -c '/\\v^[<=>|]{7}( |$)'"
     prune = "!f() { git branch -d $(git branch --merged=\"$1\" | grep -v \"$1\") \
     git fetch --prune }; f"
+    add-all = "!git add `git ls-files -m | uniq`"
 [pull]
     rebase = true
 [merge]

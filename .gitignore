@@ -1,4 +1,3 @@
-experiments
 *-vimbackup
 *.egg-info
 *__pycache__
@@ -7,6 +6,6 @@ experiments
 *.o
 *.log
 *.aux
-.*
-!.config/
-TODO
+.venv
+.[0-9][0-9]
+.ipynb_checkpoints
