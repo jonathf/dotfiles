@@ -8,7 +8,7 @@
 config.load_autoconfig()
 
 from colors import set_colors
-set_colors(c)
+set_colors(c, config)
 
 from mappings import set_mappings
 set_mappings(c, config)

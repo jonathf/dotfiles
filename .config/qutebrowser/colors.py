@@ -28,7 +28,7 @@ DIMWHITE = "rgba(c5, c8, c6, 70%)"
 
 # Gradients: f"qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 {BRBLACK}, stop:1 {BLACK})"
 
-def set_colors(c):
+def set_colors(c, config):
 
     ## Completion header
     c.colors.completion.category.bg = BLACK
@@ -253,3 +253,6 @@ def set_colors(c):
     c.colors.webpage.bg = None
     c.colors.webpage.darkmode.enabled = True
     c.colors.webpage.prefers_color_scheme_dark = True
+
+    # experiment
+    c.colors.webpage.darkmode.algorithm = "lightness-hsl"

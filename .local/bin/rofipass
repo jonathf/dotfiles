@@ -9,7 +9,7 @@ popd
 
 domain=$(dirname $selected)
 username=$(basename $selected)
-choices="**password** $domain $username autotype"
+choices="autotype **password** $username $domain"
 action=$(printf "%s\n" $choices | rofi -dmenu -no-custom)
 
 [ "$action" = "**password**" ] && pass show $selected | sed -e 's/\n//' | xsel -b

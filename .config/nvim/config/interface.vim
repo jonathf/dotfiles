@@ -80,5 +80,3 @@ highlight link NeomakeWarningSign GitgutterChange
 autocmd BufWritePost * Neomake
 
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-
-Plug 'goerz/jupytext.vim'
