@@ -22,8 +22,13 @@ def set_mappings(c, config):
         'wq': 'quit --save',
         'x': 'quit --save',
         'source': 'config-source',
+        'color-apprentice': 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/apprentice/apprentice-all-sites.css ""',
+        'color-darculized': 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/darculized/darculized-all-sites.css ""',
+        'color-gruvbox': 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""',
     }
 
+    for idx in range(1, 100):
+        config.bind('<Space>%02d' % idx, 'tab-focus %d' % idx)
 
     ## Bindings for normal mode
     config.bind('p', 'back')
@@ -63,15 +68,6 @@ def set_mappings(c, config):
     # config.bind(';r', 'hint --rapid links tab-bg')
     # config.bind(';t', 'hint inputs')
     # config.bind(';y', 'hint links yank')
-    # config.bind('<Alt-1>', 'tab-focus 1')
-    # config.bind('<Alt-2>', 'tab-focus 2')
-    # config.bind('<Alt-3>', 'tab-focus 3')
-    # config.bind('<Alt-4>', 'tab-focus 4')
-    # config.bind('<Alt-5>', 'tab-focus 5')
-    # config.bind('<Alt-6>', 'tab-focus 6')
-    # config.bind('<Alt-7>', 'tab-focus 7')
-    # config.bind('<Alt-8>', 'tab-focus 8')
-    # config.bind('<Alt-9>', 'tab-focus -1')
     # config.bind('<Alt-m>', 'tab-mute')
     # config.bind('<Ctrl-A>', 'navigate increment')
     # config.bind('<Ctrl-Alt-p>', 'print')

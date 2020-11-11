@@ -65,11 +65,11 @@ def set_colors(c, config):
     ## Download bar.
     c.colors.downloads.bar.bg = BLACK
     c.colors.downloads.error.bg = RED
-    c.colors.downloads.error.fg = WHITE
+    c.colors.downloads.error.fg = BRBLACK
     c.colors.downloads.start.bg = BLUE
-    c.colors.downloads.start.fg = WHITE
+    c.colors.downloads.start.fg = BRBLACK
     c.colors.downloads.stop.bg = GREEN
-    c.colors.downloads.stop.fg = WHITE
+    c.colors.downloads.stop.fg = BRBLACK
 
     ## Color gradient interpolation system for download backgrounds.
     ## Type: ColorSystem
@@ -251,8 +251,8 @@ def set_colors(c, config):
     c.colors.tabs.selected.odd.fg = BRBLACK
 
     c.colors.webpage.bg = None
-    c.colors.webpage.darkmode.enabled = True
-    c.colors.webpage.prefers_color_scheme_dark = True
+    c.colors.webpage.darkmode.enabled = False
+    c.colors.webpage.prefers_color_scheme_dark = False
 
-    # experiment
-    c.colors.webpage.darkmode.algorithm = "lightness-hsl"
+    # experimental
+    # c.colors.webpage.darkmode.algorithm = "lightness-hsl"

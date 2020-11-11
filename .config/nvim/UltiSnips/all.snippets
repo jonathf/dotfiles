@@ -67,7 +67,7 @@ endsnippet
 priority -58
 snippet "20\d\d-\d\d" "day" rw
 `!p snip.rv=(
-    "{}-{}".format(match.group(0), NOW.day)
+    "{}-{:02}".format(match.group(0), NOW.day)
     if "{}-{:02}".format(NOW.year, NOW.month) == match.group(0)
     else "{}-{:02}".format(NOW.year, NOW.month)
 )`
