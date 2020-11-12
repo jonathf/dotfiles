@@ -1,5 +1,5 @@
 configuration {
-    font:                   "Operator Mono Regular 18";
+    font:                   "Anonymous Pro Regular 18";
     auto-select:            true;
     hide-scrollbar:         true;
     show-icons:             true;

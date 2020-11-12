@@ -78,3 +78,10 @@ keyring link PAM (login password) to GnuPG passfrase:
 
 The idea is that if your machine password is identical to your GPG passphrase,
 PAM will dispatch the password and unlock GPG for you on login.
+
+Downloading Passwords
+---------------------
+
+My personal password archive can be installed from::
+
+    $ git clone git@github.com:jonathf/passwords ~/.password-store

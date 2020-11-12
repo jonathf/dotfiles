@@ -20,21 +20,14 @@ To install, follow the steps:
        chmod u+x nvim.appimage
        mv nvim.appimage ~/.local/bin/nvim
 
-2. Clone the repository into the neovim configuration folder:
-
-   .. code:: bash
-
-       git clone https://github.com/jonathf/nvim ~/.config/nvim
-
-3. Use the python remote server, install a python virtual
+2. Use the python remote server, install a python virtual
    environment with a python instance version 3.6.1+:
 
    .. code:: bash
 
-       python -m venv ~/.config/nvim/venv
-       ~/config/nvim/venv/bin/pip install -U pip pynvim jedi neovim-remote
+       pip install -U pip pynvim jedi neovim-remote
 
-4. Install plugging using `Vim-Plug <https://github.com/junegunn/vim-plug>`_
+3. Install plugging using `Vim-Plug <https://github.com/junegunn/vim-plug>`_
    from inside neovim:
 
    .. code:: vim

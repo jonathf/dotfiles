@@ -1,4 +1,3 @@
-
 Awesome WM Configuration
 ========================
 
@@ -13,26 +12,19 @@ To install, follow the steps:
 
    .. code:: bash
 
-       sudo pacman --sync --refresh --noconfirm awesome lain picom \
-           pa-applet network-manager-applet scrot blueman \
+       sudo pacman --sync --refresh --noconfirm awesome vicious lain picom  \
+           pa-applet network-manager-applet scrot blueman ttf-anonymous-pro \
            xfce4-power-manager xorg-xbacklight rofi-scripts
 
-2. Clone repository into Awesome configuration folder:
-
-   .. code:: bash
-
-       git clone https://github.com/jonathf/awesome ~/.config/awesome
-
-3. (Optional) Add LightDM and Slick-greeter. On Arch Linux:
+2. (Optional) Add LightDM and Slick-greeter. On Arch Linux:
 
    .. code:: bash
 
        sudo pacman --sync --refresh --noconfirm lightdm-slick-greeter
-       sudo cp ~/.config/awesome/{background.png,slick-greeter.conf}
-       /etc/lightdm
+       sudo cp ~/.config/awesome/{background.png,slick-greeter.conf} /etc/lightdm
        sudo chmod 644 /etc/lightdm/{background.png,slick-greeter.conf}
 
-4. (Optional) Install theme and theme configuration. On Arch Linux this means
+3. (Optional) Install theme and theme configuration. On Arch Linux this means
    running the code:
 
    .. code:: bash

@@ -48,3 +48,13 @@ To install, follow the steps:
    .. code:: bash
 
        chsh --shell $HOME/.local/bin/fish
+
+Optional Installs
+-----------------
+
+::
+
+    sudo pacman -Syu exa ripgrep yay neovim
+    yay -Syu direnv
+
+    git clone git@github.com:pyenv/pyenv .pyenv

@@ -39,9 +39,29 @@ Optional installs
 
 On Arch::
 
-   sudo pacman -Syyu yay exa ripgrep
+   sudo pacman -Syyu neovim git-lfs alacritty
+   sudo pacman -Syu chromium firefox firefox-ublock-origin firefox-dark-reader \
+            firefox-i18n-nb-no firefox-i18n-en-us firefox-tree-style-tab firefox-umatrix
+   sudo pacman -Syyu yay
    sudo yay -Syu starship delta-bin
 
 On Termux::
 
    pkg install git openssh starship exa python ripgrep
+
+
+Overview
+--------
+
+* Awesome WM: ``~/.config/awesome/README.rst``
+* FiSH: ``~/.config/fish/README.rst``
+* GnuPG/Pass: ``~/.gnupg/README.rst``
+* Neovim: ``~/.config/nvim/README.rst``
+
+Python install
+~~~~~~~~~~~~~~
+
+::
+   sudo pacman -Syu python-pip python-pipx
+   pipx install poetry pipenv
+   git clone git@github.com:pyenv/pyenv ~/.pyenv
