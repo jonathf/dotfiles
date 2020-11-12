@@ -8,13 +8,7 @@ Installation
 
 To install, follow the steps:
 
-1. Clone the repository into the fish configuration folder:
-
-   .. code:: bash
-
-       git clone https://github.com/jonathf/fish ~/.config/fish
-
-2. It is assumed that Fish is installed on the system.
+2. If Fish isn't already installed, install it:
 
    On Arch Linux:
 
@@ -54,7 +48,7 @@ Optional Installs
 
 ::
 
-    sudo pacman -Syu exa ripgrep yay neovim
-    yay -Syu direnv
-
+    sudo pacman -Syu git exa ripgrep yay neovim python-pip python-pipx
+    yay -Syu direnv starship delta-bin
     git clone git@github.com:pyenv/pyenv .pyenv
+    pipx install poetry pipenv

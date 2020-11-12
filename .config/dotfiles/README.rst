@@ -32,23 +32,16 @@ files from the git folder to your home:
 
 If using ``bash`` or ``fish``, the ``git`` command will now get a permanent
 function wrapper such that it works with dot files, but will be smart enough to
-turn it off when you are in a git folder.
+turn it off when you are in a regular git folder.
 
 Optional installs
 -----------------
 
 On Arch::
 
-   sudo pacman -Syyu neovim git-lfs alacritty
+   sudo pacman -Syyu neovim git-lfs
    sudo pacman -Syu chromium firefox firefox-ublock-origin firefox-dark-reader \
             firefox-i18n-nb-no firefox-i18n-en-us firefox-tree-style-tab firefox-umatrix
-   sudo pacman -Syyu yay
-   sudo yay -Syu starship delta-bin
-
-On Termux::
-
-   pkg install git openssh starship exa python ripgrep
-
 
 Overview
 --------
@@ -57,11 +50,3 @@ Overview
 * FiSH: ``~/.config/fish/README.rst``
 * GnuPG/Pass: ``~/.gnupg/README.rst``
 * Neovim: ``~/.config/nvim/README.rst``
-
-Python install
-~~~~~~~~~~~~~~
-
-::
-   sudo pacman -Syu python-pip python-pipx
-   pipx install poetry pipenv
-   git clone git@github.com:pyenv/pyenv ~/.pyenv
