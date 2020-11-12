@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [[ "$1" != *"@"* ]]; then
+    extra_args="git@github.com:"
+fi
+git clone --recurse-submodules $extra_args"$@"
