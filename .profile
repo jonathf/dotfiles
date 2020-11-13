@@ -2,6 +2,7 @@ export QT_QPA_PLATFORMTHEME="qt5ct"
 export QT_AUTO_SCREEN_SCALE_FACTOR="0"
 export XDG_CURRENT_DESKTOP="XFCE"
 export XDG_CONFIG_DIRS="/etc/xdg"
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 
 export BROWSER="qutebrowser"
 export DIRENV_LOG_FORMAT=""

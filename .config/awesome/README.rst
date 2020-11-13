@@ -13,7 +13,7 @@ To install, follow the steps:
    .. code:: bash
 
        sudo pacman --sync --refresh --noconfirm awesome vicious lain picom  \
-           pa-applet network-manager-applet scrot blueman ttf-anonymous-pro \
+           pa-applet network-manager-applet scrot blueman ttf-ubuntu-family \
            xfce4-power-manager xorg-xbacklight rofi-scripts alacritty
 
 2. (Optional) Add LightDM and Slick-greeter. On Arch Linux:

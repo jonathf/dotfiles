@@ -3,7 +3,7 @@ config_path = awful.util.getdir("config")
 
 theme = {}
 theme.wallpaper = config_path .. "background.png"
-theme.font = "Anonymous Pro 10"
+theme.font = "Ubuntu Mono Bold 10"
 
 theme.bg_normal = "#00000000"
 theme.fg_normal = "#425059"

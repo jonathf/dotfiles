@@ -38,10 +38,10 @@ truncate_to_repo=false
 fish_style_pwd_dir_length=3
 
 [hg_branch]
-format="[ ](bright-white)[$branch ](bold bright-white)"
+format="[ ](bright-white)[$branch ](bold bright-white)"
 
 [git_branch]
-format="[ ](bright-white)[$branch ](bold bright-black)"
+format="[ ](bright-white)[$branch ](bold bright-black)"
 
 [git_commit]
 format="[$hash ](bright-black)"
@@ -70,17 +70,17 @@ renamed="${count}r"
 deleted="[${count}D](bright-red)"
 
 [package]
-format="[ $version ](bright-white)"
+format="[ $version ](bright-white)"
 
 [python]
-format="[ $version ](bright-white)"
+format="[ $version ](bright-white)"
 scan_for_pyfiles=false
 
 [conda]
 format="[⭘ $environment ](bright-white)"
 
 [docker]
-format="[ $context ](bright-white)"
+format="[ $context ](bright-white)"
 only_with_files=true
 
 [golang]
@@ -90,7 +90,7 @@ format="[go](bold black)[$version ](bright-white)"
 format="[ஃ $version ](bright-white)"
 
 [rust]
-format="[⚙️ $version ](bright-white)"
+format="[ $version ](bright-white)"
 
 [cmd_duration]
 format="[$duration ](yellow)"

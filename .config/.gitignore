@@ -1,0 +1,8 @@
+xfce4/
+user-dirs.locale
+chromium/
+dotfiles/
+qutebrowser/autoconfig.yml
+qutebrowser/bookmarks/
+nvim/plugged/
+fish/fish_variables

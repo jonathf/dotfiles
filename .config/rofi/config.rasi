@@ -1,5 +1,4 @@
 configuration {
-    font:                   "Anonymous Pro Regular 18";
     auto-select:            true;
     hide-scrollbar:         true;
     show-icons:             true;
