@@ -38,10 +38,10 @@ truncate_to_repo=false
 fish_style_pwd_dir_length=3
 
 [hg_branch]
-format="[ ](bright-white)[$branch ](bold bright-white)"
+format="[ ](bright-white)[$branch ](bold bright-white)"
 
 [git_branch]
-format="[ ](bright-white)[$branch ](bold bright-black)"
+format="[ ](bright-white)[$branch ](bold bright-white)"
 
 [git_commit]
 format="[$hash ](bright-black)"
@@ -50,14 +50,14 @@ only_detached=true
 
 [git_state]
 format="[$state $progress_current/$progress_total ](bold green)"
-rebase="REBASE"
-merge="MERGE"
-revert="REVERT"
-cherry_pick="CHERRY-PICK"
-bisect="BISECT"
+rebase=" REBASE"
+merge=" MERGE"
+revert=" REVERT"
+cherry_pick=" CHERRY-PICK"
+bisect=" BISECT"
 
 [git_status]
-format="([$all_status$ahead_behind](bright-black) )"
+format="([$all_status$ahead_behind](bright-white) )"
 conflicted="[$count!](bright-red)"
 diverged="[${ahead_count}+${behind_count}-](bright-cyan)"
 ahead="[${count}+](bright-cyan)"
@@ -70,17 +70,17 @@ renamed="${count}r"
 deleted="[${count}D](bright-red)"
 
 [package]
-format="[ $version ](bright-white)"
+format="[ $version ](bright-white)"
 
 [python]
-format="[ $version ](bright-white)"
+format="[ $version ](bright-white)"
 scan_for_pyfiles=false
 
 [conda]
 format="[⭘ $environment ](bright-white)"
 
 [docker]
-format="[ $context ](bright-white)"
+format="[docker $context ](bright-white)"
 only_with_files=true
 
 [golang]
@@ -90,7 +90,7 @@ format="[go](bold black)[$version ](bright-white)"
 format="[ஃ $version ](bright-white)"
 
 [rust]
-format="[ $version ](bright-white)"
+format="[rust $version ](bright-white)"
 
 [cmd_duration]
 format="[$duration ](yellow)"
