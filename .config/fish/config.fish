@@ -12,3 +12,8 @@ starship init fish | source
 
 # pass login passwords to keyring
 [ -n "$DESKTOP_SESSION" ] && set (gnome-keyring-daemon --start | string split "=")
+
+
+set --export GPG_TTY (tty)
+set --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
+gpgconf --launch gpg-agent

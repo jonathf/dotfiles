@@ -85,3 +85,7 @@ Downloading Passwords
 My personal password archive can be installed from::
 
     $ git clone git@github.com:jonathf/passwords ~/.password-store
+
+Connect ``pass`` to the GnuPG like this::
+
+    $ pass init 558C5F4DBB8597A140DA91C53673F898D24A40A7

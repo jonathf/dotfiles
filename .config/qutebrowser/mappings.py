@@ -22,9 +22,11 @@ def set_mappings(c, config):
         'wq': 'quit --save',
         'x': 'quit --save',
         'source': 'config-source',
-        'color-apprentice': 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/apprentice/apprentice-all-sites.css ""',
-        'color-darculized': 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/darculized/darculized-all-sites.css ""',
-        'color-gruvbox': 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""',
+        'tabs-show': 'set tabs.show always',
+        'tabs-hide': 'set tabs.show never',
+        'tabs-cycle': 'config-cycle tabs.show always never',
+        'mpv': 'spawn mpv {hint-url}',
+        'youtube-dl': 'spawn alacritty -e youtube-dl {url}',
     }
 
     for idx in range(1, 100):
@@ -50,6 +52,10 @@ def set_mappings(c, config):
     config.bind('K', 'scroll-page 0 -0.5')
 
     config.bind('d', 'tab-move - ;; tab-close')
+
+    config.bind(';m', 'hint links spawn mpv {hint-url}')
+    config.bind('<F1>', 'config-cycle tabs.show always never')
+    config.bind('<Escape>', 'fake-key <Escape>;;search')
 
     # config.bind("'", 'enter-mode jump_mark')
     # config.bind('.', 'repeat-command')

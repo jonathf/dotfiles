@@ -251,8 +251,8 @@ def set_colors(c, config):
     c.colors.tabs.selected.odd.fg = BRBLACK
 
     c.colors.webpage.bg = None
-    c.colors.webpage.darkmode.enabled = False
-    c.colors.webpage.prefers_color_scheme_dark = False
+    c.colors.webpage.darkmode.enabled = True
+    c.colors.webpage.prefers_color_scheme_dark = True
 
     # experimental
     # c.colors.webpage.darkmode.algorithm = "lightness-hsl"

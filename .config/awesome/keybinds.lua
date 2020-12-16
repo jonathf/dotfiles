@@ -101,7 +101,7 @@ globalkeys = awful.util.table.join(
    awful.key({modkey}, "F4", function()
            awful.util.spawn("bluetoothctl connect 4c:87:5d:2d:1b:99") end),
    awful.key({modkey}, "F7", function()
-           awful.spawn.with_shell("xrandr --output eDP1 --below HDMI1") end),
+           awful.spawn.with_shell("xrandr --auto --output eDP1 --below HDMI1") end),
    awful.key({modkey}, "F8", function()
            awful.spawn.with_shell("nmcli connection up 'unifon'") end),
    awful.key({}, "Print", function()
