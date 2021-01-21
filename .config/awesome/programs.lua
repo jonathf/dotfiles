@@ -8,8 +8,8 @@ editor_cmd = terminal .. " -e " .. editor
 -- Window transparency
 awful.spawn("nm-applet")
 -- awful.spawn.once("xcompmgr -cF")
--- awful.spawn.once("compton -b")
-awful.spawn.once("picom --experimental-backends")
+awful.spawn.once("compton -b")
+-- awful.spawn.once("picom --experimental-backends")
 
 -- Keyboard layout remap: capslock->escape, escape->F12
 awful.spawn.once("setxkbmap -layout no")
