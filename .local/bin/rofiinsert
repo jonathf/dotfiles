@@ -3,4 +3,4 @@
 choices="+4793214474 jonathf@gmail.com jonathan@feinberg.no 28048431390 22058345834 09061980919 5124370800425594 4052080090476723"
 action=$(printf "%s\n" $choices | rofi -dmenu -no-custom)
 [ -z "$action" ] && exit
-printf "$action" | xdotool type --delay 10 --clearmodifiers --file -
+printf "$action" | xdotool type --delay 14 --clearmodifiers --file -
