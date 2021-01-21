@@ -16,6 +16,17 @@ To install, follow the steps:
            pa-applet network-manager-applet scrot blueman powerline-fonts \
            xfce4-power-manager xorg-xbacklight rofi-scripts alacritty
 
+On Ubuntu:
+
+   .. code:: bash
+
+       sudo add-apt-repository ppa:mmstick76/alacritty
+       sudo apt update
+       sudo apt install awesome awesome-extras scrot blueman \
+           xfce4-power-manager xbacklight rofi alacritty
+       cd ~/.config/awesome
+       git clone https://github.com/copycat-killer/lain
+
 2. (Optional) Add LightDM and Slick-greeter. On Arch Linux:
 
    .. code:: bash
@@ -23,6 +34,8 @@ To install, follow the steps:
        sudo pacman --sync --refresh --noconfirm lightdm-slick-greeter
        sudo cp ~/.config/awesome/{background.png,slick-greeter.conf} /etc/lightdm
        sudo chmod 644 /etc/lightdm/{background.png,slick-greeter.conf}
+
+On Ubuntu this is redundant
 
 3. (Optional) Install theme and theme configuration. On Arch Linux this means
    running the code:

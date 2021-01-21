@@ -10,6 +10,10 @@ To install on Arch::
 
     $ sudo pacman -Syyu pass
 
+or on Debian::
+
+    $ sudo apt install pass
+
 (The executable ``gpg`` should be pre-installed on all major linux systems.)
 
 Starting from scratch
@@ -43,6 +47,11 @@ private key::
     >   trust -> 5 (trust ultimately) -> quit
 
 Remember to delete the file after migrating.
+
+Also add the key to the pass store::
+
+    $ mkdir -p ~/.password-store
+    $ echo $KEY > ~/.password-store/.gpg-id
 
 Generate Public Key
 -------------------

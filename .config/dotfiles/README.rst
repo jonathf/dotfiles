@@ -28,7 +28,7 @@ files from the git folder to your home:
 
 .. code:: bash
 
-   git checkout ~
+   git reset --hard master
 
 If using ``bash`` or ``fish``, the ``git`` command will now get a permanent
 function wrapper such that it works with dot files, but will be smart enough to
@@ -39,9 +39,13 @@ Optional installs
 
 On Arch::
 
-   sudo pacman -Syyu neovim git-lfs
+   sudo pacman -Syyu neovim
    sudo pacman -Syu chromium firefox firefox-ublock-origin firefox-dark-reader \
             firefox-i18n-nb-no firefox-i18n-en-us firefox-tree-style-tab firefox-umatrix
+
+On Ubuntu::
+
+   sudo apt install neovim
 
 Overview
 --------

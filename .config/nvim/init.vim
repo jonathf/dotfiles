@@ -4,7 +4,7 @@ colorscheme hybrid
 let loaded_netrwPlugin = 1  " do not load netrw
 
 let g:vim_root = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-let g:python3_host_prog = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python3'
 
 call plug#begin()
 
