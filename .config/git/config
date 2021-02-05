@@ -1,5 +1,5 @@
 [alias]
-    ll = log --pretty=format:"%C(yellow)%h%Creset\\ %C(green)%ar%C(cyan)%d\\ %Creset%s%C(yellow)\\ [%cn]" --graph --decorate --all
+    graph = log --pretty=format:"%C(yellow)%h%Creset\\ %C(green)%ar%C(cyan)%d\\ %Creset%s%C(yellow)\\ [%cn]" --graph --decorate --all
     edit = "!$EDITOR `git ls-files -m | uniq` -c '/\\v^[<=>|]{7}( |$)'"
     prune = "!f() { git branch -d $(git branch --merged=\"$1\" | grep -v \"$1\") \
     git fetch --prune }; f"
@@ -26,10 +26,6 @@
     autocrlf = input
     filemode = false
     pager = less --LONG-PROMPT --chop-long-lines --tabs=4 --jump-target=3 --ignore-case --status-column
-[delta]
-    features = line-numbers diff-so-fancy navigate
-    line-numbers-left-format = "{nm:>3}"
-    line-numbers-right-format = "{np:>3} "
 [fetch]
     prune = true
 [filter "lfs"]
@@ -41,12 +37,8 @@
     program = gpg
 [init]
     templatedir = ~/.config/git/template
-[interactive]
-    diffFilter = delta --color-only
 [merge]
     conflictstyle=diff3
-[pager]
-    diff = delta
 [pull]
     rebase = true
 [push]

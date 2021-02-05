@@ -67,3 +67,6 @@ export fish_pager_color_progress=("brwhite" "--background=cyan")
 [ -d "$HOME/.cargo" ] && [[ "$PATH" != *"$HOME/.cargo"* ]] && export PATH="$PATH:$CARGO_ROOT/bin"
 [ -d "$HOME/.pyenv" ] && export PYENV_ROOT="$HOME/.pyenv"
 [ -d "$HOME/.pyenv" ] && [[ "$PATH" != *"$HOME/.pyenv"* ]] && export PATH="$PATH:$PYENV_ROOT/bin"
+
+export GOPRIVATE='github.com/vippsas/*'
+export G0111MODULE=on

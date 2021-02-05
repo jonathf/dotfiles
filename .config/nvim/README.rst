@@ -25,7 +25,8 @@ To install, follow the steps:
 
    .. code:: bash
 
-       pip install -U pip pynvim jedi neovim-remote
+       python -m venv ~/.config/nvim/venv
+       ~/.config/nvim/venv/bin/pip install -U pip pynvim jedi neovim-remote
 
 3. Install plugging using `Vim-Plug <https://github.com/junegunn/vim-plug>`_
    from inside neovim:

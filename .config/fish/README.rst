@@ -54,3 +54,12 @@ On Arch::
     pipx install pipenv
     pipx install poetry
     pipx install pdm
+
+On Debian/Ubuntu::
+
+    sudo apt install direnv git ripgrep python3-pip python3-virtualenv
+    git clone git@github.com:pyenv/pyenv .pyenv
+    pip3 install pipx
+    pipx install poetry
+    pipx install pipenv
+    pipx install pdm
