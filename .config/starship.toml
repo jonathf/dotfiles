@@ -70,27 +70,27 @@ renamed="${count}r"
 deleted="[${count}D](bright-red)"
 
 [package]
-format="[v$version ](bright-white)"
+format="[$version ](bright-white)"
 
 [python]
-format="[p$version ](bright-white)"
+format="[$version ](bright-white)"
 scan_for_pyfiles=false
 
 [conda]
-format="[c$environment ](bright-white)"
+format="[$environment ](bright-white)"
 
 [docker]
 format="[docker $context ](bright-white)"
 only_with_files=true
 
 [golang]
-format="[go](bold black)[$version ](bright-white)"
+format="[$version ](bright-white)"
 
 [julia]
-format="[j$version ](bright-white)"
+format="[$version ](bright-white)"
 
 [rust]
-format="[r$version ](bright-white)"
+format="[$version ](bright-white)"
 
 [cmd_duration]
 format="[$duration ](yellow)"

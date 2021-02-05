@@ -21,8 +21,8 @@ To install, follow the steps:
    .. code:: bash
 
       sudo apt-add-repository ppa:fish-shell/release-3
-      sudo apt-get update
-      sudo apt-get install fish
+      sudo apt update
+      sudo apt install fish
 
 3. Verify that the Fish version is at least version 3.1:
 
@@ -46,9 +46,11 @@ To install, follow the steps:
 Optional Installs
 -----------------
 
-::
+On Arch::
 
     sudo pacman -Syu git exa ripgrep yay neovim python-pip python-pipx
-    yay -Syu direnv starship delta-bin
+    yay -Syu direnv starship
     git clone git@github.com:pyenv/pyenv .pyenv
-    pipx install poetry pipenv
+    pipx install pipenv
+    pipx install poetry
+    pipx install pdm

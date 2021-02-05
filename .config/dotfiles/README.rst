@@ -41,7 +41,7 @@ On Arch::
 
    sudo pacman -Syyu neovim
    sudo pacman -Syu chromium firefox firefox-ublock-origin firefox-dark-reader \
-            firefox-i18n-nb-no firefox-i18n-en-us firefox-tree-style-tab firefox-umatrix
+         firefox-i18n-nb-no firefox-i18n-en-us firefox-tree-style-tab firefox-umatrix
 
 On Ubuntu::
 

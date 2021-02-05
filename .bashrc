@@ -17,6 +17,7 @@ shopt -s nocaseglob
 [ -n "$(command -v direnv)" ] && eval "$(direnv hook bash)" &
 command -v pyenv 2>&1 >/dev/null && eval "$(pyenv init -)" &
 eval "$(starship init bash)"
+eval "$(pdm --pep582)"
 
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_bindings ] && source ~/.bash_bindings
