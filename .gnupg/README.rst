@@ -98,3 +98,14 @@ My personal password archive can be installed from::
 Connect ``pass`` to the GnuPG like this::
 
     $ pass init 558C5F4DBB8597A140DA91C53673F898D24A40A7
+
+Using ``rofipass`` (and ``rofiinsert``)
+---------------------------------------
+
+The frontend wrapper needs some extra dependencies. For Arch::
+
+    $ sudo pacman -Syu xdotool xsel
+
+For Debian/Ubuntu::
+
+    $ sudo apt install xdotool xsel

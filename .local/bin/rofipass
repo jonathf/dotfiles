@@ -9,15 +9,23 @@ popd
 
 domain=$(dirname $selected)
 username=$(basename $selected)
-choices="autotype **password** $username $domain"
+choices="autotype password $username $domain"
 action=$(printf "%s\n" $choices | rofi -dmenu -no-custom)
 
-[ "$action" = "**password**" ] && pass show $selected | sed -e 's/\n//' | xsel -b
-[ "$action" = "$domain" ] && printf "$domain" | xsel -b
-[ "$action" = "$username" ] && printf "$username" | xsel -b
-if [ "$action" = "autotype" ]; then
+if [ "$action" = "password" ]; then
+  pass show $selected | sed -e 's/\n//' | xsel -p
+  pass show $selected | sed -e 's/\n//' | xsel -s
+else if [ "$action" = "$username" ]; then
+  printf "$username" | xsel -p
+  printf "$username" | xsel -b
+else if [ "$action" = "$domain" ]; then
+  printf "$domain" | xsel -b
+else if [ "$action" = "autotype" ]; then
   sleep 0.2
   printf "$username" | xdotool type --delay 12 --clearmodifiers --file -
   xdotool key Tab
   pass show $selected | sed -e 's/\n//' | xdotool type --delay 12 --clearmodifiers --file -
+fi
+fi
+fi
 fi

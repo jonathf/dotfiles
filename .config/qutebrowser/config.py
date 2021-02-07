@@ -9,7 +9,7 @@ set_colors(container, config)
 from mappings import set_mappings
 set_mappings(container, config)
 
-config.load_autoconfig(False)
+config.load_autoconfig()
 
 ##   - webengine: Use QtWebEngine (based on Chromium).
 ##   - webkit: Use QtWebKit (based on WebKit, similar to Safari).
