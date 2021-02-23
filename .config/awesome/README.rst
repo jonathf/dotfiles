@@ -15,6 +15,7 @@ To install, follow the steps:
        sudo pacman --sync --refresh --noconfirm awesome vicious lain picom  \
            pa-applet network-manager-applet scrot blueman powerline-fonts \
            xfce4-power-manager xorg-xbacklight rofi-scripts alacritty
+           ttf-ubuntu-font-family
 
 On Ubuntu:
 
@@ -26,6 +27,7 @@ On Ubuntu:
            xfce4-power-manager xbacklight rofi alacritty
        cd ~/.config/awesome
        git clone https://github.com/copycat-killer/lain
+
 
 2. (Optional) Add LightDM and Slick-greeter. On Arch Linux:
 
