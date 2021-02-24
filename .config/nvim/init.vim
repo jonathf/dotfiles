@@ -1,8 +1,3 @@
-syntax enable
-colorscheme hybrid
-
-let loaded_netrwPlugin = 1
-
 "*** GENERAL SETTING ***
 
 let g:python3_host_prog = '~/.config/nvim/venv/bin/python'
@@ -42,8 +37,7 @@ set tabstop=4                       " number of spaces in a tab
 set tags^=.git/tags;~
 set undodir=~/.config/nvim/shada/undo
 set undofile
-set updatetime=1000
-set wildignore=.dll,.o,.obj,.bak,.pyc,.pdf,.png,.jpg,.pkl,.xz
+set updatetime=300
 set wildmode=longest:full,list:full
 
 " *** AUTOCOMMANDS ***
@@ -53,7 +47,9 @@ augroup MyAutoCommands
     autocmd BufWritePre * let &backupext='-'.strftime("%y%m")
     autocmd BufWritePost * Neomake
     autocmd CmdwinEnter * nnoremap <buffer> <esc> :q<cr>
-    autocmd TermOpen * normal G$zb | setlocal nonumber | startinsert
+
+    autocmd TermOpen * setlocal nonumber
+    autocmd TermOpen * startinsert
 
     autocmd FileType python setlocal colorcolumn=+1 | set textwidth=79
 
@@ -128,7 +124,7 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'tpope/vim-commentary'
 Plug 'wellle/targets.vim'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sleuth'  " get tabs/spacing style from file
+Plug 'tpope/vim-sleuth'
 Plug 'chrisbra/Recover.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
@@ -150,21 +146,13 @@ call plug#end()
 " *** PLUGIN SETTINGS ***
 
 let g:RecoverPlugin_Edit_Unmodified = 1
-let g:gitgutter_map_keys = 0
-let g:gitgutter_sign_added = '++'
-let g:gitgutter_sign_modified = '±±'
-let g:gitgutter_sign_removed = '--'
-let g:gitgutter_sign_modified_removed = '±-'
-let g:gitgutter_sign_removed_first_line = '‾‾'
-let g:neomake_error_sign = {'text': '!!', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': '??', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign = {'text': 'mm', 'texthl': 'NeomakeMessageSign'}
-let g:neomake_info_sign = {'text': 'ii', 'texthl': 'NeomakeInfoSign'}
 let g:neomake_python_enabled_makers = ['pep257', 'mypy', 'pylint']
 let g:UltiSnipsEditSplit="vertical"
 let g:anzu_status_format = "%/ %#WarningMsg#[%i/%l]"
 
 " *** HIGHLIGHTING ***
+
+colorscheme hybrid
 
 highlight BufTabLineActive              ctermbg=0       ctermfg=12
 highlight BufTabLineCurrent             ctermbg=0       ctermfg=3
