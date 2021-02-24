@@ -40,6 +40,33 @@ set undofile
 set updatetime=300
 set wildmode=longest:full,list:full
 
+" *** PLUGINS ***
+
+call plug#begin()
+
+Plug 'osyo-manga/vim-anzu'
+Plug 'tpope/vim-commentary'
+Plug 'wellle/targets.vim'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-sleuth'
+Plug 'chrisbra/Recover.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
+Plug 'cespare/vim-toml', {'for': 'toml'}
+Plug 'dag/vim-fish', {'for': 'fish'}
+Plug 'jamessan/vim-gnupg'
+Plug 'ap/vim-css-color'
+Plug 'ap/vim-buftabline'
+Plug 'airblade/vim-gitgutter'
+Plug 'benekastah/neomake'
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+Plug 'Shougo/neco-syntax'
+Plug 'Shougo/neco-vim', {'for': 'vim'}
+Plug 'zchee/deoplete-jedi', {'for': 'python'}
+Plug 'SirVer/ultisnips'
+
+call plug#end()
+
 " *** AUTOCOMMANDS ***
 
 augroup MyAutoCommands
@@ -57,21 +84,16 @@ augroup MyAutoCommands
     autocmd InsertLeave * pclose!
     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
-    autocmd BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:ExpandSnippet()<cr>"
+    autocmd BufEnter * exec "inoremap <silent> <tab> <C-R>=g:ExpandJumpIterateTab()<cr>"
 augroup end
 
-function! g:ExpandSnippet()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res
-        return ""
-    endif
-    call UltiSnips#JumpForwards()
-    if g:ulti_jump_forwards_res
-        return ""
-    elseif pumvisible()
-        return "\<down>\<cr>"
-    endif
-    return "\<tab>"
+function! g:ExpandJumpIterateTab()
+    let out = ""
+    if UltiSnips#CanExpandSnippet() | call UltiSnips#ExpandSnippet()
+    elseif UltiSnips#CanJumpForwards() | call UltiSnips#JumpForwards()
+    elseif pumvisible() | let out = "\<down>\<cr>"
+    else | let out = "\<tab>" | endif
+    return out
 endfunction
 
 " *** MAPPINGS ***
@@ -115,33 +137,6 @@ nmap - <plug>Commentary
 vmap - <plug>Commentary
 xmap - <plug>Commentary
 omap - <plug>Commentary
-
-" *** PLUGINS ***
-
-call plug#begin()
-
-Plug 'osyo-manga/vim-anzu'
-Plug 'tpope/vim-commentary'
-Plug 'wellle/targets.vim'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sleuth'
-Plug 'chrisbra/Recover.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
-Plug 'cespare/vim-toml', {'for': 'toml'}
-Plug 'dag/vim-fish', {'for': 'fish'}
-Plug 'jamessan/vim-gnupg'
-Plug 'ap/vim-css-color'
-Plug 'ap/vim-buftabline'
-Plug 'airblade/vim-gitgutter'
-Plug 'benekastah/neomake'
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-Plug 'Shougo/neco-syntax'
-Plug 'Shougo/neco-vim', {'for': 'vim'}
-Plug 'zchee/deoplete-jedi', {'for': 'python'}
-Plug 'SirVer/ultisnips'
-
-call plug#end()
 
 " *** PLUGIN SETTINGS ***
 

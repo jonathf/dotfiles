@@ -2,11 +2,12 @@
 
 pushd ~/.password-store
 choices=$(command ls */*.gpg 2>/dev/null)
-selected=$(printf "%s\n" $choices | sed -e 's/.gpg//' | rofi -dmenu -no-custom)
+selected=$(printf "%s\n%s\n" $(cat /tmp/rofipass) $choices | sed -e 's/.gpg//' | rofi -dmenu -no-custom)
 popd
 
 [ -z "$selected" ] && exit
 
+echo $selected > /tmp/rofipass
 domain=$(dirname $selected)
 username=$(basename $selected)
 choices="autotype password $username $domain"
@@ -21,6 +22,7 @@ else
     printf "$username" | xsel -b
   else
     if [ "$action" = "$domain" ]; then
+      printf "$domain" | xsel -p
       printf "$domain" | xsel -b
     else
       if [ "$action" = "autotype" ]; then
