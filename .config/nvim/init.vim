@@ -32,7 +32,7 @@ set spelllang=en_us,nb              " Dual English/Norwegian spell checker
 set spell                           " Check my (natural language) spelling
 set splitbelow                      " make splits on below
 set splitright                      " make splits on right side
-set statusline+=\ %f%=%m%r\ %l:%c
+set statusline=\ %f%=%m\ %L
 set tabstop=4                       " number of spaces in a tab
 set tags^=.git/tags;~
 set undodir=~/.config/nvim/shada/undo
@@ -144,18 +144,19 @@ let g:RecoverPlugin_Edit_Unmodified = 1
 let g:neomake_python_enabled_makers = ['pep257', 'mypy', 'pylint']
 let g:UltiSnipsEditSplit="vertical"
 let g:anzu_status_format = "%/ %#WarningMsg#[%i/%l]"
+let g:buftabline_numbers = 1
 
 " *** HIGHLIGHTING ***
 
 colorscheme hybrid
 
-highlight BufTabLineActive              ctermbg=0       ctermfg=12
-highlight BufTabLineCurrent             ctermbg=0       ctermfg=3
-highlight BufTabLineFill                ctermbg=0
+highlight BufTabLineCurrent         cterm=bold  ctermbg=0   ctermfg=2
+highlight BufTabLineModifiedCurrent cterm=bold  ctermbg=0   ctermfg=3
+highlight BufTabLineActive              ctermbg=0       ctermfg=10
+highlight BufTabLineModifiedActive      ctermbg=0       ctermfg=11
 highlight BufTabLineHidden              ctermbg=0       ctermfg=15
-highlight BufTabLineModifiedActive      ctermbg=12      ctermfg=0
-highlight BufTabLineModifiedCurrent     ctermbg=3       ctermfg=0
-highlight BufTabLineModifiedHidden      ctermbg=15      ctermfg=0
+highlight BufTabLineModifiedHidden      ctermbg=0       ctermfg=9
+highlight BufTabLineFill                ctermbg=0
 
 highlight ColorColumn                   ctermbg=0
 highlight Comment      cterm=italic
