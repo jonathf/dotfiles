@@ -49,5 +49,3 @@
     email = jonathf@gmail.com
     name = Jonathan Feinberg
     signingkey = 558C5F4DBB8597A140DA91C53673F898D24A40A7
-[url "git@github.com:"]
-    insteadOf = https://github.com/

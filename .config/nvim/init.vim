@@ -1,69 +1,93 @@
 "*** GENERAL SETTING ***
 
-let g:python3_host_prog = '~/.config/nvim/venv/bin/python'
+" ** FILES **
 
-set backup
-set backupdir=~/.config/nvim/shada/backup
-set breakindent                     " break has same indentation
-set clipboard=unnamed,unnamedplus   " common clipboard for all vim sessions
-set completeopt=longest,menuone
-set copyindent                      " copy indentation on newline
-set directory=~/.config/nvim/shada/swap
-set expandtab                       " convert tabs to spaces
-set formatoptions=croqnlj           " continue commenting
-set gdefault                        " swap all by default
-set inccommand=nosplit
-set linebreak                       " auto-line break
-set list
-set listchars=tab:ᵗ\ ,trail:▮,nbsp:░
-set mouse=n                         " enable mouse
-set nofoldenable                    " disallow folding by default
-set nojoinspaces                    " 'J' after '.' creates single space.
-set nostartofline                   " leave the cursor in place
-set number                          " line numbering
+let g:python3_host_prog = '~/.config/nvim/venv/bin/python'
+set backup backupdir=~/.config/nvim/shada/backup
+set gdefault directory=~/.config/nvim/shada/swap
+set undofile undodir=~/.config/nvim/shada/undo
+set tags^=.git/tags;~
 set path+=**
-set previewheight=3
-set relativenumber                  " set relative number
-set scrolloff=5                     " never reach bottom
-set shiftround                      " rounds down number of spaces for alignment
+set spelllang=en_us,nb              " Dual English/Norwegian spell checker
+let $VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+
+" ** INDENTATION AND TABS **
+"
+set breakindent                     " break has same indentation
+set copyindent                      " copy indentation on newline
+set expandtab                       " convert tabs to spaces
 set shiftwidth=4                    " number of spaces in tabs
 set softtabstop=4                   " Insert spaces instead of tabs
-set spelllang=en_us,nb              " Dual English/Norwegian spell checker
-set spell                           " Check my (natural language) spelling
-set splitbelow                      " make splits on below
-set splitright                      " make splits on right side
-set statusline=\ %f%=%m\ %L
 set tabstop=4                       " number of spaces in a tab
-set tags^=.git/tags;~
-set undodir=~/.config/nvim/shada/undo
-set undofile
-set updatetime=300
+set nojoinspaces                    " 'J' after '.' creates single space.
+set shiftround                      " rounds down number of spaces for tab alignment
+set number relativenumber           " line numbering
+
+" ** VISUALS **
+
+set inccommand=nosplit
+set list listchars=tab:ᵗ\ ,trail:▮,nbsp:░
+set formatoptions=croqnlj           " continue commenting
+set previewheight=3
+set scrolloff=5                     " never reach bottom
+set linebreak                       " smart (fake) auto-line break
+set statusline=\ %f%=%m
+
+" ** BEHAVIOR **
+
+set clipboard=unnamed,unnamedplus   " common clipboard for all vim sessions
+set completeopt=longest,menuone
+set mouse=n                         " enable mouse
+set nofoldenable                    " disallow folding by default
+set nostartofline                   " leave the cursor in place
+set spell                           " Check my (natural language) spelling
+set splitbelow splitright           " default splits to down right position
 set wildmode=longest:full,list:full
 
 " *** PLUGINS ***
 
 call plug#begin()
 
-Plug 'osyo-manga/vim-anzu'
 Plug 'tpope/vim-commentary'
-Plug 'wellle/targets.vim'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
+Plug 'osyo-manga/vim-anzu'
+let g:anzu_status_format = "%/ %#WarningMsg#[%i/%l]"
+
+Plug 'wellle/targets.vim'
+
 Plug 'chrisbra/Recover.vim'
+let g:RecoverPlugin_Edit_Unmodified = 1
+
 Plug 'tpope/vim-fugitive'
+
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'cespare/vim-toml', {'for': 'toml'}
 Plug 'dag/vim-fish', {'for': 'fish'}
+
 Plug 'jamessan/vim-gnupg'
 Plug 'ap/vim-css-color'
-Plug 'ap/vim-buftabline'
+
 Plug 'airblade/vim-gitgutter'
+
 Plug 'benekastah/neomake'
+let g:neomake_python_enabled_makers = ['pep257', 'mypy', 'pylint']
+
+Plug 'kassio/neoterm'
+let g:neoterm_keep_term_open = 0
+let g:neoterm_default_mod = 'belowright vertical'
+
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-Plug 'Shougo/neco-syntax'
 Plug 'Shougo/neco-vim', {'for': 'vim'}
-Plug 'zchee/deoplete-jedi', {'for': 'python'}
+Plug 'deoplete-plugins/deoplete-tag'
+Plug 'deoplete-plugins/deoplete-jedi', {'for': 'python'}
+
 Plug 'SirVer/ultisnips'
+let g:UltiSnipsEditSplit="vertical"
+
+
+Plug 'ap/vim-buftabline'
+let g:buftabline_numbers = 1
 
 call plug#end()
 
@@ -71,14 +95,14 @@ call plug#end()
 
 augroup MyAutoCommands
     autocmd!
-    autocmd BufWritePre * let &backupext='-'.strftime("%y%m")
+    autocmd BufWritePre * ++once let &backupext='-'.strftime("%y%m")
     autocmd BufWritePost * Neomake
     autocmd CmdwinEnter * nnoremap <buffer> <esc> :q<cr>
 
     autocmd TermOpen * setlocal nonumber
     autocmd TermOpen * startinsert
 
-    autocmd FileType python setlocal colorcolumn=+1 | set textwidth=79
+    autocmd FileType python setlocal colorcolumn=+1 | set textwidth=80
 
     autocmd InsertEnter * call deoplete#enable()
     autocmd InsertLeave * pclose!
@@ -98,39 +122,54 @@ endfunction
 
 " *** MAPPINGS ***
 
-nnoremap s :silent! w<cr>
-cnoremap xa noau xa
-nnoremap <expr> <silent> 0 col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
-nnoremap <cr> <c-]>
-inoremap <nowait> jk <esc>
-cnoremap <nowait> jk <esc>
-tnoremap <esc> <c-\><c-n>
-nnoremap <tab> <c-w><c-w>
+" ** REMAPPING ÆØÅ **
 nnoremap <silent> å :silent exec ':cd '.system('git rev-parse --show-toplevel 2>/dev/null')<cr>
 nmap <silent> Å :vs<cr>å
 tmap <silent> å <c-\><c-n>å
 nnoremap <silent> æ :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>
 nmap <silent> Æ :vs<cr>æ
 tmap <silent> æ <c-\><c-n>æ
-nnoremap <silent> ø :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:edit term://$SHELL<cr>
-nnoremap Ø :vsplit<cr>:silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:edit term://$SHELL<cr>
-nnoremap D :quit<cr>
-nnoremap <space>s :set spell!<cr>
-nnoremap <space>+ z=
-nnoremap <space>\ ]s
-nnoremap <space>i zg]s
-nnoremap <space>j zz<c-d>zz
-nnoremap <space>k zz<c-u>zz
-vnoremap <space>j zz<c-d>zz
-vnoremap <space>k zz<c-u>zz
-nnoremap <space>l :bnext<cr>
-nnoremap <space>h :bprev<cr>
+nnoremap <silent> ø :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:Tnew<cr>
 
+" ** MY ESCAPE SEQUENCES **
+inoremap <nowait> jk <esc>
+cnoremap <nowait> jk <esc>
+inoremap <esc> <esc>
+tnoremap <esc> <c-\><c-n>
+tnoremap <c-v><esc> <esc>
+nmap <esc> <esc>:silent! nohls<cr><Plug>(anzu-clear-search-status)
+
+" ** IMPROVE THE DEFAULTS **
 nmap n <Plug>(anzu-n-with-echo)<Plug>(anzu-smart-sign-matchline)
 nmap N <Plug>(anzu-N-with-echo)<Plug>(anzu-smart-sign-matchline)
 nmap * <Plug>(anzu-star-with-echo)<Plug>(anzu-smart-sign-matchline)
 nmap # <Plug>(anzu-sharp-with-echo)<Plug>(anzu-smart-sign-matchline)
-nmap <esc> <esc>:silent! nohls<cr><Plug>(anzu-clear-search-status)
+
+" ** SOME PREFERRED CHANGES **
+nnoremap s :silent! w<cr>
+nnoremap D :quit<cr>
+cnoremap xa noau xa
+
+" ** CTRL-MOVE **
+nnoremap <c-l> <c-w>l
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+inoremap <c-l> <esc><c-w>l
+inoremap <c-h> <esc><c-w>h
+inoremap <c-j> <esc><c-w>j
+inoremap <c-k> <esc><c-w>k
+tnoremap <c-l> <c-\><c-n><c-w>l
+tnoremap <c-h> <c-\><c-n><c-w>h
+tnoremap <c-j> <c-\><c-n><c-w>j
+tnoremap <c-k> <c-\><c-n><c-w>k
+
+nnoremap <space>s :set spell!<cr>
+nnoremap <space>+ z=
+nnoremap <space>\ ]s
+nnoremap <space>i zg]s
+nnoremap <space>l :bnext<cr>
+nnoremap <space>h :bprev<cr>
 
 nnoremap -- :.,.Commentary<cr>j
 nmap - <plug>Commentary
@@ -138,29 +177,24 @@ vmap - <plug>Commentary
 xmap - <plug>Commentary
 omap - <plug>Commentary
 
-" *** PLUGIN SETTINGS ***
+nnoremap <space>r :w<cr>:TREPLSendLine<cr>
+nnoremap <space>p :w<cr>:T python %<cr><esc>
+nnoremap <space>t :w<cr>:T pytest --doctest-modules %<cr><esc>
 
-let g:RecoverPlugin_Edit_Unmodified = 1
-let g:neomake_python_enabled_makers = ['pep257', 'mypy', 'pylint']
-let g:UltiSnipsEditSplit="vertical"
-let g:anzu_status_format = "%/ %#WarningMsg#[%i/%l]"
-let g:buftabline_numbers = 1
 
 " *** HIGHLIGHTING ***
-
+"
 colorscheme hybrid
 
-highlight BufTabLineCurrent         cterm=bold  ctermbg=0   ctermfg=2
-highlight BufTabLineModifiedCurrent cterm=bold  ctermbg=0   ctermfg=3
+highlight BufTabLineCurrent             ctermbg=2       ctermfg=0
+highlight BufTabLineModifiedCurrent     ctermbg=3       ctermfg=0
 highlight BufTabLineActive              ctermbg=0       ctermfg=10
 highlight BufTabLineModifiedActive      ctermbg=0       ctermfg=11
 highlight BufTabLineHidden              ctermbg=0       ctermfg=15
-highlight BufTabLineModifiedHidden      ctermbg=0       ctermfg=9
 highlight BufTabLineFill                ctermbg=0
 
 highlight ColorColumn                   ctermbg=0
 highlight Comment      cterm=italic
-highlight LineNr                                        ctermfg=5
 highlight MatchParen   cterm=bold       ctermbg=0       ctermfg=None
 highlight Normal                        ctermbg=None
 highlight SpecialKey                                    ctermfg=7
@@ -169,8 +203,9 @@ highlight SpellCap     cterm=None       ctermbg=None    ctermfg=None
 highlight SpellLocal   cterm=underline  ctermbg=None    ctermfg=None
 highlight SpellRare    cterm=None       ctermbg=None    ctermfg=None
 highlight Statusline                    ctermbg=3       ctermfg=0
-highlight StatuslineNC                  ctermbg=12      ctermfg=0
+highlight StatuslineNC                  ctermbg=15      ctermfg=0
 highlight Visual                        ctermbg=8
+highlight TermCursorNC                  ctermbg=1       ctermfg=0
 
 highlight link NeomakeErrorSign GitgutterDelete
 highlight link NeomakeWarningSign GitgutterChange
