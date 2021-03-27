@@ -64,6 +64,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'Vimjas/vim-python-pep8-indent', {'for': 'python'}
 Plug 'cespare/vim-toml', {'for': 'toml'}
 Plug 'dag/vim-fish', {'for': 'fish'}
+Plug 'peterhoeg/vim-qml', {'for': 'qml'}
 
 Plug 'jamessan/vim-gnupg'
 Plug 'ap/vim-css-color'
