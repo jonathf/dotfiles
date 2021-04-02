@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+dmenu_run -c -bw 2 -l 20 -fn "Ubuntu Mono-16:normal" "$@"

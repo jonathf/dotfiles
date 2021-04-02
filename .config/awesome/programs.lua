@@ -19,3 +19,4 @@ awful.spawn.once("xmodmap -e \"keycode 9 = F12\"")
 -- Applets
 awful.spawn.once("blueman-applet")
 awful.spawn.once("powerkit")
+awful.spawn.once("xinput set-prop \"ELAN0670:00 04F3:3150\" \"Synaptics Palm Detection\" 1")

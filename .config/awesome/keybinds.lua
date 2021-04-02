@@ -12,9 +12,9 @@ globalkeys = awful.util.table.join(
     awful.key({modkey, "Control"}, "q", awesome.quit),
 
     awful.key({modkey}, "v", function() awful.spawn("qutebrowser") end),
-    awful.key({modkey}, "r", function() awful.spawn("rofi -show drun") end),
-    awful.key({modkey}, "p", function() awful.spawn("fish -c rofipass") end),
-    awful.key({modkey}, "i", function() awful.spawn("fish -c rofiinsert") end),
+    awful.key({modkey}, "r", function() awful.spawn("drun") end),
+    awful.key({modkey}, "p", function() awful.spawn("dpass") end),
+    awful.key({modkey}, "i", function() awful.spawn("dinsert") end),
     awful.key({modkey, "Control"}, "l", function() awful.spawn("xtrlock") end),
 
     -- the 'j' key

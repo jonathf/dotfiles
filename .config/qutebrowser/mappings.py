@@ -29,9 +29,6 @@ def set_mappings(c, config):
         'youtube-dl': 'spawn alacritty -e youtube-dl {url}',
     }
 
-    for idx in range(1, 100):
-        config.bind('<Space>%02d' % idx, 'tab-focus %d' % idx)
-
     ## Bindings for normal mode
     config.bind('p', 'back')
     config.bind('l', 'tab-next')

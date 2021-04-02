@@ -6,6 +6,6 @@ function nvim --description 'alias nvim nvim' --wraps 'nvim'
     else if test -z "$NVIM_LISTEN_ADDRESS"
         command nvim $argv;
     else
-        nvr $argv
+        $HOME/.config/nvim/venv/bin/nvr $argv
     end
 end
