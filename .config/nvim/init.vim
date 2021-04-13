@@ -46,9 +46,7 @@ set wildmode=longest:full,list:full
 
 " *** PLUGINS ***
 
-highlight ErrorMsg   ctermbg=5 ctermfg=8
 call plug#begin()
-Plug 'goerz/jupytext.vim'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
@@ -118,6 +116,7 @@ highlight Statusline                    ctermbg=3       ctermfg=0
 highlight StatuslineNC                  ctermbg=15      ctermfg=0
 highlight Visual                        ctermbg=8
 highlight TermCursorNC                  ctermbg=1       ctermfg=0
+highlight ErrorMsg                      ctermbg=None       ctermfg=1
 
 highlight link NeomakeErrorSign GitgutterDelete
 highlight link NeomakeWarningSign GitgutterChange

@@ -1,4 +1,4 @@
-Various Dot-Configuration Files
+My personal configuration files
 ===============================
 
 This repository is meant to be used using git bare, as described here:
@@ -15,29 +15,32 @@ configuring, start by add a temporary alias for your session:
 
 .. code:: bash
 
-   alias _git="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
+   alias config="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 
 With it in place, check which files are in conflict with:
 
 .. code:: bash
 
-   _git status
+   config status
 
 Delete or move the files that are in the way. Then do the following to copy
 files from the git folder to your home:
 
 .. code:: bash
 
-   _git reset --hard master
+   config reset --hard master
 
-If using ``bash`` or ``fish``, the ``git`` command will now get a permanent
-function wrapper such that it works with dot files, but will be smart enough to
-turn it off when you are in a regular git folder.
+The script ``config`` should now be present in ``~/.local/bin`` making it
+persistently available.
 
-Overview
---------
+Sub-categories
+--------------
 
-* Awesome WM: ``~/.config/awesome/README.rst``
-* FiSH: ``~/.config/fish/README.rst``
-* GnuPG/Pass: ``~/.gnupg/README.rst``
-* Neovim: ``~/.config/nvim/README.rst``
+Some topics requires extra installs and/or configuration.
+These topics are covered here:
+
+* Awesome WM: `.config/awesome <../.config/awesome/>`_
+* FiSH: `.config/fish <../.config/fish/>`_
+* GnuPG/Pass: `.gnupg <../.gnupg/README.rst>`_
+* Neovim: `.config/neovim <../.config/nvim/>`_
+* Systemd: `.config/systemd <../.config/systemd>`_
