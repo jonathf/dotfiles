@@ -99,8 +99,8 @@ Connect ``pass`` to the GnuPG like this::
 
     $ pass init 558C5F4DBB8597A140DA91C53673F898D24A40A7
 
-Using ``rofipass`` (and ``rofiinsert``)
----------------------------------------
+Using ``dpass`` (and ``dinsert``)
+---------------------------------
 
 The frontend wrapper needs some extra dependencies. For Arch::
 

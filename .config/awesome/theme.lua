@@ -2,13 +2,13 @@ local awful = require("awful")
 config_path = awful.util.getdir("config")
 
 theme = {}
-theme.wallpaper = config_path .. "background.png"
+theme.wallpaper = config_path .. "pics/background.png"
 theme.font = "Ubuntu Mono derivative Powerline Bold 10"
 
-theme.bg_normal = "#00000000"
+theme.bg_normal = "#00000055"
 theme.fg_normal = "#425059"
 
-theme.bg_focus = "#00000000"
+theme.bg_focus = "#00000055"
 theme.fg_focus = "#5f819d"
 
 theme.bg_urgent = "#a54242"
@@ -23,7 +23,7 @@ theme.fg_tooltip = "#8c9440"
 theme.bg_em = "#000000"
 theme.fg_em = "#b294bb"
 
-theme.bg_systray = "#00000000"
+theme.bg_systray = "#00000033"
 theme.useless_gap = 10
 
 theme.border_width = "0"

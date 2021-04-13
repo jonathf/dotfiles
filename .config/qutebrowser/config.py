@@ -91,7 +91,7 @@ container.downloads.location.prompt = False
 ## `{line0}`: Same as `{line}`, but starting from index 0. * `{column0}`:
 ## Same as `{column}`, but starting from index 0.
 ## Type: ShellCommand
-container.editor.command = ["alacritty", "-e", "nvim", "{}"]
+container.editor.command = ["alacritty", "-e", "sh", "-c", "sleep 0.1 && nvim {}"]
 
 ## Default font size to use. Whenever "default_size" is used in a font
 ## setting, it's replaced with the size listed here. Valid values are

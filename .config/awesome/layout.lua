@@ -5,6 +5,12 @@ local wibox = require("wibox")
 local vicious = require("vicious")
 local beautiful = require("beautiful")
 
+local battery_widget = require("widgets.battery")
+local volume_widget = require('widgets.volume')
+local brightness_widget = require("widgets.brightness")
+local logout_menu_widget = require("widgets.logout-menu")
+
+
 local markup = lain.util.markup
 os.setlocale(os.getenv("LANG")) -- to localize the clock
 
@@ -12,7 +18,7 @@ local function set_wallpaper(screen)
     gears.wallpaper.maximized(beautiful.wallpaper, screen, true)
 end
 -- reset wallpaper on each screen resize:
-screen.connect_signal("preoperty::geometry", set_wallpaper)
+screen.connect_signal("property::geometry", set_wallpaper)
 
 -- buttons for tags and tasks:
 local taglist_buttons = awful.util.table.join(
@@ -46,29 +52,6 @@ local mytextclock = wibox.widget.textclock(
     markup("#8c9440", "%a %d.%m %H:%M"))
 mytextclock.font = theme.font
 
--- battery widget:
-mybattery = wibox.widget.textbox()
-vicious.register(
-    mybattery,
-    vicious.widgets.bat,
-    function(widget, args)
-        return markup("#de935f", args[1] .. args[2])
-    end,
-    nil,
-    "BAT0"
-)
-
--- volume widget:
-vicious.cache(vicious.widgets.volume)
-myvolume = wibox.widget.textbox()
-vicious.register(
-    myvolume,
-    vicious.widgets.volume,
-    markup("#5e8d87", "$1%"),
-    nil,
-    "Master"
-)
-
 -- on connect of each new screen:
 awful.screen.connect_for_each_screen(function(screen)
 
@@ -98,12 +81,15 @@ awful.screen.connect_for_each_screen(function(screen)
     layouts:set_left(layout)
 
     local layout = wibox.layout.fixed.horizontal()
-    layout:add(mybattery)
+    layout:add(battery_widget())
     layout:add(sep)
-    layout:add(myvolume)
+    layout:add(volume_widget())
+    layout:add(sep)
+    layout:add(brightness_widget())
     layout:add(sep)
     layout:add(mytextclock)
     layout:add(sep)
+    layout:add(logout_menu_widget())
     layout:add(sep)
     layouts:set_right(layout)
 

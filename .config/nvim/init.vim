@@ -1,6 +1,6 @@
-"*** GENERAL SETTING ***
+""*** GENERAL SETTING ***
 
-" ** FILES **
+"" ** FILES **
 
 let g:python3_host_prog = '~/.config/nvim/venv/bin/python'
 set backup backupdir=~/.config/nvim/shada/backup
@@ -46,7 +46,9 @@ set wildmode=longest:full,list:full
 
 " *** PLUGINS ***
 
+highlight ErrorMsg   ctermbg=5 ctermfg=8
 call plug#begin()
+Plug 'goerz/jupytext.vim'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
@@ -91,6 +93,34 @@ Plug 'ap/vim-buftabline'
 let g:buftabline_numbers = 1
 
 call plug#end()
+
+" *** HIGHLIGHTING ***
+
+colorscheme hybrid
+
+highlight BufTabLineCurrent             ctermbg=2       ctermfg=0
+highlight BufTabLineModifiedCurrent     ctermbg=3       ctermfg=0
+highlight BufTabLineActive              ctermbg=0       ctermfg=10
+highlight BufTabLineModifiedActive      ctermbg=0       ctermfg=11
+highlight BufTabLineHidden              ctermbg=0       ctermfg=15
+highlight BufTabLineFill                ctermbg=0
+
+highlight ColorColumn                   ctermbg=0
+highlight Comment       cterm=italic
+highlight MatchParen    cterm=bold      ctermbg=0       ctermfg=None
+highlight Normal                        ctermbg=None
+highlight SpecialKey                                    ctermfg=7
+highlight SpellBad      cterm=underline ctermbg=None    ctermfg=None
+highlight SpellCap      cterm=None      ctermbg=None    ctermfg=None
+highlight SpellLocal    cterm=underline ctermbg=None    ctermfg=None
+highlight SpellRare     cterm=None      ctermbg=None    ctermfg=None
+highlight Statusline                    ctermbg=3       ctermfg=0
+highlight StatuslineNC                  ctermbg=15      ctermfg=0
+highlight Visual                        ctermbg=8
+highlight TermCursorNC                  ctermbg=1       ctermfg=0
+
+highlight link NeomakeErrorSign GitgutterDelete
+highlight link NeomakeWarningSign GitgutterChange
 
 " *** AUTOCOMMANDS ***
 
@@ -181,32 +211,3 @@ omap - <plug>Commentary
 nnoremap <space>r :w<cr>:TREPLSendLine<cr>
 nnoremap <space>p :w<cr>:T python %<cr><esc>
 nnoremap <space>t :w<cr>:T pytest --doctest-modules %<cr><esc>
-
-
-" *** HIGHLIGHTING ***
-"
-colorscheme hybrid
-
-highlight BufTabLineCurrent             ctermbg=2       ctermfg=0
-highlight BufTabLineModifiedCurrent     ctermbg=3       ctermfg=0
-highlight BufTabLineActive              ctermbg=0       ctermfg=10
-highlight BufTabLineModifiedActive      ctermbg=0       ctermfg=11
-highlight BufTabLineHidden              ctermbg=0       ctermfg=15
-highlight BufTabLineFill                ctermbg=0
-
-highlight ColorColumn                   ctermbg=0
-highlight Comment      cterm=italic
-highlight MatchParen   cterm=bold       ctermbg=0       ctermfg=None
-highlight Normal                        ctermbg=None
-highlight SpecialKey                                    ctermfg=7
-highlight SpellBad     cterm=underline  ctermbg=None    ctermfg=None
-highlight SpellCap     cterm=None       ctermbg=None    ctermfg=None
-highlight SpellLocal   cterm=underline  ctermbg=None    ctermfg=None
-highlight SpellRare    cterm=None       ctermbg=None    ctermfg=None
-highlight Statusline                    ctermbg=3       ctermfg=0
-highlight StatuslineNC                  ctermbg=15      ctermfg=0
-highlight Visual                        ctermbg=8
-highlight TermCursorNC                  ctermbg=1       ctermfg=0
-
-highlight link NeomakeErrorSign GitgutterDelete
-highlight link NeomakeWarningSign GitgutterChange

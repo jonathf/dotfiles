@@ -19,6 +19,7 @@ export RIPGREP_CONFIG_PATH=$HOME/.config/ripgreprc
 export VISUAL="nvim"
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
 export MANPAGER='nvim +Man!'
+export TERM="alacritty"
 
 # Man page colors
 export LESS_TERMCAP_md=$(printf "\e[01;32m")    # bold

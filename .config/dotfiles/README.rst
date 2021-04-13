@@ -15,20 +15,20 @@ configuring, start by add a temporary alias for your session:
 
 .. code:: bash
 
-   alias git="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
+   alias _git="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
 
 With it in place, check which files are in conflict with:
 
 .. code:: bash
 
-   git status
+   _git status
 
 Delete or move the files that are in the way. Then do the following to copy
 files from the git folder to your home:
 
 .. code:: bash
 
-   git reset --hard master
+   _git reset --hard master
 
 If using ``bash`` or ``fish``, the ``git`` command will now get a permanent
 function wrapper such that it works with dot files, but will be smart enough to

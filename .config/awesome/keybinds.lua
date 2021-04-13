@@ -2,6 +2,9 @@ local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
 
+local brightness_widget = require("widgets.brightness")
+local volume_widget = require("widgets.volume")
+
 modkey = "Mod4"
 
 globalkeys = awful.util.table.join(
@@ -80,32 +83,19 @@ globalkeys = awful.util.table.join(
     awful.key({modkey, "Shift"}, "o", awful.client.movetoscreen),
 
    -- volume, brightness and print
-   awful.key({}, "XF86AudioRaiseVolume", function()
-           awful.util.spawn("amixer -D pulse sset Master 10%+ unmute") end),
-   awful.key({}, "XF86AudioLowerVolume", function()
-           awful.util.spawn("amixer -D pulse sset Master 10%- unmute") end),
-   awful.key({modkey}, "F3", function()
-           awful.util.spawn("amixer -D pulse sset Master 100% unmute") end),
-   awful.key({modkey}, "F2", function()
-           awful.util.spawn("amixer -D pulse sset Master 10% unmute") end),
-   awful.key({}, "XF86AudioMute", function()
-           awful.util.spawn("amixer -D pulse sset Master toggle") end),
-   awful.key({}, "XF86MonBrightnessDown", function()
-           awful.spawn.with_shell('xbacklight_sqrt -dec 2.5') end),
-   awful.key({modkey}, "XF86MonBrightnessDown", function()
-           awful.spawn.with_shell('xbacklight -set 0.1') end),
-   awful.key({}, "XF86MonBrightnessUp", function()
-           awful.spawn.with_shell('xbacklight_sqrt -inc 4') end),
-   awful.key({modkey}, "XF86MonBrightnessUp", function()
-           awful.spawn.with_shell('xbacklight -set 100') end),
-   awful.key({modkey}, "F4", function()
-           awful.util.spawn("bluetoothctl connect 4c:87:5d:2d:1b:99") end),
-   awful.key({modkey}, "F7", function()
-           awful.spawn.with_shell("xrandr --auto --output eDP1 --below HDMI1") end),
-   awful.key({modkey}, "F8", function()
-           awful.spawn.with_shell("nmcli connection up 'unifon'") end),
-   awful.key({}, "Print", function()
-           awful.util.spawn("scrot -e 'mv $f ~/tmp/screenshots/ 2>/dev/null'") end),
+   awful.key({}, "XF86AudioRaiseVolume", function() volume_widget:inc(5) end),
+   awful.key({modkey}, "XF86AudioRaiseVolume", function() volume_widget:inc(100) end),
+   awful.key({}, "XF86AudioLowerVolume", function() volume_widget:dec(5) end),
+   awful.key({modkey}, "XF86AudioLowerVolume", function() volume_widget:dec(100) end),
+   awful.key({}, "XF86AudioMute", function() volume_widget:toggle() end),
+   awful.key({}, "XF86MonBrightnessDown", function() brightness_widget:dec(5) end),
+   awful.key({modkey}, "XF86MonBrightnessDown", function() brightness_widget:dec(100) end),
+   awful.key({}, "XF86MonBrightnessUp", function() brightness_widget:inc(5) end),
+   awful.key({modkey}, "XF86MonBrightnessUp", function() brightness_widget:inc(100) end),
+   awful.key({modkey}, "F4", function() awful.util.spawn("bluetoothctl connect 4c:87:5d:2d:1b:99") end),
+   awful.key({modkey}, "F7", function() awful.spawn.with_shell("xrandr --auto --output eDP1 --below HDMI1") end),
+   awful.key({modkey}, "F8", function() awful.spawn.with_shell("nmcli connection up 'unifon'") end),
+   awful.key({}, "Print", function() awful.util.spawn("scrot -e 'mv $f ~/tmp/screenshots/ 2>/dev/null'") end),
 
     -- the 'space' key
     awful.key({modkey}, "space", function()
