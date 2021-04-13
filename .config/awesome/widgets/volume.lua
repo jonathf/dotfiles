@@ -25,12 +25,12 @@ local volume = {
     widget = wibox.widget {
         {
             id = "icon",
-            image = os.getenv("HOME").."/.config/awesome/pics/volume.svg",
+            image = os.getenv("HOME").."/.config/awesome/pics/volume_up_white_24dp.svg",
             resize = true,
             widget = wibox.widget.imagebox,
         },
         max_value = 100,
-        thickness = 4,
+        thickness = 3,
         start_angle = 4.71238898, -- 2pi*3/4
         forced_height = size,
         forced_width = size,

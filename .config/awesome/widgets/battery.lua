@@ -28,29 +28,51 @@ local warning_msg_title = 'Houston, we have a problem'
 local warning_msg_text = 'Battery is dying'
 local warning_msg_position = 'bottom_right'
 
-local batteryarc_widget = {}
-
-local function worker(user_args)
-
-    local text = wibox.widget {
-        align = 'center',
-        valign = 'center',
-        widget = wibox.widget.textbox
-    }
-
-    local text_with_background = wibox.container.background(text)
-
-    batteryarc_widget = wibox.widget {
-        text_with_background,
+local container = {
+    widget = wibox.widget {
+        {
+            id = "icon",
+            image = os.getenv("HOME").."/.config/awesome/pics/bolt_white_24dp.svg",
+            resize = true,
+            widget = wibox.widget.imagebox,
+        },
         max_value = 100,
         rounded_edge = true,
-        thickness = 4,
+        thickness = 3,
         start_angle = 4.71238898, -- 2pi*3/4
         forced_height = 22,
         forced_width = 22,
         bg = bg_color,
         paddings = 2,
-        widget = wibox.container.arcchart
+        widget = wibox.container.arcchart,
+        charging = function(self) self.colors = { charging_color } end,
+        discharging = function(self) self.colors = { main_color } end
+    }
+}
+
+
+local batteryarc_widget = {}
+
+local function worker(user_args)
+
+    batteryarc_widget = wibox.widget {
+        {
+            id = "icon",
+            image = os.getenv("HOME").."/.config/awesome/pics/bolt_white_24dp.svg",
+            resize = true,
+            widget = wibox.widget.imagebox,
+        },
+        max_value = 100,
+        rounded_edge = true,
+        thickness = 3,
+        start_angle = 4.71238898, -- 2pi*3/4
+        forced_height = 22,
+        forced_width = 22,
+        bg = bg_color,
+        paddings = 2,
+        widget = wibox.container.arcchart,
+        charging = function(self) self.colors = { charging_color } end,
+        discharging = function(self) self.colors = { main_color } end
     }
 
     local last_battery_check = os.time()
@@ -85,15 +107,9 @@ local function worker(user_args)
 
         widget.value = charge
 
-        if status == 'Charging' then
-            text_with_background.bg = charging_color
-            text_with_background.fg = '#000000'
-        else
-            text_with_background.bg = '#00000000'
-            text_with_background.fg = main_color
+        if status ~= 'Charging' then
+            widget.colors = { charging_color }
         end
-
-        text.text = ''
 
         if charge < 15 then
             widget.colors = { low_level_color }

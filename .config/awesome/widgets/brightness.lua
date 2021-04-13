@@ -26,7 +26,7 @@ local function worker(user_args)
     brightness_widget.widget = wibox.widget {
         {
             {
-                image = os.getenv("HOME")..'/.config/awesome/pics/brightness.svg',
+                image = os.getenv("HOME")..'/.config/awesome/pics/light_mode_white_24dp.svg',
                 resize = true,
                 widget = wibox.widget.imagebox,
             },
@@ -34,7 +34,7 @@ local function worker(user_args)
             layout = wibox.container.place
         },
         max_value = 100,
-        thickness = 4,
+        thickness = 3,
         start_angle = 4.71238898, -- 2pi*3/4
         forced_height = 22,
         forced_width = 22,

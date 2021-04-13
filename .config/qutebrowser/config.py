@@ -77,7 +77,7 @@ container.content.plugins = True
 ## Directory to save downloads to. If unset, a sensible OS-specific
 ## default is used.
 ## Type: Directory
-container.downloads.location.directory = "/home/jonathf/tmp/"
+container.downloads.location.directory = "/home/jonathf/temp/"
 
 ## Prompt the user for the download location. If set to false,
 ## `downloads.location.directory` will be used.
