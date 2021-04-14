@@ -8,23 +8,4 @@ popd
 [ -z "$selected" ] && exit
 
 echo $selected > /tmp/dpass
-domain=$(dirname $selected)
-username=$(basename $selected)
-choices="autotype password $username $domain"
-action=$(printf "%s\n" $choices | dmenu -c -bw 2 -l 20 -fn "Ubuntu Mono-14:normal")
-
-if [ "$action" = "password" ]; then
-  pass show $selected | sed -e 's/\n//' | xsel -p
-  pass show $selected | sed -e 's/\n//' | xsel -b
-else if [ "$action" = "$username" ]; then
-  printf "$username" | xsel -p
-  printf "$username" | xsel -b
-else if [ "$action" = "$domain" ]; then
-  printf "$domain" | xsel -p
-  printf "$domain" | xsel -b
-else if [ "$action" = "autotype" ]; then
-  sleep 0.2
-  printf "$username" | xdotool type --delay 12 --clearmodifiers --file -
-  xdotool key Tab
-  pass show $selected | sed -e 's/\n//' | xdotool type --delay 12 --clearmodifiers --file -
-fi fi fi fi
+dpass_insert

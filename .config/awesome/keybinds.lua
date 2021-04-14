@@ -5,54 +5,52 @@ require("awful.autofocus")
 local brightness_widget = require("widgets.brightness")
 local volume_widget = require("widgets.volume")
 
-modkey = "Mod4"
+nop = {}
+mod = {"Mod4"}
+mod_ctrl = {"Mod4", "Control"}
+mod_shift = {"Mod4", "Shift"}
+mod_shift_ctrl = {"Mod4", "Shift", "Control"}
+
 
 globalkeys = awful.util.table.join(
 
     -- command keys
-    awful.key({modkey}, "Return", function() awful.spawn(terminal) end),
-    awful.key({modkey, "Control"}, "r", awesome.restart),
-    awful.key({modkey, "Control"}, "q", awesome.quit),
+    awful.key(mod, "Return", function() awful.spawn(terminal) end),
+    awful.key(mod_ctrl, "r", awesome.restart),
+    awful.key(mod_ctrl, "q", awesome.quit),
 
-    awful.key({modkey}, "v", function() awful.spawn("qutebrowser") end),
-    awful.key({modkey}, "r", function() awful.spawn("drun") end),
-    awful.key({modkey}, "p", function() awful.spawn("dpass") end),
-    awful.key({modkey}, "i", function() awful.spawn("dinsert") end),
-    awful.key({modkey, "Control"}, "l", function() awful.spawn("xtrlock") end),
+    awful.key(mod, "v", function() awful.spawn("qutebrowser") end),
+    awful.key(mod, "r", function() awful.spawn("drun") end),
+    awful.key(mod, "p", function() awful.spawn("dpass") end),
+    awful.key(mod_shift, "p", function() awful.spawn("dpass_insert") end),
+    awful.key(mod, "i", function() awful.spawn("dinsert") end),
+    awful.key(mod_ctrl, "l", function() awful.spawn("xtrlock") end),
 
     -- the 'j' key
-    awful.key({modkey}, "j",
+    awful.key(mod, "j",
         function()
             awful.client.focus.byidx(1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({modkey, "Shift"}, "j",
-        function() awful.client.swap.byidx(1) end),
-    awful.key({modkey, "Control"}, "j",
-        function() awful.screen.focus_relative( 1) end),
-    awful.key({modkey, "Control", "Shift"}, "j",
-        function() awful.tag.incncol(1) end),
+    awful.key(mod_shift, "j", function() awful.client.swap.byidx(1) end),
+    awful.key(mod_ctrl, "j", function() awful.screen.focus_relative( 1) end),
+    awful.key(mod_shift_ctrl, "j", function() awful.tag.incncol(1) end),
 
     -- the 'k' key
-    awful.key({modkey}, "k",
+    awful.key(mod, "k",
         function()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({modkey, "Shift"}, "k",
-        function() awful.client.swap.byidx(-1) end),
-    awful.key({modkey, "Control"}, "k",
-        function() awful.screen.focus_relative(-1) end),
-    awful.key({modkey, "Control", "Shift"}, "k",
-        function() awful.tag.incncol(-1) end),
+    awful.key(mod_shift, "k", function() awful.client.swap.byidx(-1) end),
+    awful.key(mod_ctrl, "k", function() awful.screen.focus_relative(-1) end),
+    awful.key(mod_shift_ctrl, "k", function() awful.tag.incncol(-1) end),
 
     -- the 'h' key
-    awful.key({modkey,}, "h", awful.tag.viewprev),
-    awful.key({modkey, "Control"}, "h",
-        function() awful.tag.incmwfact(-0.05) end),
-    awful.key({modkey, "Control", "Shift"}, "h",
-        function() awful.tag.incnmaster(1) end),
-    awful.key({modkey, "Shift"}, "h",
+    awful.key(mod, "h", awful.tag.viewprev),
+    awful.key(mod_ctrl, "h", function() awful.tag.incmwfact(-0.05) end),
+    awful.key(mod_shift_ctrl, "h", function() awful.tag.incnmaster(1) end),
+    awful.key(mod_shift, "h",
         function()
             if client.focus then
                 local idx = awful.tag.getidx()-1
@@ -63,12 +61,10 @@ globalkeys = awful.util.table.join(
         end),
 
     -- the 'l' key
-    awful.key({modkey}, "l", awful.tag.viewnext),
-    awful.key({modkey, "Control"}, "l",
-        function() awful.tag.incmwfact( 0.05) end),
-    awful.key({modkey, "Control", "Shift"}, "l",
-        function() awful.tag.incnmaster(-1) end),
-    awful.key({modkey, "Shift"}, "l",
+    awful.key(mod, "l", awful.tag.viewnext),
+    awful.key(mod_ctrl, "l", function() awful.tag.incmwfact( 0.05) end),
+    awful.key(mod_shift_ctrl, "l", function() awful.tag.incnmaster(-1) end),
+    awful.key(mod_shift, "l",
         function()
             if client.focus then
                 local idx = awful.tag.getidx()+1
@@ -79,38 +75,36 @@ globalkeys = awful.util.table.join(
         end),
 
     -- the 'o' key
-    awful.key({modkey,}, "o", function() awful.screen.focus_relative(1) end),
-    awful.key({modkey, "Shift"}, "o", awful.client.movetoscreen),
+    awful.key(mod, "o", function() awful.screen.focus_relative(1) end),
+    awful.key(mod_shift, "o", awful.client.movetoscreen),
 
    -- volume, brightness and print
-   awful.key({}, "XF86AudioRaiseVolume", function() volume_widget:inc(5) end),
-   awful.key({modkey}, "XF86AudioRaiseVolume", function() volume_widget:inc(100) end),
-   awful.key({}, "XF86AudioLowerVolume", function() volume_widget:dec(5) end),
-   awful.key({modkey}, "XF86AudioLowerVolume", function() volume_widget:dec(100) end),
-   awful.key({}, "XF86AudioMute", function() volume_widget:toggle() end),
-   awful.key({}, "XF86MonBrightnessDown", function() brightness_widget:dec(5) end),
-   awful.key({modkey}, "XF86MonBrightnessDown", function() brightness_widget:dec(100) end),
-   awful.key({}, "XF86MonBrightnessUp", function() brightness_widget:inc(5) end),
-   awful.key({modkey}, "XF86MonBrightnessUp", function() brightness_widget:inc(100) end),
-   awful.key({modkey}, "F4", function() awful.util.spawn("bluetoothctl connect 4c:87:5d:2d:1b:99") end),
-   awful.key({modkey}, "F7", function() awful.spawn.with_shell("xrandr --auto --output eDP1 --below HDMI1") end),
-   awful.key({modkey}, "F8", function() awful.spawn.with_shell("nmcli connection up 'unifon'") end),
-   awful.key({}, "Print", function() awful.util.spawn("scrot -e 'mv $f ~/tmp/screenshots/ 2>/dev/null'") end),
+   awful.key(nop, "XF86AudioRaiseVolume", function() volume_widget:inc(5) end),
+   awful.key(mod, "XF86AudioRaiseVolume", function() volume_widget:inc(100) end),
+   awful.key(nop, "XF86AudioLowerVolume", function() volume_widget:dec(5) end),
+   awful.key(mod, "XF86AudioLowerVolume", function() volume_widget:dec(100) end),
+   awful.key(nop, "XF86AudioMute", function() volume_widget:toggle() end),
+   awful.key(nop, "XF86MonBrightnessDown", function() brightness_widget:dec(5) end),
+   awful.key(mod, "XF86MonBrightnessDown", function() brightness_widget:dec(100) end),
+   awful.key(nop, "XF86MonBrightnessUp", function() brightness_widget:inc(5) end),
+   awful.key(mod, "XF86MonBrightnessUp", function() brightness_widget:inc(100) end),
+   awful.key(mod, "F4", function() awful.util.spawn("bluetoothctl connect 4c:87:5d:2d:1b:99") end),
+   awful.key(mod, "F7", function() awful.spawn.with_shell("xrandr --auto --output eDP1 --below HDMI1") end),
+   awful.key(mod, "F8", function() awful.spawn.with_shell("nmcli connection up 'unifon'") end),
+   awful.key(nop, "Print", function() awful.util.spawn("scrot -e 'mv $f ~/tmp/screenshots/ 2>/dev/null'") end),
 
     -- the 'space' key
-    awful.key({modkey}, "space", function()
-        awful.layout.inc(1, awful.screen.focused(),
-            awful.layout.layouts) end)
+    awful.key(mod, "space", function() awful.layout.inc(1, awful.screen.focused(), awful.layout.layouts) end)
 )
 
 -- number keys:
 for i = 1, 9 do
     globalkeys = awful.util.table.join(globalkeys,
-        awful.key({modkey}, "#" .. i + 9, function()
+        awful.key(mod, "#" .. i + 9, function()
             local tag = awful.screen.focused().tags[i]
             if tag then tag:view_only() end
         end),
-        awful.key({ modkey, "Shift" }, "#" .. i + 9, function()
+        awful.key(mod_shift, "#" .. i + 9, function()
             if client.focus then
                 local tag = client.focus.screen.tags[i]
                 if tag then client.focus:move_to_tag(tag) end
@@ -122,12 +116,13 @@ for i = 1, 9 do
 end
 root.keys(globalkeys)
 root.buttons(awful.util.table.join(
-   awful.button({}, 1, function(c) client.focus = c end)))
-
+   awful.button(nop, 1, function(c) client.focus = c end))
+)
 clientkeys = awful.util.table.join(
-    awful.key({modkey}, "f", function(c) c.fullscreen = not c.fullscreen end),
-    awful.key({modkey, "Control"}, "c", function(c) c:kill() end),
-    awful.key({modkey, "Shift"}, "o", function(c) c.move_to_screen() end)
+   awful.key(mod, "f", function(c) c.fullscreen = not c.fullscreen end),
+   awful.key(mod_ctrl, "c", function(c) c:kill() end),
+   awful.key(mod_shift, "o", function(c) c.move_to_screen() end)
 )
 clientbuttons = awful.util.table.join(
-    awful.button({}, 1, function(c) client.focus = c end))
+   awful.button(nop, 1, function(c) client.focus = c end)
+)
