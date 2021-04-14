@@ -3,7 +3,7 @@ import qutebrowser
 container: qutebrowser.config.config.ConfigContainer = c
 config: qutebrowser.config.configfiles.ConfigAPI = config
 
-config.load_autoconfig(True)
+# config.load_autoconfig(True)
 
 container.colors.webpage.bg = None
 container.colors.webpage.darkmode.enabled = True

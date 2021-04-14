@@ -33,6 +33,10 @@ files from the git folder to your home:
 The script ``config`` should now be present in ``~/.local/bin`` making it
 persistently available.
 
+Lastly, remove untracked file locally to make the interface more bareable::
+
+   config config --local status.showUntrackedFiles no
+
 Sub-categories
 --------------
 
