@@ -32,6 +32,7 @@ set previewheight=3
 set scrolloff=5                     " never reach bottom
 set linebreak                       " smart (fake) auto-line break
 set statusline=\ %f%=%m
+set lazyredraw
 
 " ** BEHAVIOR **
 
@@ -77,6 +78,7 @@ let g:neomake_python_enabled_makers = ['pep257', 'mypy', 'pylint']
 Plug 'kassio/neoterm'
 let g:neoterm_keep_term_open = 0
 let g:neoterm_default_mod = 'belowright vertical'
+let g:neoterm_autoinsert = 1
 
 Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'Shougo/neco-vim', {'for': 'vim'}
@@ -126,8 +128,8 @@ highlight link NeomakeWarningSign GitgutterChange
 augroup MyAutoCommands
     autocmd!
     autocmd BufWritePre * ++once let &backupext='-'.strftime("%y%m")
-    autocmd BufWritePost * Neomake
     autocmd CmdwinEnter * nnoremap <buffer> <esc> :q<cr>
+    autocmd VimResized * :wincmd =
 
     autocmd TermOpen * setlocal nonumber
     autocmd TermOpen * startinsert
@@ -176,7 +178,8 @@ nmap * <Plug>(anzu-star-with-echo)<Plug>(anzu-smart-sign-matchline)
 nmap # <Plug>(anzu-sharp-with-echo)<Plug>(anzu-smart-sign-matchline)
 
 " ** SOME PREFERRED CHANGES **
-nnoremap s :silent! w<cr>
+nnoremap s :w<cr>
+nnoremap S :silent! w<cr>:Neomake<cr>
 nnoremap D :quit<cr>
 cnoremap xa noau xa
 

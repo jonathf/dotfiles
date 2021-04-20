@@ -18,7 +18,7 @@ local ICON_DIR = HOME .. '/.config/awesome/pics/'
 local logout_menu_widget = wibox.widget {
     {
         {
-            image = ICON_DIR .. 'power.svg',
+            image = ICON_DIR .. 'power_settings_new_white_24dp.svg',
             resize = true,
             widget = wibox.widget.imagebox,
         },
@@ -48,11 +48,11 @@ local function worker(user_args)
     local rows = { layout = wibox.layout.fixed.vertical }
 
     local menu_items = {
-        { name='Log out', icon_name='log-out.svg', command=function() awesome.quit() end },
-        { name='Lock', icon_name='lock.svg', command=function() awful.spawn.with_shell("xtrlock") end },
-        { name='Reboot', icon_name='refresh-cw.svg', command=function() awful.spawn.with_shell("reboot") end },
-        { name='Suspend', icon_name='moon.svg', command=function() awful.spawn.with_shell("systemctl suspend-the-hibernate") end },
-        { name='Power off', icon_name='power.svg', command=function() awful.spawn.with_shell("shutdown now") end },
+        { name='Log out', icon_name='login_white_24dp.svg', command=function() awesome.quit() end },
+        { name='Lock', icon_name='lock_white_24dp.svg', command=function() awful.spawn.with_shell("xtrlock") end },
+        { name='Reboot', icon_name='cached_white_24dp.svg', command=function() awful.spawn.with_shell("reboot") end },
+        { name='Suspend', icon_name='nightlight_round_white_24dp.svg', command=function() awful.spawn.with_shell("systemctl suspend-the-hibernate") end },
+        { name='Power off', icon_name='power_settings_new_white_24dp.svg', command=function() awful.spawn.with_shell("shutdown now") end },
     }
 
     for _, item in ipairs(menu_items) do

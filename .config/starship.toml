@@ -17,7 +17,7 @@ $rust\
 $package\
 $cmd_duration\
 $jobs\
-$custom
+$custom\
 $character\
 """
 
@@ -108,5 +108,5 @@ error_symbol="[\n\\$ ](bright-red)"
 vicmd_symbol="[ VI-MODE \n\\$ ](bold fg:black bg:yellow)"
 
 [custom.nvim]
-command = "echo NVIM"
+command = "echo -n NVIM"
 when = """test -n "$NVIM_LISTEN_ADDRESS" """
