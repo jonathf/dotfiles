@@ -5,8 +5,8 @@ declare -A options
 options[jonathan]=28048431390
 options[hilde]=22058345834
 options[elias]=09061980919
-options[bruk]=5248790024325737
-options[kreditt]=4052080090476723
+options[kreditt]=5248790024325737
+options[bruk]=4052080090476723
 options[felles]=4052080006506886
 
 choice=$(printf "%s\n" ${!options[@]} | dmenu -c -bw 2 -l 20 -fn "Ubuntu Mono-16:normal" "$@")
