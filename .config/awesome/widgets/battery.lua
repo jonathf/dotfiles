@@ -28,30 +28,8 @@ local warning_msg_title = 'Houston, we have a problem'
 local warning_msg_text = 'Battery is dying'
 local warning_msg_position = 'bottom_right'
 
-local container = {
-    widget = wibox.widget {
-        {
-            id = "icon",
-            image = os.getenv("HOME").."/.config/awesome/pics/bolt_white_24dp.svg",
-            resize = true,
-            widget = wibox.widget.imagebox,
-        },
-        max_value = 100,
-        rounded_edge = true,
-        thickness = 3,
-        start_angle = 4.71238898, -- 2pi*3/4
-        forced_height = 22,
-        forced_width = 22,
-        bg = bg_color,
-        paddings = 2,
-        widget = wibox.container.arcchart,
-        charging = function(self) self.colors = { charging_color } end,
-        discharging = function(self) self.colors = { main_color } end
-    }
-}
-
-
 local batteryarc_widget = {}
+
 
 local function worker(user_args)
 
@@ -66,8 +44,8 @@ local function worker(user_args)
         rounded_edge = true,
         thickness = 3,
         start_angle = 4.71238898, -- 2pi*3/4
-        forced_height = 22,
-        forced_width = 22,
+        forced_height = 24,
+        forced_width = 24,
         bg = bg_color,
         paddings = 2,
         widget = wibox.container.arcchart,

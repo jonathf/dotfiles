@@ -12,7 +12,7 @@ To install, follow the steps:
 
    .. code:: bash
 
-       sudo pacman -Syu awesome vicious lain picom  pa-applet \
+       sudo pacman -Syu awesome vicious lain xcompmgr \
            network-manager-applet scrot blueman powerline-fonts \
            xfce4-power-manager xorg-xbacklight alacritty \
            ttf-ubuntu-font-family xtrlock
@@ -25,7 +25,7 @@ On Ubuntu:
        sudo add-apt-repository ppa:mmstick76/alacritty
        sudo apt update
        sudo apt install awesome awesome-extras scrot blueman \
-           xfce4-power-manager xbacklight alacritty
+           xfce4-power-manager xbacklight alacritty xcompmgr
        cd ~/.config/awesome
        git clone https://github.com/copycat-killer/lain
 
@@ -74,14 +74,10 @@ Add the following to the file /etc/interception/udevmon.yaml:
 
 .. code:: yaml
 
-   - JOB: "intercept -g $DEVNODE | caps2esc | uinput -d $DEVNODE"
-     DEVICE:
-       EVENTS:
-         EV_KEY: [KEY_CAPSLOCK, KEY_ESC]
    - JOB: "intercept -g $DEVNODE | dual-function-keys -c /etc/interception/dual-function-keys.yaml | uinput -d $DEVNODE"
      DEVICE:
        EVENTS:
-         EV_KEY: [KEY_CAPSLOCK, KEY_ESC, KEY_LEFTCTRL, KEY_END, KEY_INSERT]
+         EV_KEY: [KEY_CAPSLOCK, KEY_ESC, KEY_RIGHTCTRL, KEY_INSERT]
 
 Also create the file /etc/interception/dual-function-keys.yaml to define the mappings. E.g.
 
@@ -92,15 +88,16 @@ Also create the file /etc/interception/dual-function-keys.yaml to define the map
      DOUBLE_TAP_MILISEC: 150
 
    MAPPINGS:
+
    - KEY: KEY_CAPSLOCK
-     TAP: KEY_ESC
-     HOLD: KEY_LEFTCTRL
-   - KEY: KEY_INSERT
-     TAP: KEY_END
-     HOLD: KEY_END
-   - KEY: KEY_END
-     TAP: KEY_INSERT
-     HOLD: KEY_INSERT
+      TAP: KEY_ESC
+      HOLD: KEY_RIGHTCTRL
+      HOLD_START: BEFORE_CONSUME
+
+   - KEY: KEY_RIGHTCTRL
+      TAP: KEY_INSERT
+      HOLD: KEY_RIGHTCTRL
+      HOLD_START: BEFORE_CONSUME
 
 
 Start the process with ``systemd``:

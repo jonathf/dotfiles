@@ -48,8 +48,7 @@ lain.layout.termfair.center.nmaster = 3
 local sep = wibox.widget.textbox(" ")
 
 -- clock widget:
-local mytextclock = wibox.widget.textclock(
-    markup("#8c9440", "%a %d.%m %H:%M"))
+local mytextclock = wibox.widget.textclock(markup("#8c9440", "%a %d.%m %H:%M"))
 mytextclock.font = theme.font
 
 -- on connect of each new screen:
@@ -75,23 +74,21 @@ awful.screen.connect_for_each_screen(function(screen)
     layouts:set_middle(screen.mytasklist)
 
     local layout = wibox.layout.fixed.horizontal()
-    layout:add(wibox.widget.systray())
-    layout:add(sep)
-    layout:add(screen.mytaglist)
-    layout:add(sep)
     layout:add(battery_widget())
     layout:add(sep)
     layout:add(volume_widget())
     layout:add(sep)
     layout:add(brightness_widget())
+    layout:add(sep)
+    layout:add(wibox.widget.systray())
+    layout:add(sep)
+    layout:add(screen.mytaglist)
+    layout:add(sep)
     layouts:set_left(layout)
 
     local layout = wibox.layout.fixed.horizontal()
     layout:add(sep)
     layout:add(mytextclock)
-    layout:add(sep)
-    layout:add(logout_menu_widget())
-    layout:add(sep)
     layouts:set_right(layout)
 
     screen.mywibox = awful.wibar({position="top", screen=screen})

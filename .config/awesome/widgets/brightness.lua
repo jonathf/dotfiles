@@ -36,8 +36,8 @@ local function worker(user_args)
         max_value = 100,
         thickness = 3,
         start_angle = 4.71238898, -- 2pi*3/4
-        forced_height = 22,
-        forced_width = 22,
+        forced_height = 24,
+        forced_width = 24,
         bg = bg_color,
         paddings = 2,
         colors = {"#9e824c"},
