@@ -1,0 +1,144 @@
+#!/bin/env bash
+
+read -p "what to do?
+
+install [p]yenv, pipx and some pyproject managers.
+install [f]ish and some command line tools.
+install [a]wesome wm, display manager, and some desktop apps.
+install [n]eovim and configure plugins
+install [i]ntercept and enable caps2esc and ctrl2ins.
+[o]ptimize pacman
+
+[pfanio]: " flags
+
+[[ "$flags" == *p* ]] && install_python=y
+[[ "$flags" == *f* ]] && install_fish=y
+[[ "$flags" == *a* ]] && install_awesome=y
+[[ "$flags" == *n* ]] && install_neovim=y
+[[ "$flags" == *i* ]] && install_intercept=y
+[[ "$flags" == *o* ]] && optimize_pacman=y
+
+mkdir -p ~/source
+cd ~/source
+
+OS=$(cat /etc/os-release | grep "^ID=" | sed -e 's/ID=//' | sed -e 's/"//')
+[ "$(uname -s)" == "Darwin" ] && OS=mac
+echo "distribution: $OS"
+
+if [ "$OS" == "arch" ]; then
+
+  if ! command -v yay >/dev/null 2>&1; then
+    sudo pacman --noconfirm -S git
+    git clone https://aur.archlinux.org/yay.git ~/source/yay
+  fi
+  pushd ~/source/yay
+  git reset --hard
+  git pull
+  sudo makepkg --noconfirm -si
+  popd
+  yay -Syu
+fi
+
+if [ "$OS" = "mac" ]; then
+
+  if ! command -v brew >/dev/null 2>&1; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+  [ -f "$HOME/.Brewfile" ] && brew bundle --global
+  brew install git
+
+fi
+
+if [ $install_python ]; then
+  if [ ! -d ~/.pyenv ]; then
+    git clone git@github.com:pyenv/pyenv ~/.pyenv
+  fi
+  pushd ~/.pyenv
+  git reset --hard
+  git pull
+  popd
+  if [ "$OS" == "arch" ]; then
+    yay -Sy --noconfirm python-pipx
+  fi
+  yes | pipx install pipenv
+  yes | pipx install poetry
+  yes | pipx install pdm
+fi
+PYTHON=python
+[ -n "$(which python3 >/dev/null)" ] && PYTHON=python3
+
+if [ "$install_awesome" ]; then
+
+  if [ "$OS" == "arch" ]; then
+    yay -Sy --noconfirm awesome vicious lain xcompmgr \
+      network-manager-applet scrot blueman powerline-fonts \
+      xorg-xbacklight alacritty ttf-ubuntu-font-family \
+      xtrlock dmenu-distrotube-git lightdm-slick-greeter \
+      lxappearance materia-gtk-theme
+
+  else if [ "$OS" == "ubuntu" ]; then
+    sudo add-apt-repository ppa:mmstick76/alacritty
+    sudo apt update
+    sudo apt install awesome awesome-extras scrot blueman \
+      xfce4-power-manager xbacklight alacritty xcompmgr
+    git clone https://github.com/copycat-killer/lain ~/.config/awesome/lain
+  fi fi
+  sudo cp -v ~/.config/awesome/{pics/background.jpg,slick-greeter.conf} /etc/lightdm
+  sudo chmod -v 644 /etc/lightdm/{background.jpg,slick-greeter.conf}
+fi
+
+if [ "$install_fish" ]; then
+  yay -Sy --noconfirm fish starship direnv exa ripgrep
+  sudo chsh --shell /usr/bin/fish
+fi
+
+if [[ "yY" == *"$install_neovim"* ]]; then
+  if [ "$OS" == "arch" ]; then
+    yay -Sy --noconfirm neovim-git ctags xsel
+  fi
+  if [ ! -d ~/.config/nvim/venv ]; then
+    $PYTHON -m venv ~/.config/nvim/venv
+  fi
+  ~/.config/nvim/venv/bin/pip install -U pip pynvim jedi neovim-remote
+  nvim --headless +'PlugInstall --sync' +UpdateRemotePlugins +qall
+fi
+
+
+if [ "$install_intercept" ]; then
+  if [ "$OS" == "arch" ]; then
+    sudo yay -Sy --noconfirm interception-dual-function-keys
+  fi
+  cat << EOF | sudo tee /etc/interception/udevmon.yaml
+- JOB: "intercept -g \$DEVNODE | dual-function-keys -c /etc/interception/dual-function-keys.yaml | uinput -d \$DEVNODE"
+  DEVICE:
+    EVENTS:
+      EV_KEY: [KEY_CAPSLOCK, KEY_ESC, KEY_RIGHTCTRL, KEY_INSERT]
+EOF
+  cat << EOF | sudo tee /etc/interception/dual-function-keys
+TIMING:
+  TAP_MILISEC: 200
+  DOUBLE_TAP_MILISEC: 150
+
+MAPPINGS:
+- KEY: KEY_CAPSLOCK
+  TAP: KEY_ESC
+  HOLD: KEY_RIGHTCTRL
+  HOLD_START: BEFORE_CONSUME
+- KEY: KEY_RIGHTCTRL
+  TAP: KEY_INSERT
+  HOLD: KEY_RIGHTCTRL
+  HOLD_START: BEFORE_CONSUME
+EOF
+  sudo systemctl enable udevmon.service
+  sudo systemctl start udevmon.service
+  sudo systemctl restart udevmon.service
+fi
+
+if [ "$optimize_pacman" ]; then
+  yay -Sy --noconfirm reflector
+  sudo reflector -l 5 --verbose --sort rate --save /etc/pacman.d/mirrorlist
+  yay -Syy --noconfirm
+  yay -Sc --noconfirm
+fi
+
+yadm remote set-url origin "git@github.com:jonathf/dotfiles.git"
