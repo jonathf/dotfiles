@@ -5,7 +5,7 @@ fish_vi_key_bindings
 [ -n "(command -v direnv)" ] && eval (direnv hook fish)
 
 # for managing python environments
-not contains $PYENV_ROOT/shims $PATH && pyenv init - | source
+not contains $PYENV_ROOT/shims $PATH && pyenv init --path | source
 pdm --pep582 | source
 
 # fancy prompt with starship
@@ -16,3 +16,5 @@ set --export GPG_TTY (tty)
 set --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
 [ -n "$DESKTOP_SESSION" ] && set (gnome-keyring-daemon --start | string split "=") && gpg-connect-agent updatestartuptty /bye >/dev/null
+
+source ~/.config/fish/abbreviation.fish

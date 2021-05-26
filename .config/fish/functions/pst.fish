@@ -6,4 +6,5 @@ function pst --description 'alias pst git push --tags' --wraps 'git push --tags'
         git push --tags --force-with-lease $argv;
     else
         config push --tags --force-with-lease $argv;
+    end
 end

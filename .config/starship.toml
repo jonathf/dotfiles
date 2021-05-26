@@ -8,13 +8,13 @@ $git_branch\
 $git_commit\
 $git_status\
 $git_state\
+$package\
 $python\
 $conda\
-$docker\
+$docker_context\
 $golang\
 $julia\
 $rust\
-$package\
 $cmd_duration\
 $jobs\
 $custom\
@@ -32,17 +32,17 @@ ssh_only=true
 trim_at="."
 
 [directory]
-format="[$lock_symbol](red)[$path ](bright-yellow)"
-read_only_symbol="!"
+format="[$read_only](red)[$path ](bright-yellow)"
+read_only="!"
 truncation_length=4
 truncate_to_repo=false
 fish_style_pwd_dir_length=3
 
 [hg_branch]
-format="[ ](bright-white)[$branch ](bold bright-white)"
+format="[$branch ](bold bright-white)"
 
 [git_branch]
-format="[ ](bright-white)[$branch ](bold bright-white)"
+format="[$branch ](bold bright-white)"
 
 [git_commit]
 format="[$hash ](bright-black)"
@@ -51,11 +51,11 @@ only_detached=true
 
 [git_state]
 format="[$state $progress_current/$progress_total ](bold green)"
-rebase=" REBASE"
-merge=" MERGE"
-revert=" REVERT"
-cherry_pick=" CHERRY-PICK"
-bisect=" BISECT"
+rebase="REBASE"
+merge="MERGE"
+revert="REVERT"
+cherry_pick="CHERRY-PICK"
+bisect="BISECT"
 
 [git_status]
 format="([$all_status$ahead_behind](bright-white) )"
@@ -74,13 +74,14 @@ deleted="[${count}D](bright-red)"
 format="[$version ](bright-white)"
 
 [python]
-format="[$version ](bright-white)"
-scan_for_pyfiles=false
+format="[$version ](italic bright-white)"
+version_format="${raw}"
+detect_extensions = []
 
 [conda]
-format="[$environment ](bright-white)"
+format="[$environment ](italic bright-white)"
 
-[docker]
+[docker_context]
 format="[docker $context ](bright-white)"
 only_with_files=true
 
@@ -99,14 +100,14 @@ min_time=1000
 
 [jobs]
 format="[&$number ](bold yellow)"
-threshold = 0
+threshold = 1
+
+[custom.nvim]
+command = "echo -n NVIM"
+when = """test -n "$NVIM_LISTEN_ADDRESS" """
 
 [character]
 format="$symbol"
 success_symbol="[\n\\$ ](bright-green)"
 error_symbol="[\n\\$ ](bright-red)"
 vicmd_symbol="[ VI-MODE \n\\$ ](bold fg:black bg:yellow)"
-
-[custom.nvim]
-command = "echo -n NVIM"
-when = """test -n "$NVIM_LISTEN_ADDRESS" """

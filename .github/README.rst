@@ -45,6 +45,6 @@ These topics are covered here:
 
 * Awesome WM: `.config/awesome <../.config/awesome/>`_
 * FiSH: `.config/fish <../.config/fish/>`_
-* GnuPG/Pass: `.gnupg <../.gnupg/README.rst>`_
+* GnuPG/Pass: `.gnupg <../.gnupg/>`_
 * Neovim: `.config/neovim <../.config/nvim/>`_
 * Systemd: `.config/systemd <../.config/systemd>`_

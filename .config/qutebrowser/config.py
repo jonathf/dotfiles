@@ -1,170 +1,171 @@
 import qutebrowser
+from mappings import set_mappings
 
+# these are provided by Qutebrowser
 container: qutebrowser.config.config.ConfigContainer = c
-config: qutebrowser.config.configfiles.ConfigAPI = config
+api: qutebrowser.config.configfiles.ConfigAPI = config
 
-config.load_autoconfig(True)
+api.load_autoconfig(True)
 
 container.colors.webpage.bg = None
 container.colors.webpage.darkmode.enabled = True
 container.window.transparent = False
 
-from mappings import set_mappings
-set_mappings(container, config)
+set_mappings(container, api)
 
-## Always restore open sites when qutebrowser is reopened. Without this
-## option set, `:wq` (`:quit --save`) needs to be used to save open tabs
-## (and restore them), while quitting qutebrowser in any other way will
-## not save/restore the session. By default, this will save to the
-## session which was last loaded. This behavior can be customized via the
-## `session.default_name` setting.
-## Type: Bool
+# Always restore open sites when qutebrowser is reopened. Without this
+# option set, `:wq` (`:quit --save`) needs to be used to save open tabs
+# (and restore them), while quitting qutebrowser in any other way will
+# not save/restore the session. By default, this will save to the
+# session which was last loaded. This behavior can be customized via the
+# `session.default_name` setting.
+# Type: Bool
 container.auto_save.session = True
 
-## Number of commands to save in the command history. 0: no history / -1:
-## unlimited
-## Type: Int
+# Number of commands to save in the command history. 0: no history / -1:
+# unlimited
+# Type: Int
 container.completion.cmd_history_max_items = 1000
 
-## Delay (in milliseconds) before updating completions after typing a
-## character.
-## Type: Int
+# Delay (in milliseconds) before updating completions after typing a
+# character.
+# Type: Int
 # container.completion.delay = 0
 
-## Height (in pixels or as percentage of the window) of the completion.
-## Type: PercOrInt
+# Height (in pixels or as percentage of the window) of the completion.
+# Type: PercOrInt
 container.completion.height = 300
 
-## Padding (in pixels) of the scrollbar handle in the completion window.
-## Type: Int
+# Padding (in pixels) of the scrollbar handle in the completion window.
+# Type: Int
 container.completion.scrollbar.padding = 0
 
-## Width (in pixels) of the scrollbar in the completion window.
-## Type: Int
+# Width (in pixels) of the scrollbar in the completion window.
+# Type: Int
 container.completion.scrollbar.width = 6
 
-## When to show the autocompletion window.
-## Type: String
-## Valid values:
-##   - always: Whenever a completion is available.
-##   - auto: Whenever a completion is requested.
-##   - never: Never.
+# When to show the autocompletion window.
+# Type: String
+# Valid values:
+#   - always: Whenever a completion is available.
+#   - auto: Whenever a completion is requested.
+#   - never: Never.
 container.completion.show = 'auto'
 
-## Shrink the completion to be smaller than the configured size if there
-## are no scrollbars.
-## Type: Bool
+# Shrink the completion to be smaller than the configured size if there
+# are no scrollbars.
+# Type: Bool
 container.completion.shrink = True
 
-## Execute the best-matching command on a partial match.
-## Type: Bool
+# Execute the best-matching command on a partial match.
+# Type: Bool
 container.completion.use_best_match = False
 
-## Try to pre-fetch DNS entries to speed up browsing.
-## Type: Bool
+# Try to pre-fetch DNS entries to speed up browsing.
+# Type: Bool
 container.content.dns_prefetch = True
 
-## Allow pdf.js to view PDF files in the browser. Note that the files can
-## still be downloaded by clicking the download button in the pdf.js
-## viewer.
-## Type: Bool
+# Allow pdf.js to view PDF files in the browser. Note that the files can
+# still be downloaded by clicking the download button in the pdf.js
+# viewer.
+# Type: Bool
 container.content.pdfjs = True
 
-## Enable plugins in Web pages.
-## Type: Bool
+# Enable plugins in Web pages.
+# Type: Bool
 container.content.plugins = True
 
-## Directory to save downloads to. If unset, a sensible OS-specific
-## default is used.
-## Type: Directory
+# Directory to save downloads to. If unset, a sensible OS-specific
+# default is used.
+# Type: Directory
 container.downloads.location.directory = "/home/jonathf/temp/"
 
-## Prompt the user for the download location. If set to false,
-## `downloads.location.directory` will be used.
-## Type: Bool
+# Prompt the user for the download location. If set to false,
+# `downloads.location.directory` will be used.
+# Type: Bool
 container.downloads.location.prompt = False
 
-## Editor (and arguments) to use for the `open-editor` command. The
-## following placeholders are defined:  * `{file}`: Filename of the file
-## to be edited. * `{line}`: Line in which the caret is found in the
-## text. * `{column}`: Column in which the caret is found in the text. *
-## `{line0}`: Same as `{line}`, but starting from index 0. * `{column0}`:
-## Same as `{column}`, but starting from index 0.
-## Type: ShellCommand
+# Editor (and arguments) to use for the `open-editor` command. The
+# following placeholders are defined:  * `{file}`: Filename of the file
+# to be edited. * `{line}`: Line in which the caret is found in the
+# text. * `{column}`: Column in which the caret is found in the text. *
+# `{line0}`: Same as `{line}`, but starting from index 0. * `{column0}`:
+# Same as `{column}`, but starting from index 0.
+# Type: ShellCommand
 container.editor.command = ["alacritty", "-e", "sh", "-c", "sleep 0.1 && nvim {}"]
 
-## Default font size to use. Whenever "default_size" is used in a font
-## setting, it's replaced with the size listed here. Valid values are
-## either a float value with a "pt" suffix, or an integer value with a
-## "px" suffix.
-## Type: String
+# Default font size to use. Whenever "default_size" is used in a font
+# setting, it's replaced with the size listed here. Valid values are
+# either a float value with a "pt" suffix, or an integer value with a
+# "px" suffix.
+# Type: String
 container.fonts.default_size = '11pt'
 
-## Mode to use for hints.
-## Type: String
-## Valid values:
-##   - number: Use numeric hints. (In this mode you can also type letters from the hinted element to filter and reduce the number of elements that are hinted.)
-##   - letter: Use the characters in the `hints.chars` setting.
-##   - word: Use hints words based on the html elements and the extra words.
+# Mode to use for hints.
+# Type: String
+# Valid values:
+#   - number: Use numeric hints. (In this mode you can also type letters from the hinted element to filter and reduce the number of elements that are hinted.)
+#   - letter: Use the characters in the `hints.chars` setting.
+#   - word: Use hints words based on the html elements and the extra words.
 container.hints.mode = 'letter'
 
-## Rounding radius (in pixels) for the edges of hints.
-## Type: Int
+# Rounding radius (in pixels) for the edges of hints.
+# Type: Int
 container.hints.radius = 6
 
-## Scatter hint key chains (like Vimium) or not (like dwb). Ignored for
-## number hints.
-## Type: Bool
+# Scatter hint key chains (like Vimium) or not (like dwb). Ignored for
+# number hints.
+# Type: Bool
 container.hints.scatter = False
 
-## Make characters in hint strings uppercase.
-## Type: Bool
+# Make characters in hint strings uppercase.
+# Type: Bool
 container.hints.uppercase = True
 
-## Turn on Qt HighDPI scaling. This is equivalent to setting
-## QT_AUTO_SCREEN_SCALE_FACTOR=1 or QT_ENABLE_HIGHDPI_SCALING=1 (Qt >=
-## 5.14) in the environment. It's off by default as it can cause issues
-## with some bitmap fonts. As an alternative to this, it's possible to
-## set font sizes and the `zoom.default` setting.
-## Type: Bool
+# Turn on Qt HighDPI scaling. This is equivalent to setting
+# QT_AUTO_SCREEN_SCALE_FACTOR=1 or QT_ENABLE_HIGHDPI_SCALING=1 (Qt >=
+# 5.14) in the environment. It's off by default as it can cause issues
+# with some bitmap fonts. As an alternative to this, it's possible to
+# set font sizes and the `zoom.default` setting.
+# Type: Bool
 container.qt.highdpi = True
 
-## Open new tabs (middleclick/ctrl+click) in the background.
-## Type: Bool
+# Open new tabs (middleclick/ctrl+click) in the background.
+# Type: Bool
 container.tabs.background = True
 
-## Position of the tab bar.
-## Type: Position
-## Valid values:
-##   - top
-##   - bottom
-##   - left
-##   - right
+# Position of the tab bar.
+# Type: Position
+# Valid values:
+#   - top
+#   - bottom
+#   - left
+#   - right
 container.tabs.position = 'left'
 
-## Page to open if :open -t/-b/-w is used without URL. Use `about:blank`
-## for a blank page.
-## Type: FuzzyUrl
+# Page to open if :open -t/-b/-w is used without URL. Use `about:blank`
+# for a blank page.
+# Type: FuzzyUrl
 container.url.default_page = 'https://google.com/'
 
-## Search engines which can be used via the address bar.  Maps a search
-## engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
-## placeholder. The placeholder will be replaced by the search term, use
-## `{{` and `}}` for literal `{`/`}` braces.  The following further
-## placeholds are defined to configure how special characters in the
-## search terms are replaced by safe characters (called 'quoting'):  *
-## `{}` and `{semiquoted}` quote everything except slashes; this is the
-## most   sensible choice for almost all search engines (for the search
-## term   `slash/and&amp` this placeholder expands to `slash/and%26amp`).
-## * `{quoted}` quotes all characters (for `slash/and&amp` this
-## placeholder   expands to `slash%2Fand%26amp`). * `{unquoted}` quotes
-## nothing (for `slash/and&amp` this placeholder   expands to
-## `slash/and&amp`).  The search engine named `DEFAULT` is used when
-## `url.auto_search` is turned on and something else than a URL was
-## entered to be opened. Other search engines can be used by prepending
-## the search engine name to the search term, e.g.  `:open google
-## qutebrowser`.
-## Type: Dict
+# Search engines which can be used via the address bar.  Maps a search
+# engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
+# placeholder. The placeholder will be replaced by the search term, use
+# `{{` and `}}` for literal `{`/`}` braces.  The following further
+# placeholds are defined to configure how special characters in the
+# search terms are replaced by safe characters (called 'quoting'):  *
+# `{}` and `{semiquoted}` quote everything except slashes; this is the
+# most   sensible choice for almost all search engines (for the search
+# term   `slash/and&amp` this placeholder expands to `slash/and%26amp`).
+# * `{quoted}` quotes all characters (for `slash/and&amp` this
+# placeholder   expands to `slash%2Fand%26amp`). * `{unquoted}` quotes
+# nothing (for `slash/and&amp` this placeholder   expands to
+# `slash/and&amp`).  The search engine named `DEFAULT` is used when
+# `url.auto_search` is turned on and something else than a URL was
+# entered to be opened. Other search engines can be used by prepending
+# the search engine name to the search term, e.g.  `:open google
+# qutebrowser`.
+# Type: Dict
 container.url.searchengines = {
     'DEFAULT': 'https://google.com/search?q={}',
     'maps': 'https://google.com/maps?q={}',
@@ -172,12 +173,12 @@ container.url.searchengines = {
     'gmail': 'https://mail.google.com/mail/u/0/#search/{}',
 }
 
-## Default zoom level.
-## Type: Perc
+# Default zoom level.
+# Type: Perc
 container.zoom.default = '150%'
 
-## Available zoom levels.
-## Type: List of Perc
+# Available zoom levels.
+# Type: List of Perc
 container.zoom.levels = ['25%', '50%', '75%', '100%', '150%', '200%', '250%', '300%', '400%', '500%']
 
-config.source("theme.py")
+api.source("theme.py")

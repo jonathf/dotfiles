@@ -25,4 +25,10 @@ snippet "TODO|DONE" "" wr
 `!p snip.rv={"TODO": "DONE", "DONE": "TODO"}[match.group(0)]`
 endsnippet
 
+priority -50
+
+snippet ".. (\w+)" "command" rb
+`!p snip.rv=match.group(0)`::
+endsnippet
+
 # vim:ft=snippets:

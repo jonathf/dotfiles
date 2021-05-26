@@ -1,4 +1,5 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+set -e
 
 CLIP_TIMEOUT=20000  # seconds/1000 before clipboard is cleared again
 AUTOTYPE_WAIT=0.2   # seconds pause before autotyping

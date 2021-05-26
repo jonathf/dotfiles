@@ -78,6 +78,9 @@ let s:style = &background
 
 let g:colors_name = "hybrid"
 
+let g:hybrid_custom_term_colors = 0
+let g:hybrid_reduced_contrast = 0
+
 "}}}
 " GUI And Cterm Palettes:"{{{
 " ----------------------------------------------------------------------------
@@ -302,7 +305,7 @@ exe "hi! SignColumn"    .s:fg_none        .s:bg_darkcolumn  .s:fmt_none
 "   Incsearch"
 exe "hi! LineNr"        .s:fg_selection   .s:bg_none        .s:fmt_none
 exe "hi! CursorLineNr"  .s:fg_yellow      .s:bg_none        .s:fmt_none
-exe "hi! MatchParen"    .s:fg_background  .s:bg_changebg    .s:fmt_none
+exe "hi! MatchParen"    .s:fg_none        .s:bg_background  .s:fmt_bold
 exe "hi! ModeMsg"       .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! MoreMsg"       .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! NonText"       .s:fg_selection   .s:bg_none        .s:fmt_none
@@ -313,12 +316,12 @@ exe "hi! PmenuSel"      .s:fg_foreground  .s:bg_selection   .s:fmt_revr
 exe "hi! Question"      .s:fg_green       .s:bg_none        .s:fmt_none
 exe "hi! Search"        .s:fg_background  .s:bg_yellow      .s:fmt_none
 exe "hi! SpecialKey"    .s:fg_selection   .s:bg_none        .s:fmt_none
-exe "hi! SpellCap"      .s:fg_blue        .s:bg_darkblue    .s:fmt_undr
-exe "hi! SpellLocal"    .s:fg_aqua        .s:bg_darkcyan    .s:fmt_undr
-exe "hi! SpellBad"      .s:fg_red         .s:bg_darkred     .s:fmt_undr
-exe "hi! SpellRare"     .s:fg_purple      .s:bg_darkpurple  .s:fmt_undr
-exe "hi! StatusLine"    .s:fg_comment     .s:bg_background  .s:fmt_revr
-exe "hi! StatusLineNC"  .s:fg_window      .s:bg_comment     .s:fmt_revr
+exe "hi! SpellCap"      .s:fg_none        .s:bg_none        .s:fmt_none
+exe "hi! SpellLocal"    .s:fg_none        .s:bg_none        .s:fmt_undr
+exe "hi! SpellBad"      .s:fg_none        .s:bg_none        .s:fmt_undr
+exe "hi! SpellRare"     .s:fg_none        .s:bg_none        .s:fmt_none
+exe "hi! StatusLine"    .s:fg_background  .s:bg_green       .s:fmt_revr
+exe "hi! StatusLineNC"  .s:fg_background  .s:bg_comment     .s:fmt_revr
 exe "hi! TabLine"       .s:fg_foreground  .s:bg_darkcolumn  .s:fmt_revr
 "   TabLineFill"
 "   TabLineSel"
@@ -336,12 +339,12 @@ if !has('gui_running') && exists("g:hybrid_custom_term_colors") && g:hybrid_cust
 else
   let s:bg_normal = s:bg_background
 endif
-exe "hi! Normal"        .s:fg_foreground  .s:bg_normal      .s:fmt_none
+exe "hi! Normal"        .s:fg_foreground  .s:bg_none      .s:fmt_none
 
 "}}}
 " Generic Syntax Highlighting: (see :help group-name)"{{{
 " ----------------------------------------------------------------------------
-exe "hi! Comment"         .s:fg_comment     .s:bg_none        .s:fmt_none
+exe "hi! Comment"         .s:fg_comment     .s:bg_none        .s:fmt_ital
 
 exe "hi! Constant"        .s:fg_red         .s:bg_none        .s:fmt_none
 exe "hi! String"          .s:fg_green       .s:bg_none        .s:fmt_none
@@ -392,6 +395,16 @@ exe "hi! qfLineNr"        .s:fg_yellow      .s:bg_none        .s:fmt_none
 "   qfFileName"
 "   qfLineNr"
 "   qfError"
+
+" Personal choices
+exe "hi! BufTabLineActive"          .s:fg_green         .s:bg_background    .s:fmt_none
+exe "hi! BufTabLineModifiedActive"  .s:fg_yellow        .s:bg_background    .s:fmt_none
+exe "hi! BufTabLineCurrent"         .s:fg_background    .s:bg_green         .s:fmt_none
+exe "hi! BufTabLineModifiedCurrent" .s:fg_background    .s:bg_yellow        .s:fmt_none
+exe "hi! BufTabLineHidden"          .s:fg_background    .s:bg_comment       .s:fmt_none
+exe "hi! BufTabLineFill"            .s:fg_background    .s:bg_background    .s:fmt_none
+exe "hi! LspDiagnosticsDefaultError".s:fg_red           .s:bg_none          .s:fmt_ital
+exe "hi! LspDiagnosticsDefaultWarning".s:fg_yellow      .s:bg_none          .s:fmt_ital
 
 "}}}
 " Diff Syntax Highlighting:"{{{

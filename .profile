@@ -11,10 +11,10 @@ export LANG="en_US.UTF-8"
 export LANGUAGE="en"
 export LC_ALL="en_US.UTF-8"
 export LC_MESSAGES="C"
-export PIPENV_DEFAULT_PYTHON_VERSION="3.8"
+export PIPENV_DEFAULT_PYTHON_VERSION="3.9"
 export PIPENV_IGNORE_VIRTUALENVS="1"
 export PIPENV_VENV_IN_PROJECT="true"
-export REQUIREMENTS=mypy ipython pep257 pylint
+export REQUIREMENTS="-Ur$HOME/.config/requirements.txt"
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgreprc
 export VISUAL="nvim"
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
@@ -66,7 +66,8 @@ export fish_pager_color_progress=("brwhite" "--background=cyan")
 [[ "$PATH" != *"$HOME/.local/bin"* ]] && export PATH="$HOME/.local/bin:$PATH"
 [ -d "$HOME/.cargo" ] && export CARGO_ROOT="$HOME/.cargo"
 [ -d "$HOME/.cargo" ] && [[ "$PATH" != *"$HOME/.cargo"* ]] && export PATH="$PATH:$CARGO_ROOT/bin"
-[ -d "$HOME/.pyenv" ] && export PYENV_ROOT="$HOME/.pyenv"
+[ -d "$HOME/.pyenv" ] && 
+export PYENV_ROOT="$HOME/.pyenv"
 [ -d "$HOME/.pyenv" ] && [[ "$PATH" != *"$HOME/.pyenv"* ]] && export PATH="$PATH:$PYENV_ROOT/bin"
 
 export GOPRIVATE='github.com/vippsas/*'

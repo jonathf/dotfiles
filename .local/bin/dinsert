@@ -8,6 +8,7 @@ options[elias]=09061980919
 options[kreditt]=5248790024325737
 options[bruk]=4052080090476723
 options[felles]=4052080006506886
+options[bankid]="93214474\t280484"
 
 choice=$(printf "%s\n" ${!options[@]} | dmenu -c -bw 2 -l 20 -fn "Ubuntu Mono-16:normal" "$@")
 [ -n "$choice" ]

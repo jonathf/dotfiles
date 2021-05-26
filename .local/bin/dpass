@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 pushd ~/.password-store
 choices=$(command ls */*.gpg 2>/dev/null)

@@ -1,42 +1,111 @@
-extends pythonimport
-extends pythonfuncclass
-extends pythoncomment
-extends pythonbuiltin
-extends pythonpylint
+global !p
+
+def get_args(snip):
+    l = snip.line
+    space = re.findall(r"^\s*", snip.buffer[l])[0]
+
+    while l and not re.findall(r"^ *def", snip.buffer[l]):
+        l -= 1
+
+    out = snip.buffer[l]
+
+    while l-len(snip.buffer) and not re.findall(r"\)[^:]*:$", snip.buffer[l]):
+        l += 1
+        out += snip.buffer[l]
+
+    out = out.replace(" ", "")
+    out = re.sub(r"\[[^\]\[]+\]", "", out)
+    out = re.findall(r"\((.*)\)", out)[0].split(",")
+    out = [o.split("=")[0] for o in out]
+    if "self" in out:
+        out.remove("self")
+    if "cls" in out:
+        out.remove("cls")
+    out = [o for o in out if o[:1] not in ("*", "")]
+    out = "Args:" + ";".join(out)
+    out = space + out
+    snip.buffer[snip.line] = out
+    snip.cursor.set(snip.line, len(out))
+
+endglobal
+
+priority -40
+
+snippet "Ar(gs?)?" "Args" br
+Args:
+endsnippet
+pre_expand "get_args(snip)"
+snippet Args: "Args" b
+$0
+endsnippet
+snippet "Args:([^:;]+)" "Args" br
+Args:
+    `!p snip.rv=match.group(1)` ($1):
+        $0
+endsnippet
+snippet "Args:([^;:]+?) *: *[^;:]+$" "Args" br
+Args:
+    `!p snip.rv=match.group(1)`:
+        $0
+endsnippet
+snippet "Args:(.+);([^;:]+)" "Args" br
+Args:`!p snip.rv=match.group(1)`$0
+    `!p snip.rv=match.group(2)` ($1):
+        $2
+endsnippet
+snippet "Args:(.+);([^;:]+) *: *[^;:]+$" "Args" br
+Args:`!p snip.rv=match.group(1)`$0
+    `!p snip.rv=match.group(2)`:
+        $1
+endsnippet
 
 priority -50
 
-snippet #! "header" b
-#!/usr/bin/env python
-$0
+snippet "\# ?do(c(te?)?)?" "doctest" wr
+# doctest: +
+endsnippet
+snippet "\# doctest: \+(SKIP|NORMALIZE_WHITESPACE|ELLIPSIS|IGNORE_EXCEPTION_DETAIL|)" "doctest" wr
+# doctest: +`!p snip.rv = {
+  "SKIP": "NORMALIZE_WHITESPACE",
+  "NORMALIZE_WHITESPACE": "ELLIPSIS",
+  "ELLIPSIS": "IGNORE_EXCEPTION_DETAIL",
+  "IGNORE_EXCEPTION_DETAIL": "",
+  "": "SKIP",
+}[match.group(1)]`
 endsnippet
 
-snippet "if __n(a(me?)?)?" "main" br
-if __name__
+priority -70
+snippet "# doctest: +NORMALIZE_WHITESPACE" "doctest" w
+# doctest: +NORMALIZE_WHITESPACE
 endsnippet
-snippet "if __name__" "main" br
+snippet "# doctest: +ELLIPSIS" "doctest" w
+# doctest: +ELLIPSIS
+endsnippet
+snippet "# doctest: +SKIP" "doctest" w
+# doctest: +SKIP
+endsnippet
+snippet "# doctest: +IGNORE_EXCEPTION_DETAIL" "doctest" wr
+# doctest: +IGNORE_EXCEPTION_DETAIL
+endsnippet
+
+snippet "\# ?pragma: no cover" "coverage" wr
+# pragma: no cover
+endsnippet
+
+snippet "\# ?type: ignore" "typing" wr
+# type: ignore
+endsnippet
+
+priority -50
+
+snippet "if _(_(na?)?)?" "main" br
 if __name__ == "__main__":
 endsnippet
-snippet "if __name__ == \"__main__\":" "doctest" br
-if __name__ == "__main__":
-    
+
+snippet "logger" "logging" b
+logger = logging.getLogger(__name__)
 endsnippet
 
-snippet "logger = log(g(in?)?)?" "logging" br
-logger = logging.getLogger(__name__)
-endsnippet
-snippet "import logging" "logging" b
-import logging
-logger = logging.getLogger(__name__)
-endsnippet
-snippet "logger = logging.getLogger(__name__)" "logging" b
-logger = logging.getLogger(__name__)
-logger.warning($0)
-endsnippet
-
-snippet "ass(er?)?" "assert" br
-assert
-endsnippet
 snippet "assert" "assert" br
 assert False, f"""
 $0
@@ -47,18 +116,18 @@ endsnippet
 snippet "(^|[^"])\"\"" "string" r
 `!p snip.rv=match.group(1)`"""$0"""
 endsnippet
-snippet "( *)\"{6}" "string" r
+snippet "(\s*)\"{6}" "string" r
 `!p snip.rv=match.group(1)`"""
 `!p snip.rv=match.group(1)`$0
 `!p snip.rv=match.group(1)`"""
 endsnippet
 
-priority -60
-
-snippet "(.)([^ ]+?)\1repr" "" wr
- repr(`!p snip.rv=match.group(2)`)
+priority -40
+snippet "print (.*\S) +" "print" br
+print(`!p snip.rv=match.group(1)`)
 endsnippet
 
+priority -60
 snippet "\./([\w\d_/.]+?)\.py" "path2import" wr
 `!p snip.rv=match.group(1)`
 endsnippet
@@ -76,4 +145,22 @@ snippet "True|False" "Bool" wr
 `!p snip.rv={"False": "True", "True": "False"}[match.group(0)]`
 endsnippet
 
+priority -100
+snippet "^( *)(.+?) print" "print" br
+`!p snip.rv=match.group(1)`print(`!p
+snip.rv=match.group(2)`)
+endsnippet
+
+snippet "print\(([^"]+)\)" "print" wr
+print("`!p snip.rv=match.group(1)`", `!p
+snip.rv=match.group(1)`)
+endsnippet
+
+priority -120
+snippet "'([^']+(\'[^']*)*)'" "string" wr
+"`!p snip.rv=match.group(1).replace(r"\'", "'").replace('"', r'\"')`"
+endsnippet
+snippet ""([^"]+(\"[^"]*)*)"" "string" wr
+'`!p snip.rv=match.group(1).replace(r'\"', '"').replace("'", r"\'")`'
+endsnippet
 # vim:ft=snippets
