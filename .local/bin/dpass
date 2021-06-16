@@ -7,5 +7,6 @@ popd
 
 [ -z "$selected" ] && exit
 
-echo $selected > /tmp/dpass
-dpass_insert
+dpass_insert $selected
+echo "$selected
+$(head -4 /tmp/dpass 2>/dev/null)" > /tmp/dpass
