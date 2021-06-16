@@ -59,4 +59,4 @@ augroup AutoCommands
 augroup end
 
 source $HOME/.config/nvim/extensions.vim
-source $HOME/.config/nvim/mapping.vim
+source $HOME/.config/nvim/mappings.vim
