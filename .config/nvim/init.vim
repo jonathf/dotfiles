@@ -47,6 +47,16 @@ set nostartofline                   " leave the cursor in place
 set splitbelow splitright           " default splits to down right position
 set wildmode=longest:full,list:full
 
-source $HOME/.config/nvim/autocmd.vim
-source $HOME/.config/nvim/plug.vim
-source $HOME/.config/nvim/map.vim
+augroup AutoCommands
+    autocmd!
+    autocmd BufWritePre * ++once let &backupext='-'.strftime("%y%m")
+    autocmd CmdwinEnter * nnoremap <buffer> <esc> :q<cr>
+    autocmd VimResized * :wincmd =
+    autocmd InsertLeave * pclose!
+    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+    autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+    autocmd BufRead,BufNewFile *.ipynb set filetype=notebook
+augroup end
+
+source $HOME/.config/nvim/extensions.vim
+source $HOME/.config/nvim/mapping.vim
