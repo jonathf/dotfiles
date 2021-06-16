@@ -15,19 +15,44 @@ def set_mappings(c, config):
     ## aliases, while the values are the commands they map to.
     ## Type: Dict
     c.aliases = {
-        'b': 'buffer',
+        'o': 'open',
+        'b': 'tab-focus',
         'w': 'session-save',
         'q': 'close',
-        'qa': 'quit',
-        'wq': 'quit --save',
-        'x': 'quit --save',
+        'qa': 'quit --save',
         'source': 'config-source',
         'tabs-show': 'set tabs.show always',
         'tabs-hide': 'set tabs.show never',
         'tabs-cycle': 'config-cycle tabs.show always never',
-        'mpv': 'spawn mpv {hint-url}',
-        'youtube-dl': 'spawn alacritty -e youtube-dl {url}',
+
+        'open-mpv': 'spawn --detach mpv {url}',
+        'open-youtube-dl': 'spawn alacritty -e youtube-dl {url}',
+        'open-firefox': 'spawn --detach firefox {url}',
+        'open-private': 'open --private',
+        'clone': 'spawn --userscript ~/.local/bin/clone {url}',
     }
+
+    config.bind(';m', 'hint links spawn mpv {hint-url}')
+    config.bind('<Escape>', 'fake-key <Escape>;;search')
+
+    config.bind('<Return>', 'spawn --userscript dispatch <Return> fake-key <Return>')
+    config.bind('d', 'spawn --userscript dispatch d tab-close')
+    config.bind('e', 'spawn --userscript dispatch e nop')
+    config.bind('ga', 'spawn --userscript dispatch ga nop')
+    config.bind('gc', 'spawn --userscript dispatch gc nop')
+    config.bind('gp', 'spawn --userscript dispatch gp nop')
+    config.bind('gw', 'spawn --userscript dispatch gw nop')
+    config.bind('gi', 'spawn --userscript dispatch gi hint inputs --first')
+    config.bind('gt', 'spawn --userscript dispatch gt set-cmd-text -s :buffer')
+    config.bind('I', 'spawn --userscript dispatch I nop')
+    config.bind('m', 'spawn --userscript dispatch m quickmark-save')
+    config.bind('j', 'spawn --userscript dispatch j scroll-page 0 0.2')
+    config.bind('k', 'spawn --userscript dispatch k scroll-page 0 -0.2')
+    # config.bind('xO', 'set-cmd-text :open -b -r {url:pretty}')
+    # config.bind('xo', 'set-cmd-text -s :open -b')
+    config.unbind('xo')
+    config.unbind('xO')
+    config.bind('x', 'spawn --userscript dispatch x nop')
 
     ## Bindings for normal mode
     config.bind('p', 'back')
@@ -39,20 +64,13 @@ def set_mappings(c, config):
     config.bind('zi', 'zoom-in')
     config.bind('zo', 'zoom-out')
     config.bind('z0', 'zoom')
-    config.bind('o', 'set-cmd-text -s :open')
+    # config.bind('o', 'set-cmd-text -s :open')
+    config.bind('o', 'spawn --userscript dispatch o set-cmd-text -s :open')
     config.bind('O', 'set-cmd-text -s :open {url:pretty}')
     config.bind('t', 'set-cmd-text -s :open --tab')
     config.bind('T', 'set-cmd-text -s :open --tab {url:pretty}')
-    config.bind('j', 'scroll-page 0 0.2')
-    config.bind('k', 'scroll-page 0 -0.2')
     config.bind('J', 'scroll-page 0 0.5')
     config.bind('K', 'scroll-page 0 -0.5')
-
-    config.bind('d', 'tab-move - ;; tab-close')
-
-    config.bind(';m', 'hint links spawn mpv {hint-url}')
-    config.bind('<F1>', 'config-cycle tabs.show always never')
-    config.bind('<Escape>', 'fake-key <Escape>;;search')
 
     # config.bind("'", 'enter-mode jump_mark')
     # config.bind('.', 'repeat-command')
@@ -141,11 +159,9 @@ def set_mappings(c, config):
     # config.bind('gd', 'download')
     # config.bind('gf', 'view-source')
     # config.bind('gg', 'scroll-to-perc 0')
-    # config.bind('gi', 'hint inputs --first')
     # config.bind('gl', 'tab-move -')
     # config.bind('gm', 'tab-move')
     # config.bind('gr', 'tab-move +')
-    # config.bind('gt', 'set-cmd-text -s :buffer')
     # config.bind('gu', 'navigate up')
     # config.bind('h', 'scroll left')
     # config.bind('i', 'enter-mode insert')
@@ -192,8 +208,6 @@ def set_mappings(c, config):
     # config.bind('wl', 'forward -w')
     # config.bind('wo', 'set-cmd-text -s :open -w')
     # config.bind('wp', 'open -w -- {clipboard}')
-    # config.bind('xO', 'set-cmd-text :open -b -r {url:pretty}')
-    # config.bind('xo', 'set-cmd-text -s :open -b')
     # config.bind('yD', 'yank domain -s')
     # config.bind('yM', 'yank inline [{title}]({url}) -s')
     # config.bind('yP', 'yank pretty-url -s')

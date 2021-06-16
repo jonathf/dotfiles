@@ -1,10 +1,11 @@
 abbr a git add
 abbr am git commit --amend
 abbr cm git commit
+abbr cma git commit -a
 abbr cob git checkout -b
 abbr i ipython
 abbr p python
-abbr l git graph --no-pager -20
+abbr l git --no-pager graph -20
 abbr pl git pull --rebase
 abbr ps git push
 abbr psf git push --force-with-lease --force

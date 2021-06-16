@@ -1,24 +1,16 @@
 let g:UltiSnipsExpandTrigger="<nop>"
 let g:UltiSnipsListSnippets="<nop>"
-let g:UltiSnipsJumpForwardTrigger="<c-n>"
-let g:UltiSnipsJumpBackwardTrigger="<c-p>"
+let g:UltiSnipsJumpForwardTrigger="<nop>"
+let g:UltiSnipsJumpBackwardTrigger="<nop>"
 function! g:ExpandJumpIterateTab()
     let out = ""
     if UltiSnips#CanExpandSnippet() | call UltiSnips#ExpandSnippet()
-    elseif UltiSnips#CanJumpForwards() | call UltiSnips#JumpForwards()
     elseif pumvisible() | let out = "\<c-n>"
     else | let out = "\<tab>" | endif
     return out
 endfunction
 inoremap <silent> <tab> <C-R>=g:ExpandJumpIterateTab()<cr>
 
-" ** REMAPPING ÆØÅ **
-nnoremap <silent> å :silent exec ':cd '.system('git rev-parse --show-toplevel 2>/dev/null')<cr>
-nmap <silent> Å :vs<cr>å
-nnoremap <silent> æ :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>
-nmap <silent> Æ :vs<cr>æ
-nnoremap <silent> ø :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:terminal<cr>
-nnoremap <silent> Ø :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:vs<cr>:terminal<cr>
 
 " ** MY ESCAPE SEQUENCES **
 tnoremap <esc> <c-\><c-n>
@@ -58,14 +50,17 @@ nnoremap <space>i zg]s
 nnoremap <space>l :bnext<cr>
 nnoremap <space>h :bprev<cr>
 
+nnoremap <space><space> :ls<cr>:b<space>
+
 nnoremap -- :.,.Commentary<cr>j
 nmap - <plug>Commentary
 vmap - <plug>Commentary
 xmap - <plug>Commentary
 omap - <plug>Commentary
 
-nnoremap <space>r <plug>(repl)
-nnoremap <space>x <plug>(execute)
-nnoremap <space>X <plug>(execute_repl)
-nnoremap <space>t <plug>(code)
-nnoremap <space>T <plug>(debug)
+nnoremap <space>r :vs term://fish<cr>:au BufLeave <buffer> close<cr>
+nnoremap <space>R :vs term://fish<cr>
+nnoremap <silent> å :silent exec ':cd '.system('git rev-parse --show-toplevel 2>/dev/null')<cr>
+nnoremap <silent> æ :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>
+nnoremap <silent> ø :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:vs<cr>:terminal<cr>
+nnoremap <silent> Ø :silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:vs<cr>:terminal<cr>

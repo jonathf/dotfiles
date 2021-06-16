@@ -1,6 +1,13 @@
 #!/bin/bash
 
-if [[ "$1" != *"@"* ]]; then
-    extra_args="git@github.com:"
+
+arg=$1
+shift
+if [[ "$arg" == *"https://github.com/"* ]]; then
+  arg="git@github.com:$(echo "$arg" | sed 's/https:\/\/github.com\/\(\w\+\/\w\+\).*/\1/')"
 fi
-git clone --recurse-submodules $extra_args"$@"
+if [ -n "$QUTE_URL" ]; then # calls from qutebrowser
+  cd $HOME/source
+fi
+echo "$QUTE_URL $(pwd) git clone --recurse-submodules $arg $@" > ~/.log
+git clone --recurse-submodules $arg $@

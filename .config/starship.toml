@@ -15,7 +15,6 @@ $docker_context\
 $golang\
 $julia\
 $rust\
-$cmd_duration\
 $jobs\
 $custom\
 $character\
@@ -101,10 +100,6 @@ min_time=1000
 [jobs]
 format="[&$number ](bold yellow)"
 threshold = 1
-
-[custom.nvim]
-command = "echo -n NVIM"
-when = """test -n "$NVIM_LISTEN_ADDRESS" """
 
 [character]
 format="$symbol"

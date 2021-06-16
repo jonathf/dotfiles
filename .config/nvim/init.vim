@@ -1,6 +1,6 @@
 colorscheme hybrid
 
-"" ** FILES **
+" ** FILES **
 
 let g:python3_host_prog = '~/.config/nvim/venv/bin/python'
 set backup backupdir=~/.config/nvim/shada/backup
@@ -35,7 +35,7 @@ set statusline=\ %f%=%m
 set termguicolors
 set virtualedit=block,onemore
 
-" ** BEHAVIOR **
+" " ** BEHAVIOR **
 
 set clipboard=unnamed,unnamedplus   " common clipboard for all vim sessions
 set completeopt=menuone,noinsert,noselect
@@ -43,7 +43,7 @@ set shortmess+=c
 set mouse=n                         " enable mouse
 set nofoldenable                    " disallow folding by default
 set nostartofline                   " leave the cursor in place
-set spell                           " Check my (natural language) spelling
+" set spell                           " Check my (natural language) spelling
 set splitbelow splitright           " default splits to down right position
 set wildmode=longest:full,list:full
 
