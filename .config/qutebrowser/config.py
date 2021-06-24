@@ -5,7 +5,10 @@ from mappings import set_mappings
 container: qutebrowser.config.config.ConfigContainer = c
 api: qutebrowser.config.configfiles.ConfigAPI = config
 
-api.load_autoconfig(True)
+try:
+    api.load_autoconfig(True)  # new style loading
+except:
+    api.load_autoconfig()  # old style loading
 
 container.colors.webpage.bg = None
 container.colors.webpage.darkmode.enabled = True

@@ -1,13 +1,17 @@
 #!/bin/bash
 
-
 arg=$1
 shift
-if [[ "$arg" == *"https://github.com/"* ]]; then
-  arg="git@github.com:$(echo "$arg" | sed 's/https:\/\/github.com\/\(\w\+\/\w\+\).*/\1/')"
+
+# When used from Qutebrowser:
+[ -n "$QUTE_URL" ] && cd $HOME/source
+if [[ "$arg" == "https://github.com/"* ]]; then
+  arg="$(echo "$arg" | sed 's/https:\/\/github.com\/\(\w\+\/\w\+\).*/\1/')"
 fi
-if [ -n "$QUTE_URL" ]; then # calls from qutebrowser
-  cd $HOME/source
+
+# Assume shorten paths are Github:
+if [[ "$arg" =~ ^[a-zA-Z0-9]+/[a-zA-Z0-9]+$ ]]; then
+  arg="git@github.com:$arg"
 fi
-echo "$QUTE_URL $(pwd) git clone --recurse-submodules $arg $@" > ~/.log
+
 git clone --recurse-submodules $arg $@

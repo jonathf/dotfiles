@@ -9,6 +9,7 @@ install [p]yenv, pipx and some pyproject managers.
 install [f]ish and some command line tools.
 install [a]wesome wm, display manager, and some desktop apps.
 install [n]eovim and configure plugins
+install [q]utebrowser and extensions.
 install [i]ntercept and enable caps2esc and ctrl2ins."
 [ "$OS" == "arch" ] && install_opt="$install_opt
 [o]ptimize pacman"
@@ -16,13 +17,14 @@ install [i]ntercept and enable caps2esc and ctrl2ins."
 read -p "what to do?
 $install_opt
 
-[pfanio]: " flags
+[pfaniqo]: " flags
 
 [[ "$flags" == *p* ]] && install_python=y
 [[ "$flags" == *f* ]] && install_fish=y
 [[ "$flags" == *a* ]] && install_awesome=y
 [[ "$flags" == *n* ]] && install_neovim=y
 [[ "$flags" == *i* ]] && install_intercept=y
+[[ "$flags" == *q* ]] && install_qutebrowser=y
 [[ "$flags" == *o* ]] && optimize_pacman=y
 
 mkdir -p ~/source
@@ -70,6 +72,15 @@ if [ $install_python ]; then
   yes | pipx install pdm
 fi
 
+if [ "$install_qutebrowser" ]; then
+  if [ "$OS" == "arch" ]; then
+    yay -Sy --noconfirm qutebrowser lua5.1
+
+  else if [ "$OS" == "ubuntu" ]; then
+    sudo apt install -y qutebrowser lua5.1
+  fi fi
+fi
+
 if [ "$install_awesome" ]; then
 
   if [ "$OS" == "arch" ]; then
@@ -100,7 +111,7 @@ if [ "$install_fish" ]; then
   sudo chsh --shell /usr/bin/fish
 fi
 
-if [[ "yY" == *"$install_neovim"* ]]; then
+if [ "$install_neovim" ]; then
   if [ "$OS" == "arch" ]; then
     yay -Sy --noconfirm neovim-git ctags xsel
   else if [ "$OS" == "ubuntu" ]; then
@@ -115,7 +126,6 @@ if [[ "yY" == *"$install_neovim"* ]]; then
   ~/.config/nvim/venv/bin/pip install -U pip pynvim jedi neovim-remote
   nvim --headless +'PlugInstall --sync' +UpdateRemotePlugins +qall
 fi
-
 
 if [ "$install_intercept" ]; then
   if [ "$OS" == "arch" ]; then
