@@ -2,18 +2,28 @@
 
 def set_mappings(c, config):
 
-    ## This setting can be used to map keys to other keys. When the key used
-    ## as dictionary-key is pressed, the binding for the key used as
-    ## dictionary-value is invoked instead. This is useful for global
-    ## remappings of keys, for example to map Ctrl-[ to Escape. Note that
-    ## when a key is bound (via `bindings.default` or `bindings.commands`),
-    ## the mapping is ignored.
-    ## Type: Dict
-    # c.bindings.key_mappings = {'<Ctrl-[>': '<Escape>', '<Ctrl-6>': '<Ctrl-^>', '<Ctrl-M>': '<Return>', '<Ctrl-J>': '<Return>', '<Shift-Return>': '<Return>', '<Enter>': '<Return>', '<Shift-Enter>': '<Return>', '<Ctrl-Enter>': '<Ctrl-Return>'}
+    # This setting can be used to map keys to other keys. When the key used
+    # as dictionary-key is pressed, the binding for the key used as
+    # dictionary-value is invoked instead. This is useful for global
+    # remappings of keys, for example to map Ctrl-[ to Escape. Note that
+    # when a key is bound (via `bindings.default` or `bindings.commands`),
+    # the mapping is ignored.
+    #
+    # Type: Dict
+    # c.bindings.key_mappings = {
+    #       '<Ctrl-[>': '<Escape>',
+    #       '<Ctrl-6>': '<Ctrl-^>',
+    #       '<Ctrl-M>': '<Return>',
+    #       '<Ctrl-J>': '<Return>',
+    #       '<Shift-Return>': '<Return>',
+    #       '<Enter>': '<Return>',
+    #       '<Shift-Enter>': '<Return>',
+    #       '<Ctrl-Enter>': '<Ctrl-Return>'
+    # }
 
-    ## Aliases for commands. The keys of the given dictionary are the
-    ## aliases, while the values are the commands they map to.
-    ## Type: Dict
+    # Aliases for commands. The keys of the given dictionary are the
+    # aliases, while the values are the commands they map to.
+    # Type: Dict
     c.aliases = {
         'o': 'open',
         'b': 'tab-focus',
@@ -71,6 +81,8 @@ def set_mappings(c, config):
     config.bind('T', 'set-cmd-text -s :open --tab {url:pretty}')
     config.bind('J', 'scroll-page 0 0.5')
     config.bind('K', 'scroll-page 0 -0.5')
+    config.bind('^', 'scroll-to-perc --horizontal 0')
+    config.bind('$', 'scroll-to-perc --horizontal 100')
 
     # config.bind("'", 'enter-mode jump_mark')
     # config.bind('.', 'repeat-command')

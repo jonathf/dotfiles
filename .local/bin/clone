@@ -10,7 +10,7 @@ if [[ "$arg" == "https://github.com/"* ]]; then
 fi
 
 # Assume shorten paths are Github:
-if [[ "$arg" =~ ^[a-zA-Z0-9]+/[a-zA-Z0-9]+$ ]]; then
+if [[ "$arg" =~ ^[a-zA-Z0-9._-]+/[a-zA-Z0-9._-]+$ ]]; then
   arg="git@github.com:$arg"
 fi
 

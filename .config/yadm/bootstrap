@@ -123,8 +123,8 @@ if [ "$install_neovim" ]; then
   if [ ! -d ~/.config/nvim/venv ]; then
     $PYTHON -m venv ~/.config/nvim/venv
   fi
-  ~/.config/nvim/venv/bin/pip install -U pip pynvim jedi neovim-remote
-  nvim --headless +'PlugInstall --sync' +UpdateRemotePlugins +qall
+  ~/.config/nvim/venv/bin/pip install -U pip pynvim neovim-remote python-lsp-server debugpy
+  # nvim --headless +'PlugInstall --sync' +UpdateRemotePlugins +qall
 fi
 
 if [ "$install_intercept" ]; then
