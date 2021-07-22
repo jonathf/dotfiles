@@ -6,7 +6,7 @@ shift
 # When used from Qutebrowser:
 [ -n "$QUTE_URL" ] && cd $HOME/source
 if [[ "$arg" == "https://github.com/"* ]]; then
-  arg="$(echo "$arg" | sed 's/https:\/\/github.com\/\(\w\+\/\w\+\).*/\1/')"
+  arg="$(echo "$arg" | sed 's/https:\/\/github.com\/\([a-zA-Z0-9._-]\+\/[a-zA-Z0-9._-]\+\).*/\1/')"
 fi
 
 # Assume shorten paths are Github:
