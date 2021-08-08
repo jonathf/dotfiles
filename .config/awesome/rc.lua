@@ -1,12 +1,10 @@
 local awful = require("awful")
-config_path = awful.util.getdir("config")
-
 local beautiful = require("beautiful")
-beautiful.init(config_path .. "theme.lua" )
 
-require("awful.remote")
+require("main.error-handling")
+require("layout")
 
-dofile(config_path .. "errors.lua")
-dofile(config_path .. "keybinds.lua")
-dofile(config_path .. "layout.lua")
-dofile(config_path .. "programs.lua")
+root.keys(require("mapping").rootkeys)
+
+awful.spawn.once("xcompmgr -cF")
+beautiful.init(awful.util.getdir("config").."theme.lua")
