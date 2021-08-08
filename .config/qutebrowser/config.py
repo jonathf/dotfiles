@@ -13,6 +13,7 @@ except:
 container.colors.webpage.bg = None
 container.colors.webpage.darkmode.enabled = True
 container.window.transparent = False
+container.window.title_format = "{current_title}"
 
 set_mappings(container, api)
 

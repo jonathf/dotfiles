@@ -73,3 +73,5 @@ export PYENV_ROOT="$HOME/.pyenv"
 export GOPRIVATE='github.com/vippsas/*'
 export G0111MODULE=on
 export RMVIEW_CONF=$HOME/.rmview.json
+
+alias luamake=$HOME/.cache/nvim/nlua/sumneko_lua/lua-language-server/3rd/luamake/luamake
