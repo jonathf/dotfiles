@@ -1,6 +1,3 @@
-vim.cmd [[colorscheme hybrid]]
-
-
 -- files --
 local nvim_dir = os.getenv("HOME").."/.config/nvim"
 vim.g["python3_host_prog"] = nvim_dir.."/venv/bin/python"
@@ -37,7 +34,7 @@ vim.o["formatoptions"] = "croqnlj"            -- continue commenting
 vim.o["previewheight"] = 3
 vim.o["scrolloff"] = 5                        -- never reach bottom
 vim.o["linebreak"] = true                     -- smart (fake) auto-line break
-vim.o["statusline"] = "%f%=%m"
+vim.o["statusline"] = "%L %f%=%m%w %P %n"
 vim.o["termguicolors"] = true
 vim.o["virtualedit"] = "block,onemore"
 

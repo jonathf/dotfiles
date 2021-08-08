@@ -15,3 +15,4 @@ augroup end
 require'plugins'
 require'settings'
 require'mappings'
+require'snippets'

@@ -19,7 +19,7 @@ from datetime import datetime
 NOW = datetime.now()
 
 
-def is_a_path(snip):
+def is_path(snip):
     line = os.path.expanduser(os.path.expandvars(snip.buffer[snip.line][:snip.column+1]))
     regex = r"\.?/[a-zA-Z0-9_\-./ ]+$"
     match = re.search(regex, line)
@@ -39,10 +39,19 @@ def expand_path(match):
         match = match + "/"
     return match
 
+def expand_underline(snip):
+    if not snip.buffer[snip.line]:
+        return
+    char = snip.buffer[snip.line][-1]
+    length = len(snip.buffer[snip.line-1])
+    cur = 0
+    while cur < length and snip.buffer[snip.line-1][cur] == " ":
+        cur += 1
+    snip.buffer[snip.line] = snip.buffer[snip.line][:cur]+char*(length-cur)
+    snip.cursor.set(snip.line, len(snip.buffer[snip.line]))
 endglobal
 
-
-snippet "(\$HOME|\.|~)?\/[a-zA-Z0-9_\-./ ]+" "system path" "is_a_path(snip)" re
+snippet "(\$HOME|\.|~)?\/[a-zA-Z0-9_\-./ ]+" "system path" "is_path(snip)" re
 `!p snip.rv=expand_path(match)`
 endsnippet
 
@@ -57,8 +66,8 @@ snippet "<t_ü> *" "tab" r
 
 endsnippet
 
-pre_expand "snip.buffer[snip.line] = snip.buffer[snip.line][:1]*len(snip.buffer[snip.line-1]); snip.cursor.set(snip.line, len(snip.buffer[snip.line]))"
-snippet "(^[^a-zA-Z0-9 \"])\1+" "underline" br
+pre_expand "expand_underline(snip)"
+snippet "^\s*([^a-zA-Z0-9 \"])\1+" "underline" br
 endsnippet
 
 snippet "20(\d\d?)?" "month" wr
@@ -80,16 +89,5 @@ snippet "20\d\d-\d\d-\d\d" "minute" rw
     else "{}-{:02}-{:02}".format(NOW.year, NOW.month, NOW.day)
 )`
 endsnippet
-priority -60
-snippet "TODO|DONE" "" wr
-`!p snip.rv={"TODO": "DONE", "DONE": "TODO"}[match.group(0)]`
-endsnippet
-
-# #lowest on the foodchain
-# priority -9000
-#
-# snippet "^(.*[^ ])? +" "default" br
-# `!p snip.rv=match.group(0) + " "*(4-(len(match.group(0)) % 4))`
-# endsnippet
 
 # vim:ft=snippets:
