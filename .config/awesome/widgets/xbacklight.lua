@@ -17,5 +17,9 @@ return function()
     update = update_widget,
     image = "pics/light_mode_white_24dp.svg",
     colors = {"#9e824c"},
+
+    set_command = "xbacklight ",
+    get_command = "xbacklight -get",
+    actions = {up="-inc 10", down="-dec 10", min="-set 1", max="-set 100", mute="toggle"},
   }
 end

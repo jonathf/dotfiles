@@ -2,6 +2,8 @@ local awful = require("awful")
 local naughty = require("naughty")
 local wibox = require("wibox")
 
+local notification = nil
+
 --- Construct arc widget.
 -------------------------------------------------------------------------------
 -- @param command string: System command used to gather relevant widget values.
@@ -9,7 +11,6 @@ local wibox = require("wibox")
 -- @param image string: Path to widget icon relative to Awesome config root.
 -- @param colors table: Set of default colors used in widget.
 local function construct(args)
-  local notification = nil
   local configuration = {
     {
       id = "icon",
@@ -28,6 +29,9 @@ local function construct(args)
     widget = wibox.container.arcchart,
   }
   local widget = wibox.widget(configuration)
+  widget.get_command = args.get_command
+  widget.set_command = args.set_command
+  widget.actions = args.actions
 
   --- Produce output notification with command standard output.
   -----------------------------------------------------------------------------
