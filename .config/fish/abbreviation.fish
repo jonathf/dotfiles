@@ -2,6 +2,7 @@ abbr a git add
 abbr am git commit --amend
 abbr cm git commit
 abbr cma git commit -a
+abbr co git checkout
 abbr cob git checkout -b
 abbr i ipython
 abbr p python

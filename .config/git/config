@@ -4,6 +4,7 @@
     prune = "!f() { git branch -d $(git branch --merged=\"$1\" | grep -v \"$1\") \
     git fetch --prune }; f"
     add-all = "!git add `git ls-files -m | uniq`"
+    ls = "ls-files ."
 [color]
     ui = auto
 [color "branch"]
