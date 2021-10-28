@@ -7,6 +7,8 @@ abbr cob git checkout -b
 abbr i ipython
 abbr p python
 abbr l git --no-pager graph -20
+abbr la ls --all
+abbr ll ls --long
 abbr pl git pull --rebase
 abbr ps git push
 abbr psf git push --force-with-lease --force
@@ -18,3 +20,13 @@ abbr rbc git rebase --continue
 abbr rbs git rebase --skip
 abbr rbi git rebase --interactive
 abbr s git status --short --branch
+abbr t pytest -vv --doctest-modules
+abbr z zathura
+abbr vi nvim
+abbr r radian -q
+
+abbr ... ../..
+abbr .... ../../..
+abbr ..... ../../../..
+abbr ...... ../../../../..
+abbr - cd -
