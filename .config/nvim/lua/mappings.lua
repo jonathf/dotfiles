@@ -1,36 +1,69 @@
-vim.g["mapleader"] = " "
-vim.g["UltiSnipsExpandTrigger"] = "<nop>"
-vim.g["UltiSnipsListSnippets"] = "<nop>"
-vim.g["UltiSnipsJumpForwardTrigger"] = "<nop>"
-vim.g["UltiSnipsJumpBackwardTrigger"] = "<nop>"
+local cmp = require"cmp"
 
-vim.cmd[[
-function! ExpandJumpIterateTab()
-    let out = ""
-    if col('.') == 1 || getline('.')[col('.')-2] == " "
-       let out = "\<tab>"
-    "elseif UltiSnips#CanExpandSnippet()
-    "  call UltiSnips#ExpandSnippet()
-    elseif luasnip#expand_or_jumpable()
-      lua require"luasnip".expand_or_jump()
-    elseif pumvisible()
-      let out = "\<c-n>"
-    else
-      let out = "\<c-n>"
-    endif
-    return out
-endfunction
-inoremap <silent> <tab> <C-R>=g:ExpandJumpIterateTab()<cr>]]
+-- _G.tab_complete = function()
+--     local col = vim.fn.col('.') - 1
+--     if luasnip.expand_or_jumpable() then
+--         luasnip.expand_or_jump()
+--     elseif cmp.visible() then
+--         cmp.select_next_item()
+--     elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+--         return vim.api.nvim_replace_termcodes("<tab>", true, true, true)
+--     else
+--         cmp.complete()
+--     end
+--     return ""
+-- end
+-- _G.s_tab_complete = function()
+--     if cmp.visible() then
+--         cmp.select_prev_item()
+--     elseif luasnip.jumpable(-1) then
+--         cmp.jump(-1)
+--     else
+--         return vim.api.nvim_replace_termcodes("<s-tab>", true, true, true)
+--     end
+--     return ""
+-- end
+-- _G.escape = function()
+--   if cmp.visible() then cmp.close()
+--   else vim.cmd[[:stopinsert]] end
+-- end
+
+-- vim.cmd[[
+-- function! SuperTab()
+--     if luasnip#expand_or_jumpable()
+--       lua require"luasnip".expand_or_jump()
+--       return ""
+--     endif
+--     if pumvisible()
+--       return "\<down>"
+--     endif
+--     if col('.') == 1 || getline('.')[col('.')-2] == " "
+--        return "\<tab>"
+--     endif
+--     return "\<c-n>"
+-- endfunction
+-- inoremap <silent> <tab> <C-R>=g:SuperTab()<cr>
+-- ]]
+
+-- vim.cmd[[imap <tab> <plug>luasnip-expand-or-jump]]
+-- vim.api.nvim_set_keymap("i", "<tab>", "v:lua.tab_complete()", {expr = true})
+-- vim.api.nvim_set_keymap("s", "<tab>", "v:lua.tab_complete()", {expr = true})
+-- vim.api.nvim_set_keymap("i", "<s-tab>", "v:lua.s_tab_complete()", {expr = true})
+-- vim.api.nvim_set_keymap("s", "<s-tab>", "v:lua.s_tab_complete()", {expr = true})
+-- vim.api.nvim_set_keymap("i", "<c-e>", "<Plug>luasnip-next-choice", {})
+-- vim.api.nvim_set_keymap("s", "<c-e>", "<Plug>luasnip-next-choice", {})
+
+vim.g["mapleader"] = " "
 
 -- MY ESCAPE SEQUENCES --
 vim.api.nvim_set_keymap("t", "<esc>", "<c-\\><c-n>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<esc>", "<esc>:silent! nohls<cr><Plug>(anzu-clear-search-status)", {})
 
 -- IMPROVE THE DEFAULTS --
-vim.api.nvim_set_keymap("n", "n", "<Plug>(anzu-n-with-echo)<Plug>(anzu-smart-sign-matchline)", {})
-vim.api.nvim_set_keymap("n", "N", "<Plug>(anzu-N-with-echo)<Plug>(anzu-smart-sign-matchline)", {})
-vim.api.nvim_set_keymap("n", "*", "<Plug>(anzu-star-with-echo)<Plug>(anzu-smart-sign-matchline)", {})
-vim.api.nvim_set_keymap("n", "#", "<Plug>(anzu-sharp-with-echo)<Plug>(anzu-smart-sign-matchline)", {})
+vim.api.nvim_set_keymap("n", "n", "<Plug>(anzu-n-with-echo)", {})
+vim.api.nvim_set_keymap("n", "N", "<Plug>(anzu-N-with-echo)", {})
+vim.api.nvim_set_keymap("n", "*", "<Plug>(anzu-star-with-echo)", {})
+vim.api.nvim_set_keymap("n", "#", "<Plug>(anzu-sharp-with-echo)", {})
 
 -- SOME PREFERRED CHANGES --
 vim.api.nvim_set_keymap("n", "s", ":w<cr>", { noremap = true })
@@ -76,13 +109,17 @@ require'which-key'.register({
     ["u"] = { ":call UltiSnips#JumpBackwards<cr>", "Previous snippet" },
   },
   ["<leader>"] = {
+    ["1"] = {":buffer 1<cr>", "Change to buffer 1"},
+    ["2"] = {":buffer 2<cr>", "Change to buffer 2"},
+    ["3"] = {":buffer 3<cr>", "Change to buffer 3"},
+    ["4"] = {":buffer 4<cr>", "Change to buffer 4"},
+    ["5"] = {":buffer 5<cr>", "Change to buffer 5"},
+    ["6"] = {":buffer 6<cr>", "Change to buffer 6"},
+    ["7"] = {":buffer 7<cr>", "Change to buffer 7"},
+    ["8"] = {":buffer 8<cr>", "Change to buffer 8"},
+    ["9"] = {":buffer 9<cr>", "Change to buffer 9"},
     ["<leader>"] = {":ls<cr>:buffer ", "Change buffer .."},
-    ["s"] = {
-      name = "+Spell",
-      ["s"] = {":set spell!<cr>" },
-      ["="] = {"z=", "suggest" },
-      ["g"] = {"zg", "insert" },
-    },
+    ["s"] = {":set spell!<cr>", "Toggle spelling"},
     ["g"] = {
       name = "+Git",
       ["g"] = { ":Git ", "git .." },
@@ -128,7 +165,14 @@ require'which-key'.register({
       ["d"] = {":Neorg keybind all core.norg.qol.todo_items.todo.task_done<cr>", "Task done"},
       ["u"] = {":Neorg keybind all core.norg.qol.todo_items.todo.task_undone<cr>", "Task undone"},
       ["p"] = {":Neorg keybind all core.norg.qol.todo_items.todo.task_pending<cr>", "Task pending"},
-      ["t"] = {":Neorg keybind all core.norg.qol.todo_items.todo.task_cycle<cr>", "Task toggle" }
+      ["t"] = {":Neorg keybind all core.norg.qol.todo_items.todo.task_cycle<cr>", "Task toggle" },
+    },
+    ["t"] = {
+      name = "+Term",
+      ["t"] = {":exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:exec ':vs term://pytest '.expand('%')<cr>", "Pytest"},
+      ["T"] = {":exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:exec ':vs term://pytest --pdb '.expand('%')<cr>", "PDB (post mortem)"},
+      ["i"] = {":exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:vs<cr>:terminal ipython --nosep -i", "IPython"},
+      ["p"] = {":exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:exec ':vs term://ipython --nosep -i -- '.expand('%')<cr>", "Python run"},
     },
   },
 })

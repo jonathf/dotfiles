@@ -1,6 +1,11 @@
-local luasnip = require("luasnip")
-text = luasnip.text_node
-S = luasnip.insert_node
+local cmp = require"cmp"
+local luasnip = require"luasnip"
+local snippet = luasnip.snippet
+local snip_node = luasnip.snip_node
+local text = luasnip.text_node
+local insert = luasnip.insert_node
+local func = luasnip.function_node
+local dynamic = luasnip.dynamic_node
 
 -- Every unspecified option will be set to the default.
 luasnip.config.set_config{
@@ -9,376 +14,95 @@ luasnip.config.set_config{
   updateevents = "TextChanged,TextChangedI",
 }
 
-local underline = luasnip.function_node(function(args)
-  return args[1].captures[1]
-  -- local cursor = vim.api.nvim_win_get_cursor(0)
-  -- local line_above = vim.api.nvim_buf_get_lines(0, cursor[1]-2, cursor[1]-1, false)
-  -- return string.rep("=", string.len(line_above[1]))--..vim.inspect(trigger)
-end, {})
+local function filepath_exists(file)
+  local ok, err, code = os.rename(file, file)
+  if not ok and code ~= 13 and code ~= 16 then
+    return false
+  end
+  return true
+end
 
+local function folder_exists(_, trigger)
+  return trigger:sub(1, 1) == "/" and trigger:sub(-1) ~= "/" and filepath_exists(trigger.."/")
+end
+
+local function in_comment()
+  local query = vim.treesitter.parse_query(vim.bo.filetype, "(comment) @comment")
+  local row = vim.fn.line(".")-1
+  local col = vim.fn.col(".")
+  local parser = vim.treesitter.get_parser(0)
+  local root = parser:parse()[1]:root()
+  for _, match in query:iter_matches(root, 0) do
+    for _, node in pairs(match) do
+      local r1, c1, r2, c2 = node:range()
+      if r1 <= row and r2 >= row then
+        if (r2 == row and c2 >= col) or
+          (r1 == row and c1 <= col) or
+          (r1 < row and r2 > row)
+        then
+          return true
+        end
+      end
+    end
+  end
+  return false
+end
+
+local function expand_underline(_, args)
+  local cur = vim.api.nvim_win_get_cursor(0)
+  local aline = vim.api.nvim_buf_get_lines(0, cur[1]-2, cur[1]-1, false)
+  local length = string.len(aline[1])-string.len(args.indentstr)
+  return string.rep(args.captures[1], length)
+end
 
 luasnip.snippets = {
   all = {
-    luasnip.snippet("true", {text("false"), S(0)}),
-    luasnip.snippet("false", {text("true"), S(0)}),
-    luasnip.snippet("True", {text("False"), S(0)}),
-    luasnip.snippet("False", {text("True"), S(0)}),
-    luasnip.snippet({trig = "asd(%w)", regTrig = true}, underline),
-    luasnip.snippet({trig = "b(%d)", regTrig = true},
-      luasnip.function_node(function(args) return
-        "Captured Text: " .. args[1].captures[1] .. "." end, {})
-    ),
+    snippet({trig = "true", hidden = true}, text("false")),
+    snippet({trig = "false", hidden = true}, text("true")),
+    snippet({trig = "True", hidden = true}, text("False")),
+    snippet({trig = "False", hidden = true}, text("True")),
+    snippet({trig = "~", hidden = true}, func(function(_, args) return os.getenv("HOME") end, {})),
+
+    --- Repeat special char to be same
+    snippet({trig = "(-)--+", regTrig = true, hidden = true}, func(expand_underline, {})),
+    snippet({trig = "(=)==+", regTrig = true, hidden = true}, func(expand_underline, {})),
+    snippet({trig = "(~)~~+", regTrig = true, hidden = true}, func(expand_underline, {})),
+    snippet({trig = "(#)##+", regTrig = true, hidden = true}, func(expand_underline, {})),
+
+    --- Expand date
+    snippet({trig = "20", dscr = "Today's date"}, func(function(_, args) return os.date("%Y-%m-%d") end, {})),
+
+    --- Expand folders to end with /
+    snippet(
+      {trig = "[a-zA-Z0-9-_./]+", regTrig = true, hidden = true},
+      func(function(_, args) return args.trigger.."/" end, {}),
+      {condition = folder_exists}),
+    },
+  python = {
+    --- doctest stuff
+    snippet("doctest", text("doctest: +SKIP"), {condition=in_comment}),
+    snippet({trig = "doctest: +SKIP", hidden = true}, text("doctest: +NORMALIZE_WHITESPACE"), {condition=in_comment}),
+    snippet({trig = "doctest: +NORMALIZE_WHITESPACE", hidden = true}, text("doctest: +ELLIPSIS"), {condition=in_comment}),
+    snippet({trig = "doctest: +ELLIPSIS", hidden = true}, text("doctest: +IGNORE_EXCEPTION_DETAILS"), {condition=in_comment}),
+    snippet({trig = "doctest: +IGNORE_EXCEPTION_DETAILS", hidden = true}, text("doctest: +SKIP"), {condition=in_comment}),
+
+    --- string stuff
+    snippet({trig = ":", hidden = true}, {text({":", '    """'}), insert(1), text('"""')}),
+    snippet({trig = '""', hidden = true}, {text('"""'), insert(1), text('"""')}),
+    snippet({trig = '"', hidden = true}, text('""')),
+    snippet({trig = "''", hidden = true}, {text("'''"), insert(1), text("'''")}),
+    snippet({trig = "'", hidden = true}, text("''")),
+  },
+  markdown = {
+    --- codeblock stuff
+    snippet("``", {text("```"), insert(1), text("```")}),
+    snippet("`", text("``")),
+  },
+  plaintex = {
+    snippet({trig = "\\?begin", regTrig = true},
+      {text("\\begin{"), insert(1), text("}")}),
+    snippet({trig = "\\begin%{(%w+)%}", regTrig = true}, {func(function(_, args)
+      return args.trigger end, {}), text({"", ""}), func(function(_, args)
+        return "\\end{"..args.captures[1].."}" end, {})})
   },
 }
-
--- -- some shorthands...
--- local s = ls.snippet
--- local sn = ls.snippet_node
--- local t = ls.text_node
--- local i = ls.insert_node
--- local f = ls.function_node
--- local c = ls.choice_node
--- local d = ls.dynamic_node
--- local l = require("luasnip.extras").lambda
--- local r = require("luasnip.extras").rep
--- local p = require("luasnip.extras").partial
--- local m = require("luasnip.extras").match
--- local n = require("luasnip.extras").nonempty
--- local dl = require("luasnip.extras").dynamic_lambda
--- 
--- -- Every unspecified option will be set to the default.
--- ls.config.set_config({
---   history = true,
---   -- Update more often, :h events for more info.
---   updateevents = "TextChanged,TextChangedI",
--- })
--- 
--- -- args is a table, where 1 is the text in Placeholder 1, 2 the text in
--- -- placeholder 2,...
--- local function copy(args)
---   return args[1]
--- end
--- 
--- -- 'recursive' dynamic snippet. Expands to some text followed by itself.
--- local rec_ls
--- rec_ls = function()
---   return sn(
---     nil,
---     c(1, {
---       -- Order is important, sn(...) first would cause infinite loop of expansion.
---       t(""),
---       sn(nil, { t({ "", "\t\\item " }), i(1), d(2, rec_ls, {}) }),
---     })
---   )
--- end
--- 
--- local function jdocsnip(args, old_state)
---   local nodes = {
---     t({ "/**", " * " }),
---     i(1, "A short Description"),
---     t({ "", "" }),
---   }
--- 
---   -- These will be merged with the snippet; that way, should the snippet be updated,
---   -- some user input eg. text can be referred to in the new snippet.
---   local param_nodes = {}
--- 
---   if old_state then
---     nodes[2] = i(1, old_state.descr:get_text())
---   end
---   param_nodes.descr = nodes[2]
--- 
---   -- At least one param.
---   if string.find(args[2][1], ", ") then
---     vim.list_extend(nodes, { t({ " * ", "" }) })
---   end
--- 
---   local insert = 2
---   for indx, arg in ipairs(vim.split(args[2][1], ", ", true)) do
---     -- Get actual name parameter.
---     arg = vim.split(arg, " ", true)[2]
---     if arg then
---       local inode
---       -- if there was some text in this parameter, use it as static_text for this new snippet.
---       if old_state and old_state[arg] then
---         inode = i(insert, old_state["arg" .. arg]:get_text())
---       else
---         inode = i(insert)
---       end
---       vim.list_extend(
---         nodes,
---         { t({ " * @param " .. arg .. " " }), inode, t({ "", "" }) }
---       )
---       param_nodes["arg" .. arg] = inode
--- 
---       insert = insert + 1
---     end
---   end
--- 
---   if args[1][1] ~= "void" then
---     local inode
---     if old_state and old_state.ret then
---       inode = i(insert, old_state.ret:get_text())
---     else
---       inode = i(insert)
---     end
--- 
---     vim.list_extend(
---       nodes,
---       { t({ " * ", " * @return " }), inode, t({ "", "" }) }
---     )
---     param_nodes.ret = inode
---     insert = insert + 1
---   end
--- 
---   if vim.tbl_count(args[3]) ~= 1 then
---     local exc = string.gsub(args[3][2], " throws ", "")
---     local ins
---     if old_state and old_state.ex then
---       ins = i(insert, old_state.ex:get_text())
---     else
---       ins = i(insert)
---     end
---     vim.list_extend(
---       nodes,
---       { t({ " * ", " * @throws " .. exc .. " " }), ins, t({ "", "" }) }
---     )
---     param_nodes.ex = ins
---     insert = insert + 1
---   end
--- 
---   vim.list_extend(nodes, { t({ " */" }) })
--- 
---   local snip = sn(nil, nodes)
---   -- Error on attempting overwrite.
---   snip.old_state = param_nodes
---   return snip
--- end
--- 
--- -- Make sure to not pass an invalid command, as io.popen() may write over nvim-text.
--- local function bash(_, command)
---   local file = io.popen(command, "r")
---   local res = {}
---   for line in file:lines() do
---     table.insert(res, line)
---   end
---   return res
--- end
--- 
--- ls.snippets = {
---   all = {
---     -- trigger is fn.
---     s("fn", {
---       -- Simple static text.
---       t("//Parameters: "),
---       -- function, first parameter is the function, second the Placeholders
---       -- whose text it gets as input.
---       f(copy, 2),
---       t({ "", "function " }),
---       -- Placeholder/Insert.
---       i(1),
---       t("("),
---       -- Placeholder with initial text.
---       i(2, "int foo"),
---       -- Linebreak
---       t({ ") {", "\t" }),
---       -- Last Placeholder, exit Point of the snippet. EVERY 'outer' SNIPPET NEEDS Placeholder 0.
---       i(0),
---       t({ "", "}" }),
---     }),
---     s("class", {
---       -- Choice: Switch between two different Nodes, first parameter is its position, second a list of nodes.
---       c(1, {
---         t("public "),
---         t("private "),
---       }),
---       t("class "),
---       i(2),
---       t(" "),
---       c(3, {
---         t("{"),
---         -- sn: Nested Snippet. Instead of a trigger, it has a position, just like insert-nodes. !!! These don't expect a 0-node!!!!
---         -- Inside Choices, Nodes don't need a position as the choice node is the one being jumped to.
---         sn(nil, {
---           t("extends "),
---           i(1),
---           t(" {"),
---         }),
---         sn(nil, {
---           t("implements "),
---           i(1),
---           t(" {"),
---         }),
---       }),
---       t({ "", "\t" }),
---       i(0),
---       t({ "", "}" }),
---     }),
---     -- Parsing snippets: First parameter: Snippet-Trigger, Second: Snippet body.
---     -- Placeholders are parsed into choices with 1. the placeholder text(as a snippet) and 2. an empty string.
---     -- This means they are not SELECTed like in other editors/Snippet engines.
---     ls.parser.parse_snippet(
---       "lspsyn",
---       "Wow! This ${1:Stuff} really ${2:works. ${3:Well, a bit.}}"
---     ),
--- 
---     -- When wordTrig is set to false, snippets may also expand inside other words.
---     ls.parser.parse_snippet(
---       { trig = "te", wordTrig = false },
---       "${1:cond} ? ${2:true} : ${3:false}"
---     ),
--- 
---     -- When regTrig is set, trig is treated like a pattern, this snippet will expand after any number.
---     ls.parser.parse_snippet({ trig = "%d", regTrig = true }, "A Number!!"),
--- 
---     -- The last entry of args passed to the user-function is the surrounding snippet.
---     s(
---       { trig = "a%d", regTrig = true },
---       f(function(args)
---         return "Triggered with " .. args[1].trigger .. "."
---       end, {})
---     ),
---     -- It's possible to use capture-groups inside regex-triggers.
---     s(
---       { trig = "b(%d)", regTrig = true },
---       f(function(args)
---         return "Captured Text: " .. args[1].captures[1] .. "."
---       end, {})
---     ),
---     -- Use a function to execute any shell command and print its text.
---     s("bash", f(bash, {}, "ls")),
---     -- Short version for applying String transformations using function nodes.
---     s("transform", {
---       i(1, "initial text"),
---       t({ "", "" }),
---       -- lambda nodes accept an l._1,2,3,4,5, which in turn accept any string transformations.
---       -- This list will be applied in order to the first node given in the second argument.
---       l(l._1:match("[^i]*$"):gsub("i", "o"):gsub(" ", "_"):upper(), 1),
---     }),
---     s("transform2", {
---       i(1, "initial text"),
---       t("::"),
---       i(2, "replacement for e"),
---       t({ "", "" }),
---       -- Lambdas can also apply transforms USING the text of other nodes:
---       l(l._1:gsub("e", l._2), { 1, 2 }),
---     }),
---     -- Shorthand for repeating the text in a given node.
---     s("repeat", { i(1, "text"), t({ "", "" }), r(1) }),
---     -- Directly insert the ouput from a function evaluated at runtime.
---     s("part", p(os.date, "%Y")),
---     -- use matchNodes to insert text based on a pattern/function/lambda-evaluation.
---     s("mat", {
---       i(1, { "sample_text" }),
---       t(": "),
---       m(1, "%d", "contains a number", "no number :("),
---     }),
---     -- The inserted text defaults to the first capture group/the entire
---     -- match if there are none
---     s("mat2", {
---       i(1, { "sample_text" }),
---       t(": "),
---       m(1, "[abc][abc][abc]"),
---     }),
---     -- It is even possible to apply gsubs' or other transformations
---     -- before matching.
---     s("mat3", {
---       i(1, { "sample_text" }),
---       t(": "),
---       m(
---         1,
---         l._1:gsub("[123]", ""):match("%d"),
---         "contains a number that isn't 1, 2 or 3!"
---       ),
---     }),
---     -- `match` also accepts a function, which in turn accepts a string
---     -- (text in node, \n-concatted) and returns any non-nil value to match.
---     -- If that value is a string, it is used for the default-inserted text.
---     s("mat4", {
---       i(1, { "sample_text" }),
---       t(": "),
---       m(1, function(text)
---         return (#text % 2 == 0 and text) or nil
---       end),
---     }),
---     -- The nonempty-node inserts text depending on whether the arg-node is
---     -- empty.
---     s("nempty", {
---       i(1, "sample_text"),
---       n(1, "i(1) is not empty!"),
---     }),
---     -- dynamic lambdas work exactly like regular lambdas, except that they
---     -- don't return a textNode, but a dynamicNode containing one insertNode.
---     -- This makes it easier to dynamically set preset-text for insertNodes.
---     s("dl1", {
---       i(1, "sample_text"),
---       t({ ":", "" }),
---       dl(2, l._1, 1),
---     }),
---     -- Obviously, it's also possible to apply transformations, just like lambdas.
---     s("dl2", {
---       i(1, "sample_text"),
---       i(2, "sample_text_2"),
---       t({ "", "" }),
---       dl(3, l._1:gsub("\n", " linebreak ") .. l._2, { 1, 2 }),
---     }),
---   },
---   java = {
---     -- Very long example for a java class.
---     s("fn", {
---       d(6, jdocsnip, { 2, 4, 5 }),
---       t("", ""),
---       c(1, {
---         t("public "),
---         t("private "),
---       }),
---       c(2, {
---         t("void"),
---         t("String"),
---         t("char"),
---         t("int"),
---         t("double"),
---         t("boolean"),
---         i(nil, ""),
---       }),
---       t(" "),
---       i(3, "myFunc"),
---       t("("),
---       i(4),
---       t(")"),
---       c(5, {
---         t(""),
---         sn(nil, {
---           t({ "", " throws " }),
---           i(1),
---         }),
---       }),
---       t({ " {", "\t" }),
---       i(0),
---       t({ "", "}" }),
---     }),
---   },
---   tex = {
---     -- rec_ls is self-referencing. That makes this snippet 'infinite' eg. have as many
---     -- \item as necessary by utilizing a choiceNode.
---     s("ls", {
---       t({ "\\begin{itemize}", "\t\\item " }),
---       i(1),
---       d(2, rec_ls, {}),
---       t({ "", "\\end{itemize}" }),
---     }),
---   },
--- }
--- 
--- --[[
--- -- Beside defining your own snippets you can also load snippets from "vscode-like" packages
--- -- that expose snippets in json files, for example <https://github.com/rafamadriz/friendly-snippets>.
--- -- Mind that this will extend  `ls.snippets` so you need to do it after your own snippets or you
--- -- will need to extend the table yourself instead of setting a new one.
--- ]]
--- 
--- require("luasnip/loaders/from_vscode").load({ include = { "python" } }) -- Load only python snippets
--- require("luasnip/loaders/from_vscode").load({ paths = { "./my-snippets" } }) -- Load snippets from my-snippets folder
--- 
--- -- You can also use lazy loading so you only get in memory snippets of languages you use
--- require("luasnip/loaders/from_vscode").lazy_load() -- You can pass { path = "./my-snippets/"} as well
