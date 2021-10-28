@@ -5,6 +5,7 @@
     git fetch --prune }; f"
     add-all = "!git add `git ls-files -m | uniq`"
     ls = "ls-files ."
+    fame = "!git-fame"
 [color]
     ui = auto
 [color "branch"]
@@ -36,8 +37,6 @@
     required = true
 [gpg]
     program = gpg
-[init]
-    templatedir = ~/.config/git/template
 [merge]
     conflictstyle=diff3
 [pull]
@@ -50,3 +49,5 @@
     email = jonathf@gmail.com
     name = Jonathan Feinberg
     signingkey = 558C5F4DBB8597A140DA91C53673F898D24A40A7
+[credential]
+	helper = cache
