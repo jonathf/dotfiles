@@ -1,41 +1,9 @@
 My personal configuration files
 ===============================
 
-This repository is meant to be used using git bare, as described here:
-https://www.atlassian.com/git/tutorials/dotfiles
-
-To install, clone anywhere and copy the ``.git`` to ``~/.config/dotfiles``:
-
-.. code:: bash
-
-   git clone --bare https://github.com/jonathf/dotfiles ~/.config/dotfiles
-
-Interaction with the git repository folder requires extra flags, so to start
-configuring, start by add a temporary alias for your session:
-
-.. code:: bash
-
-   alias config="git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME"
-
-With it in place, check which files are in conflict with:
-
-.. code:: bash
-
-   config status
-
-Delete or move the files that are in the way. Then do the following to copy
-files from the git folder to your home:
-
-.. code:: bash
-
-   config reset --hard master
-
-The script ``config`` should now be present in ``~/.local/bin`` making it
-persistently available.
-
-Lastly, remove untracked file locally to make the interface more bareable::
-
-   config config --local status.showUntrackedFiles no
+This repository is meant to be used using git bare, as described in the
+`Atlassian tutorials <https://www.atlassian.com/git/tutorials/dotfiles>`_.
+I personally use `YADM <https://yadm.io/#>`_, but the either works.
 
 Sub-categories
 --------------
