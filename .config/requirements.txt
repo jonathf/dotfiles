@@ -1,0 +1,9 @@
+pip
+setuptools
+wheel
+keyring
+artifacts-keyring
+mypy-ls
+python-lsp-black
+python-lsp-server[all]
+ipython

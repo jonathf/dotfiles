@@ -25,6 +25,10 @@ abbr z zathura
 abbr vi nvim
 abbr r radian -q
 
+abbr 37 "python3.7 -m venv .37 && source .37/bin/activate.fish && pip install --index-url=https://pypi.org/simple -Ur ~/.config/requirements.txt"
+abbr 38 "python3.8 -m venv .38 && source .38/bin/activate.fish && pip install --index-url=https://pypi.org/simple -Ur ~/.config/requirements.txt"
+abbr 39 "python3.9 -m venv .39 && source .39/bin/activate.fish && pip install --index-url=https://pypi.org/simple -Ur ~/.config/requirements.txt"
+
 abbr ... ../..
 abbr .... ../../..
 abbr ..... ../../../..
