@@ -1,240 +1,127 @@
-function word_under_cursor()
-  local column = vim.api.nvim_win_get_cursor(0)[2]
-  local line = vim.api.nvim_get_current_line()
-  local left = line:sub(1, column+1):match("[%w_-]*$")
-  local right = line:sub(column+2):match("^[%w_-]*")
-  return left..right
+local handlers = {}
+local M = {}
+
+--- Create a hidden terminal instance
+--
+-- Make it locatable folder location/REPL-name pair. The former is take from
+-- current buffer, while the latter is explicitly given.
+--
+-- repl: string
+--   Name of the REPL it should initiate.
+--
+-- return: terminmal handle
+local build = function(repl)
+  local current_dir = vim.fn.expand("%:p:h")
+  local current_id = vim.fn.bufnr()
+  vim.cmd(":lcd "..current_dir)
+  vim.cmd(":e term://"..repl)
+
+  local term_handle = {
+    repl = repl,
+    buf_id = vim.fn.bufnr(),
+    term_id = vim.b.terminal_job_id,
+  }
+  vim.api.nvim_buf_set_option(
+    term_handle.buf_id, "bufhidden", "hide")
+  vim.api.nvim_set_current_buf(current_id)
+  return term_handle
 end
 
-function open_word_under_cursor()
-  local folder = vim.fn.expand("%:p:h").."/"
-  local extension ="."..vim.fn.expand("%:e"))
-  local filepath = folder..word_under_cursor()..extension
-  vim.cmd(":edit "..filepath)
-end
+--- Locate a terminal instance.
+--
+-- If it does not exists, creating on first.
+--
+-- repl: string
+--   Name of the REPL it should initiate.
+--
+-- return: terminmal handle
+M.find = function(repl)
+  if repl == nil then repl = "" end
+  if handlers[repl] == nil then handlers[repl] = {} end
+  local repls = handlers[repl]
 
-local instances = {}
+  local project_dir = vim.fn.getcwd()
 
-local function open(idx, init)
-  if not instances[idx] then
-    instances[idx] = new(init)
+  if repls[project_dir] == nil then
+    repls[project_dir] = build(repl)
   end
-  instance = instances[idx]
-  if api.nvim_win_is_valid(instance.window) then
-    goto_window(idx)
-  else
-    vim.cmd[[:vsplit<cr>]]
+  return handlers[repl][project_dir]
+end
+
+--- Go to terminal window.
+--
+-- If no terminal instance exists, create one. Also ensures that only one
+-- terminal window is open.
+M.go_to = function(repl, term_handle)
+  if term_handle == nil then
+    term_handle = M.find(repl)
   end
 
+  M.close(repl, term_handle)
+
+  -- open new terminal window
+  vim.cmd[[:vsplit]]
+  vim.api.nvim_set_current_buf(term_handle.buf_id)
 end
 
-
-
-
-local config = {
-    -- Run the default shell in the terminal
-    cmd = os.getenv('SHELL'),
-    -- Neovim's native `nvim_open_win` border config
-    border = 'single',
-    -- Kill the terminal buffer as soon as shell exists
-    close_on_kill = true,
-    -- Dimensions are treated as percentage
-    dimensions = {
-        height = 0.8,
-        width = 0.8,
-        x = 0.5,
-        y = 0.5,
-    },
-}
-local api = vim.api
-local fn = vim.fn
-local cmd = api.nvim_command
-
-local Terminal = {
-    au_close = {},
-    au_resize = {},
-}
-
--- Init
-function Terminal:new()
-    local state = {
-        win = nil,
-        buf = nil,
-        terminal = nil,
-    }
-
-    self.__index = self
-    return setmetatable(state, self)
-end
-
--- Terminal:setup takes windows configuration ie. dimensions
-function Terminal:setup(opts)
-    -- Give every terminal instance their own key
-    -- by converting the given cmd into a hex string
-    -- This is to be used with autocmd
-    self.au_key = config.cmd:gsub('.', function(c)
-        return string.format('%02X', string.byte(c))
-    end)
-
-    self:win_dim()
-
-    -- Need to setup different autocmd for different terminal instances
-    -- Otherwise autocmd will be overriden by other terminal aka custom terminal
-    Terminal.au_resize[self.au_key] = function()
-        self:win_dim()
+--- Close previously opened terminal window
+M.close = function(repl, term_handle)
+  if repl == nil then
+    for repl, _ in pairs(handlers) do M.close(repl) end
+  elseif type(repl) == "table" then
+    for _, repl in ipairs(handlers) do M.close(repl) end
+  elseif type(repl) == "string" then
+    if term_handle == nil then
+      term_handle = M.find(repl)
     end
-
-    cmd("autocmd VimResized * lua require('terminal').au_resize['" .. self.au_key .. "']()")
-
-    return self
-end
-
--- Terminal:remember_cursor stores the last cursor position and window
-function Terminal:remember_cursor()
-    self.last_win = api.nvim_get_current_win()
-    self.last_pos = api.nvim_win_get_cursor(self.last_win)
-end
-
--- Terminal:restore_cursor restores the cursor to the last remembered position
-function Terminal:restore_cursor()
-    if self.last_win and self.last_pos ~= nil then
-        api.nvim_set_current_win(self.last_win)
-        api.nvim_win_set_cursor(self.last_win, self.last_pos)
-
-        self.last_win = nil
-        self.last_pos = nil
+    for _, win_id in pairs(vim.fn.win_findbuf(term_handle.buf_id)) do
+      vim.cmd(vim.fn.win_id2win(win_id).."quit")
     end
+  end
 end
 
--- Terminal:win_dim return window dimensions
-function Terminal:win_dim()
-    -- get dimensions
-    local d = config.dimensions
-    local cl = vim.o.columns
-    local ln = vim.o.lines
-
-    -- calculate our floating window size
-    local width = math.ceil(cl * d.width)
-    local height = math.ceil(ln * d.height - 4)
-
-    -- and its starting position
-    local col = math.ceil((cl - width) * d.x)
-    local row = math.ceil((ln - height) * d.y - 1)
-
-    self.dims = {
-        width = width,
-        height = height,
-        col = col,
-        row = row,
-    }
+M.insert = function(repl, term_handle)
+  M.go_to(repl, term_handle)
+  vim.cmd[[:normal i]]
 end
 
--- Terminal:create_buf creates a scratch buffer for floating window to consume
-function Terminal:create_buf()
-    -- If previous buffer exists then return it
-    local prev = self.buf
-
-    if prev and api.nvim_buf_is_loaded(prev) then
-        return prev
-    end
-
-    return api.nvim_create_buf(false, true)
+M.open = function(repl, term_handle)
+  local current_win = vim.api.nvim_get_current_win()
+  M.go_to(repl, term_handle)
+  vim.api.nvim_set_current_win(current_win)
 end
 
--- Terminal:create_win creates a new window with a given buffer
-function Terminal:create_win(buf)
-    local dim = self.dims
-
-    local win = api.nvim_open_win(buf, true, {
-        border = config.border,
-        relative = 'editor',
-        style = 'minimal',
-        width = dim.width,
-        height = dim.height,
-        col = dim.col,
-        row = dim.row,
-    })
-
-    api.nvim_win_set_option(win, 'winhl', 'Normal:Normal')
-
-    -- Setting filetype in `create_win()` instead of `create_buf()` because window options
-    -- such as `winhl`, `winblend` should be available after the window is created.
-    api.nvim_buf_set_option(buf, 'filetype', 'FTerm')
-
-    return win
+M.send = function(repl, cmd, term_handle)
+  if term_handle == nil then term_handle = M.find(repl) end
+  vim.fn.chansend(term_handle.term_id, cmd.."\n")
 end
 
--- Terminal:term opens a terminal inside a buffer
-function Terminal:term()
-    if not self.buf then
-        -- This function fails if the current buffer is modified (all buffer contents are destroyed).
-        local pid = fn.termopen(config.cmd)
-
-        -- IDK what to do with this now, maybe later we can use it
-        self.terminal = pid
-
-        -- Only close the terminal buffer when `close_on_kill` is true
-        if config.close_on_kill then
-            -- Need to setup different TermClose autocmd for different terminal instances
-            -- Otherwise this will be overriden by other terminal aka custom terminal
-            Terminal.au_close[self.au_key] = function()
-                self:close(true)
-            end
-
-            -- This fires when someone executes `exit` inside term
-            -- So, in this case the buffer should also be removed instead of reusing
-            cmd("autocmd! TermClose <buffer> lua require('FTerm.terminal').au_close['" .. self.au_key .. "']()")
-        end
-    end
-
-    cmd('startinsert')
+M.run_line = function(args)
+  if type(args) == "string" then
+    args = { repl = args }
+  end
+  local current_line = vim.api.nvim_get_current_line()
+  term_handle = args["term_handle"]
+  if term_handle == nil then
+    term_handle = M.find(args["repl"])
+  end
+  M.open(args["repl"], term_handle)
+  M.send(args["repl"], current_line, term_handle)
 end
 
--- Terminal:open does all the magic of opening terminal
-function Terminal:open()
-    self:remember_cursor()
-
-    local buf = self:create_buf()
-    local win = self:create_win(buf)
-    self:term()
-    self.win = win
-    self.buf = buf
+M.run_file = function(args)
+  if type(args) == "string" then
+    args = { repl = args }
+  end
+  if args["term_handle"] == nil then
+    args["term_handle"] = M.find(args["repl"])
+  end
+  if args["cmd"] == nil then
+    args["cmd"] = ""
+  end
+  cmd = string.format("%s %s", args["cmd"], vim.fn.expand("%:p"))
+  M.open(args["repl"], args["term_handle"])
+  M.send(repl, cmd, args["term_handle"])
 end
 
--- Terminal:close does all the magic of closing terminal and clearing the buffers/windows
-function Terminal:close(force)
-    if not self.win then
-        return
-    end
-
-    if api.nvim_win_is_valid(self.win) then
-        api.nvim_win_close(self.win, {})
-    end
-
-    self.win = nil
-
-    if force then
-        if api.nvim_buf_is_loaded(self.buf) then
-            api.nvim_buf_delete(self.buf, { force = true })
-        end
-
-        fn.jobstop(self.terminal)
-
-        self.buf = nil
-        self.terminal = nil
-    end
-
-    self:restore_cursor()
-end
-
--- Terminal:toggle is used to toggle the terminal window
-function Terminal:toggle()
-    -- If window is stored then it is already opened
-    if not self.win then
-        self:open()
-    else
-        self:close()
-    end
-end
-
-return Terminal
+return M

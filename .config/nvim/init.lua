@@ -9,7 +9,8 @@ augroup AutoCommands
     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
     autocmd BufRead,BufNewFile *.ipynb set filetype=notebook
-    autocmd BufNewFile,BufRead *.gms  setfiletype gams
+    autocmd BufRead,BufNewFile *.gms setfiletype gams
+    autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup end
 ]]
 
@@ -17,4 +18,3 @@ require'plugins'
 require'settings'
 require'mappings'
 require'snippets'
-require'cmp_gh_issues'

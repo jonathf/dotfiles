@@ -1,6 +1,3 @@
--- Auto-rebuild on changes
-vim.cmd [[autocmd BufWritePost plugins.lua source <afile> | PackerCompile]]
-
 -- Install Packer if missing
 local install_path = vim.fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -13,65 +10,68 @@ end
 return require("packer").startup(function()
   use "wbthomason/packer.nvim"
 
-  use {"terrortylor/nvim-comment", config = function()
-    require"nvim_comment".setup{line_mapping = "--", operator_mapping = "-"} end}
+  -- N_- :: line comment
+  -- N__ :: block comment
+  use {"numToStr/Comment.nvim", config = function()
+    require("Comment").setup{
+      toggler = {line = "--", block = "__"},
+      opleader = {line = "-", block = "_"},
+    } end
+  }
 
-  -- use "tpope/vim-fugitive"
-  use "wellle/targets.vim"
+  -- O_i O_I :: "inside" operator
+  -- O_o O_O :: "outside" operator
+  -- optional infix modifier: n:next, l:last
+  -- target: ()[]{}<>'"`,.;:+-=~_*#/|\&$
+  use {"wellle/targets.vim"}
 
-  use {"chrisbra/Recover.vim", config = function()
-    vim.g["RecoverPlugin_Edit_Unmodified"] = 1
-  end}
+  -- N_ys :: surround an text object
+  -- O_s :: modify surrounded text object
+  -- targets: ()[]{}<>'"`
+  use {"tpope/vim-surround", require = "tpope/vim-repeat"}
 
-  use {"osyo-manga/vim-anzu", config = function()
-    vim.g["anzu_status_format"] = "%p %#WarningMsg#[%i/%l]"
-  end}
+  -- Recovery diff
+  use {"chrisbra/Recover.vim", config = function() vim.g["RecoverPlugin_Edit_Unmodified"] = 1 end}
 
+  -- count number in status with N_* N_# N_n N_N
+  use {"osyo-manga/vim-anzu", config = function() vim.g["anzu_status_format"] = "%p %#WarningMsg#[%i/%l]" end}
+
+  -- Help menu for everything
   use {"folke/which-key.nvim",
        config = function() require("which-key").setup{
          plugins = {spelling = {enabled = true, suggestions = 40}}} end}
+
+  -- use {"winston0410/range-highlight.nvim", require = {"winston0410/cmd-parser.nvim"}, config = function()
+  --   require"range-highlight".setup{} end}
+  --
+  -- use "tpope/vim-fugitive"
   use {"lewis6991/gitsigns.nvim", requires = "nvim-lua/plenary.nvim",
     config = function() require"gitsigns".setup{
       keymaps = {noremap = false}, yadm = {enable = true}} end}
-  -- use {"windwp/windline.nvim", config = function()
-  --   require"wlsample.airline"
-  --   vim.cmd[[:WindLineFloatToggle]]
-  -- end}
 
-  -- Filetype specific --
-  -----------------------
+  -- -- use {"kassio/neoterm", config = function()
+  -- --   vim.g["neoterm_default_mod"] = "rightbelow"
+  -- --   vim.g["neoterm_direct_open_repl"] = 1
+  -- --   vim.g["neoterm_repl_python"] = {"ipython"}
+  -- -- end}
+
+  -- Filetype highlighting
   use {"cespare/vim-toml", ft = {"toml"}}
   use {"jonathf/vim-fish", ft = {"fish"}}
   use {"euclidianAce/BetterLua.vim", ft = {"lua"}}
-  use {"zorab47/vim-gams"}
+  use {"zorab47/vim-gams", ft = {"gams"}}
   use {"Vimjas/vim-python-pep8-indent", ft = {"python"}}
-  -- use {"Valloric/python-indent"}
 
+  -- Editing encrypted files
   use "jamessan/vim-gnupg"
-  use {"nvim-neorg/neorg", run = ":TSInstall norg", requires = {"nvim-lua/plenary.nvim"},
-    config = function()
-    require"neorg".setup{
-      load = {
-          ["core.defaults"] = {},
-          ["core.norg.completion"] = {config = {engine = "nvim-cmp"}},
-      },
-    }
-    local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-    parser_configs.norg = {
-        install_info = {
-            url = "https://github.com/nvim-neorg/tree-sitter-norg",
-            files = { "src/parser.c", "src/scanner.cc" },
-            branch = "main"
-        },
-    }
-  end}
 
-  -- Completion --
-  ----------------
-  use {"hrsh7th/nvim-cmp",
+  -- Completion engine
+  use {
+    "hrsh7th/nvim-cmp",
     requires = {
-      "hrsh7th/cmp-path", "hrsh7th/cmp-nvim-lua", "ray-x/cmp-treesitter",
-      "nvim-neorg/neorg",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lua",
+      "ray-x/cmp-treesitter",
       "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
     },
@@ -81,43 +81,51 @@ return require("packer").startup(function()
       cmp.setup{
         -- documentation = false,
         snippet = {expand = function(args) require('luasnip').lsp_expand(args.body) end},
-        experimental = {
-          native_menu = false,
-          ghost_text = true,
-        },
+        experimental = {native_menu = false, ghost_text = true},
         sources = {
           {name = "path"},
           {name = "nvim_lua"},
           {name = "nvim_lsp"},
           {name = "luasnip"},
-          {name = "neorg"},
           {name = "treesitter", keyword_length = 5},
-          {name = "cmp_gh_issues"},
         },
         mapping = {
-          ['<C-n>'] = cmp.mapping.select_next_item{behavior = cmp.SelectBehavior.Insert},
-          ['<C-p>'] = cmp.mapping.select_prev_item{behavior = cmp.SelectBehavior.Insert},
+          ['<C-n>'] = cmp.mapping.select_next_item{behavior = cmp.SelectBehavior.Select},
+          ['<C-p>'] = cmp.mapping.select_prev_item{behavior = cmp.SelectBehavior.Select},
           ['<C-d>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-y>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.close(),
-          ['<CR>'] = cmp.mapping.confirm{behavior = cmp.ConfirmBehavior.Replace, select = false},
           ["<tab>"] = cmp.mapping(function(fallback)
-            if luasnip.expand_or_jumpable() then luasnip.expand_or_jump()
-            elseif cmp.visible() then cmp.select_next_item()
-            -- elseif has_words_before() then cmp.complete()
-            else fallback() end
-            return ""
-          end, { "i", "s" }),
+            if luasnip.expand_or_jumpable() then luasnip.expand_or_jump(); return end
+            if cmp.visible() then cmp.select_next_item(); return end
+            if luasnip.expand_or_jumpable() then luasnip.expand_or_jump(); return end
+            fallback()
+          end, {"i", "s"}),
+          ["<cr>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then cmp.confirm{behavior = cmp.ConfirmBehavior.Insert, select = true}; return end
+            fallback()
+          end, {"i", "s"}),
         },
-        formatting = {
-        },
-      } end}
+        formatting = {},
+      }
+    end}
 
-  use {"L3MON4D3/LuaSnip"}
+  -- Snippet engine
+  use {"L3MON4D3/LuaSnip", config=function()
+    local types = require("luasnip.util.types")
+    require"luasnip".config.setup{
+      history = true,
+      updateevents = "TextChanged,TextChangedI",
+      ext_opts = {
+        [types.insertNode] = {passive = {hl_group = "Todo"}},
+        [types.functionNode] = {passive = {hl_group = "Comment"}},
+      },
+      ext_base_prio = 200,
+      ext_prio_increase = 3,
+    }
+  end}
 
-  -- Theme: Tomorrow-Night --
-  ---------------------------
+  -- Color theme
   use {"marko-cerovac/material.nvim", config = function()
     vim.g.material_style = 'darker'
     require('material').setup{
@@ -131,18 +139,16 @@ return require("packer").startup(function()
         pink         =  '#85678f', error        =  '#a54242', link         =  '#5e8d87',
         cursor       =  '#ffffff', fg           =  '#e0e0e0', text         =  '#727272',
         comments     =  '#616161', disabled     =  '#474747', line_numbers =  '#424242',
-        selection    =  '#404040', highlight    =  '#373b41', active       =  '#323232',
+        selection    =  '#404040', highlight    =  '#373b41', active       =  '#1d1f21',
         border       =  '#282a2e', contrast     =  '#1d1f21', accent       =  '#FF9800',
         sidebar      =  '#282a2e', float        =  '#282a2e',
       },
     }
     vim.cmd[[colorscheme material]]
   end}
-  use {"norcalli/nvim-colorizer.lua",
-    config = function() require"colorizer".setup{} end}
+  use {"norcalli/nvim-colorizer.lua", config = function() require"colorizer".setup{} end}
 
-  -- Treesitter --
-  ----------------
+  --- Treesitter
   use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = function()
     require'nvim-treesitter.configs'.setup{
       ensure_installed = "maintained",
@@ -152,15 +158,13 @@ return require("packer").startup(function()
   end}
   use {"nvim-treesitter/playground"}
 
-  -- Language Server Protocol --
-  ------------------------------
+  --- Language Server Protocol
   use {"neovim/nvim-lspconfig", requires = {"tjdevries/nlua.nvim"},
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
       require"lspconfig".pylsp.setup{
         capabilities = capabilities,
-        settings = {pylsp = {plugins = {pylint = {enabled = false, args = {}, executable = "pylint"}}}},
       }
       require'lspconfig'.r_language_server.setup{
         capabilities = capabilities,
@@ -169,34 +173,15 @@ return require("packer").startup(function()
         {globals = {"awesome", "screen", "client", "root"},
          library = {["/usr/share/awesome/lib"] = true}})
     end}
-  use {"ray-x/lsp_signature.nvim",
-       config = function() require"lsp_signature".setup{
-       doc_lines = 0, floating_window = false, hint_prefix = ""} end}
-  use {"ahmedkhalf/lsp-rooter.nvim", config = function() require("lsp-rooter").setup{} end}
+
+  --- Tags through LSP
   use {"weilbith/nvim-lsp-smag"}
 
-  -- Debug Adapter Protocol --
-  ----------------------------
-  use {"mfussenegger/nvim-dap", config = function()
-    local dap = require("dap")
-    dap.adapters.python = {
-      type = "executable",
-      command = vim.fn.stdpath("config").."/venv/bin/python",
-      args = { "-m", "debugpy.adapter" },
+  --- Anchor PWD to project root
+  use {"ahmedkhalf/project.nvim", config = function()
+    require("project_nvim").setup{
+      patterns = {".git", "Makefile", "pyproject.toml"},
+      exclude_dirs = {".git", ".37", ".38", ".39"}
     }
-    dap.configurations.python = {{
-      type = "python",
-      request = "launch",
-      program = "${file}",
-      pythonPath = function() return os.getenv("VIRTUAL_ENV").."/bin/python" end,
-    }}
-  end}
-  use {"mfussenegger/nvim-dap-python", requires = {"nvim-dap", "nvim-treesitter"}, config = function()
-    local dappy = require"dap-python"
-    dappy.setup(vim.fn.stdpath("config").."/venv/bin/python")
-    dappy.test_runner = 'pytest'
-  end}
-  use {"theHamsta/nvim-dap-virtual-text", requires = {"nvim-dap", "nvim-treesitter"}, config = function()
-    vim.g.dap_virtual_text = true
   end}
 end)

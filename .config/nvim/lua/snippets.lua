@@ -7,13 +7,6 @@ local insert = luasnip.insert_node
 local func = luasnip.function_node
 local dynamic = luasnip.dynamic_node
 
--- Every unspecified option will be set to the default.
-luasnip.config.set_config{
-  history = true,
-  -- Update more often, :h events for more info.
-  updateevents = "TextChanged,TextChangedI",
-}
-
 local function filepath_exists(file)
   local ok, err, code = os.rename(file, file)
   if not ok and code ~= 13 and code ~= 16 then
@@ -55,6 +48,10 @@ local function expand_underline(_, args)
   return string.rep(args.captures[1], length)
 end
 
+local function rearange_as_call(_, args, prefix)
+  return args.captures[1]..prefix.."("..args.captures[2]..")"
+end
+
 luasnip.snippets = {
   all = {
     snippet({trig = "true", hidden = true}, text("false")),
@@ -78,8 +75,15 @@ luasnip.snippets = {
       func(function(_, args) return args.trigger.."/" end, {}),
       {condition = folder_exists}),
     },
+
+    --- codeblock stuff
+    snippet("``", {text({"```", ""}), insert(1), text({"", "```"})}),
+    snippet("`", text("``")),
   python = {
     --- doctest stuff
+    snippet({trig = "  # *doctest", regTrig = true, hidden = true}, text("  # doctest: +SKIP")),
+    snippet({trig = " # *doctest", regTrig = true, hidden = true}, text("  # doctest: +SKIP")),
+    snippet({trig = "# *doctest", regTrig = true, hidden = true}, text("  # doctest: +SKIP")),
     snippet("doctest", text("doctest: +SKIP"), {condition=in_comment}),
     snippet({trig = "doctest: +SKIP", hidden = true}, text("doctest: +NORMALIZE_WHITESPACE"), {condition=in_comment}),
     snippet({trig = "doctest: +NORMALIZE_WHITESPACE", hidden = true}, text("doctest: +ELLIPSIS"), {condition=in_comment}),
@@ -92,17 +96,31 @@ luasnip.snippets = {
     snippet({trig = '"', hidden = true}, text('""')),
     snippet({trig = "''", hidden = true}, {text("'''"), insert(1), text("'''")}),
     snippet({trig = "'", hidden = true}, text("''")),
+
+    --- logger stuff
+    snippet({trig = "logger"}, text("logger = logging.getLogger(__name__)")),
+    snippet({trig = "^(%s*)(.*) ?print", regTrig = true, hidden = true}, func(rearange_as_call, {}, "print")),
+    snippet({trig = "^(%s*)(.*) ?debug", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.debug")),
+    snippet({trig = "^(%s*)(.*) ?info", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.info")),
+    snippet({trig = "^(%s*)(.*) ?warning", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.warning")),
+    snippet({trig = "^(%s*)(.*) ?error", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.error")),
+    snippet({trig = "^(%s*)(.*) ?exception", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.exception")),
+
+    snippet({trig = "print%((.*[^\"'])%)", regTrig = true, hidden = true}, func(function(_, args)
+      return 'print(f"{'..args.captures[1]..'=}")'
+    end, {})),
+    snippet({trig = "print%((.*[^\"'])%)", regTrig = true, hidden = true}, func(function(_, args)
+      return 'print(f"{'..args.captures[1]..'=}")'
+    end, {})),
   },
-  markdown = {
-    --- codeblock stuff
-    snippet("``", {text("```"), insert(1), text("```")}),
-    snippet("`", text("``")),
-  },
-  plaintex = {
-    snippet({trig = "\\?begin", regTrig = true},
-      {text("\\begin{"), insert(1), text("}")}),
-    snippet({trig = "\\begin%{(%w+)%}", regTrig = true}, {func(function(_, args)
-      return args.trigger end, {}), text({"", ""}), func(function(_, args)
-        return "\\end{"..args.captures[1].."}" end, {})})
+  tex = {
+    snippet({trig = "\\?begin", regTrig = true, hidden = true},
+      {text("\\begin{"), insert(1, "environment"),
+       text("}"), insert(0), text({"", "\\end{"}),
+       func(function(args) return args[1][1] end, {1}), text("}")}),
+    snippet("begin",
+      {text("\\begin{"), insert(1, "environment"),
+       text("}"), insert(0), text({"", "\\end{"}),
+       func(function(args) return args[1][1] end, {1}), text("}")}),
   },
 }
