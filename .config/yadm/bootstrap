@@ -113,18 +113,27 @@ fi
 
 if [ "$install_neovim" ]; then
   if [ "$OS" == "arch" ]; then
-    yay -Sy --noconfirm neovim-git ctags xsel
+    yay -Sy --noconfirm neovim-git ctags xsel ninja
   else if [ "$OS" == "ubuntu" ]; then
     sudo apt install -y exuberant-ctags xsel
     sudo add-apt-repository -y ppa:neovim-ppa/unstable
     sudo apt-get update
-    sudo apt-get install -y neovim
+    sudo apt-get install -y neovim lua5.1 ninja-build
   fi fi
   if [ ! -d ~/.config/nvim/venv ]; then
     $PYTHON -m venv ~/.config/nvim/venv
   fi
   ~/.config/nvim/venv/bin/pip install -U pip pynvim neovim-remote python-lsp-server debugpy
-  # nvim --headless +'PlugInstall --sync' +UpdateRemotePlugins +qall
+  if [ ! -d ~/.cache/nvim/nlua/sumneko_lua/lua-language-server ]; then
+    mkdir -p ~/.cache/nvim/nlua/sumneko_lua
+    git clone --recursive https://github.com/sumneko/lua-language-server ~/.cache/nvim/nlua/sumneko_lua/lua-language-server
+    pushd ~/.cache/nvim/nlua/sumneko_lua/lua-language-server/3rd/luamake
+    ./compile/install.sh
+    cd ../..
+    ./3rd/luamake/luamake rebuild
+    popd
+  fi
+  nvim --headless +PackerUpdate +qall
 fi
 
 if [ "$install_intercept" ]; then
