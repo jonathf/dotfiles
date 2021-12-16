@@ -1,5 +1,0 @@
-#!/bin/sh
-# pipe to all: selection, clipboard and stdout
-
-STDIN=$(cat -)
-echo $STDIN | tee >(xsel -p) >(xsel -c)

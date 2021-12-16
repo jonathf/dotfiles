@@ -14,7 +14,6 @@ export LC_MESSAGES="C"
 export PIPENV_DEFAULT_PYTHON_VERSION="3.9"
 export PIPENV_IGNORE_VIRTUALENVS="1"
 export PIPENV_VENV_IN_PROJECT="true"
-export INSTALL_REQUIREMENTS="pip install -U pip mypy-ls python-lsp-black python-lsp-server[all] ipython"
 export RIPGREP_CONFIG_PATH=$HOME/.config/ripgreprc
 export VISUAL="nvim"
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
