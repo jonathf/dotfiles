@@ -1,13 +1,12 @@
 add_newline=false
 format = """\
-$username\
-$hostname\
-$directory\
-$hg_branch\
-$git_branch\
-$git_commit\
-$git_status\
-$git_state\
+$username$hostname$directory\
+$fill\
+$hg_branch$git_branch$git_commit$git_status$git_state\
+$cmd_duration$jobs$custom\
+$character\
+"""
+right_format = """\
 $package\
 $python\
 $conda\
@@ -15,9 +14,6 @@ $docker_context\
 $golang\
 $julia\
 $rust\
-$jobs\
-$custom\
-$character\
 """
 
 [username]
@@ -36,6 +32,9 @@ read_only="!"
 truncation_length=4
 truncate_to_repo=false
 fish_style_pwd_dir_length=3
+
+[fill]
+symbol=" "
 
 [hg_branch]
 format="[$branch ](bold bright-white)"
@@ -105,4 +104,4 @@ threshold = 1
 format="$symbol"
 success_symbol="[\n\\$ ](bright-green)"
 error_symbol="[\n\\$ ](bright-red)"
-vicmd_symbol="[ VI-MODE \n\\$ ](bold fg:black bg:yellow)"
+vicmd_symbol="[ VI-MODE \n> ](bold fg:black bg:yellow)"
