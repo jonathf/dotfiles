@@ -70,6 +70,7 @@ if [ $install_python ]; then
   yes | pipx install pipenv
   yes | pipx install poetry
   yes | pipx install pdm
+  yes | pipx install pyflyby
 fi
 
 if [ "$install_qutebrowser" ]; then

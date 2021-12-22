@@ -87,10 +87,11 @@ require'which-key'.register({
       ["i"] = {':lua require"terminal".insert("ipython")<cr>', "Insert"},
       ["o"] = {':lua require"terminal".open("ipython")<cr>', "Open"},
       ["l"] = {':lua require"terminal".run_line"ipython"<cr>', "Run line"},
-      ["f"] = {':lua require"terminal".run_file"ipython"<cr>', "Run file"},
+      ["r"] = {':lua require"terminal".run_file"ipython"<cr>', "Run file"},
       ["t"] = {':lua require"terminal".run_file{repl="fish", cmd="pytest -vv --doctest-modules"}<cr>', "Pytest"},
       ["d"] = {':lua require"terminal".run_file{repl="fish", cmd="pytest -vv --doctest-modules --pdb"}<cr>', "Debug"},
       ["c"] = {':lua require"terminal".close()<cr>', "Close"},
+      ["f"] = {':exec "!tidy-import --black --replace-star-import --action REPLACE ".bufname("%") | e <cr>', "Format"}
     },
   },
 })

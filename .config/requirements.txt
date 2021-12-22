@@ -6,4 +6,7 @@ artifacts-keyring
 mypy-ls
 python-lsp-black
 python-lsp-server[all]
+
 ipython
+pyflyby
+rich
