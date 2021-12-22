@@ -4,7 +4,7 @@ abbr cm git commit
 abbr cma git commit -a
 abbr co git checkout
 abbr cob git checkout -b
-abbr i ipython
+abbr i ipython --nosep
 abbr p python
 abbr l git --no-pager graph -20
 abbr la ls --all

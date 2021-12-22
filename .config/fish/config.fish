@@ -6,7 +6,6 @@ fish_vi_key_bindings
 
 # for managing python environments
 not contains $PYENV_ROOT/shims $PATH && pyenv init --path | source
-pdm --pep582 | source
 
 # fancy prompt with starship
 starship init fish | source

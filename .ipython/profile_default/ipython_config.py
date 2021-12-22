@@ -34,8 +34,6 @@ c = get_config()
 c.InteractiveShellApp.exec_lines = [
     "D = exit",
     "%autoreload 2",
-    "try:\n    %load_ext autotime\nexcept ImportError: pass",
-    "try:\n    %load_ext ipython_autoimport\nexcept ImportError: pass",
     "ip = get_ipython(); ip.prompts = MyPrompt(ip)",
 ]
 

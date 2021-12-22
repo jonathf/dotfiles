@@ -1,25 +1,12 @@
 from IPython import get_ipython
-import subprocess
-
 
 ipython = get_ipython()
 
 try:
     ipython.magic("load_ext pyflyby")
 except ModuleNotFoundError:
-    print("installing pyflyby")
-    subprocess.Popen(
-        ["pip", "install", "pyflyby"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    ).wait()
-    ipython.magic("load_ext pyflyby")
+    print("pyflyby is missing!")
 try:
     ipython.magic("load_ext rich")
-    print("installing rich")
-    subprocess.Popen(
-        ["pip", "install", "rich"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    ).wait()
-    ipython.magic("load_ext rich")
+except ModuleNotFoundError:
+    print("rich is missing!")
