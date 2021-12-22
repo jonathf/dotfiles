@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
-pushd ~/.password-store
-choices=$(command ls */*.gpg 2>/dev/null)
-selected=$(printf "%s\n%s\n" $(cat /tmp/dpass) $choices | sed -e 's/.gpg//' | dmenu -c -bw 2 -l 20 -fn "Ubuntu Mono-14:normal")
+shopt -s nullglob globstar
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+selected=$(printf "%s\n%s\n" $(cat /tmp/dpass) ${password_files[@]} | sed -e 's/.gpg//' | dmenu -c -bw 2 -l 20 -fn "Ubuntu Mono-14:normal")
 popd
 
 [ -z "$selected" ] && exit
 
 dpass_insert $selected
 echo "$selected
-$(head -4 /tmp/dpass 2>/dev/null)" > /tmp/dpass
+$(head -2 /tmp/dpass 2>/dev/null)" > /tmp/dpass
