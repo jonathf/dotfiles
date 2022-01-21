@@ -1,6 +1,6 @@
-local awful = require"awful"
-local naughty = require"naughty"
-local wibox = require"wibox"
+local awful = require "awful"
+local naughty = require "naughty"
+local wibox = require "wibox"
 
 local notification = nil
 
@@ -14,9 +14,9 @@ local function construct(args)
   local configuration = {
     {
       id = "icon",
-      image = os.getenv("HOME").."/.config/awesome/"..args.image,
+      image = os.getenv("HOME") .. "/.config/awesome/" .. args.image,
       resize = true,
-      widget = wibox.widget.imagebox,
+      widget = wibox.widget.imagebox
     },
     max_value = 100,
     thickness = 3,
@@ -26,7 +26,7 @@ local function construct(args)
     bg = "#ffffff11",
     paddings = 2,
     colors = args.colors,
-    widget = wibox.container.arcchart,
+    widget = wibox.container.arcchart
   }
   local widget = wibox.widget(configuration)
 
@@ -35,25 +35,22 @@ local function construct(args)
   -- @param stdout string: Standard output from running command.
   local function create_notification()
     naughty.destroy(notification)
-    notification = naughty.notify{text = widget.message}
+    notification = naughty.notify {text = widget.message}
   end
 
   --- Trigger notification on mouse click.
   -----------------------------------------------------------------------------
-  local command = "bash -c'"..args.command.."'"
+  local command = "bash -c'" .. args.command .. "'"
   local function button_press(_, _, _, button)
-    if button == 1 then
-      awful.spawn.easy_async(command, create_notification)
-    end
+    if button == 1 then awful.spawn.easy_async(command, create_notification) end
   end
 
   widget:connect_signal("button::press", button_press)
   awful.widget.watch(args.command, args.frequency, args.update, widget)
 
   widget.update = function()
-    awful.spawn.easy_async(args.command, function(stdout) 
-      args.update(widget, stdout)
-    end)
+    awful.spawn.easy_async(args.command,
+                           function(stdout) args.update(widget, stdout) end)
   end
 
   return widget

@@ -1,7 +1,7 @@
-local awful = require("awful")
-local hotkeys_popup = require("awful.hotkeys_popup")
+local awful = require "awful"
+local hotkeys_popup = require "awful.hotkeys_popup"
 
-local utils = require("mapping.utils")
+local utils = require "mapping.utils"
 
 return awful.util.table.join(
   utils.key("msc", "r", awesome.restart, {group="awesome", description="restart"}),

@@ -1,5 +1,4 @@
--- Volume Arc Widget for Awesome Window Manager
-
+--- Volume Arc Widget for Awesome Window Manager
 --- Update widget based on command output.
 -------------------------------------------------------------------------------
 -- @param widget wibox.widget: Constructed widget.
@@ -16,10 +15,10 @@ local function update_widget(widget, stdout)
   end
 end
 
-local widget = require"widgets.construct"{
+local widget = require "widgets.construct" {
   command = "amixer -D pulse sget Master",
   image = "pics/volume_up_white_24dp.svg",
   update = update_widget,
-  frequency = 30,
+  frequency = 30
 }
 return widget

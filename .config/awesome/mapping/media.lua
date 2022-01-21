@@ -1,7 +1,7 @@
-local awful = require"awful"
-local utils = require"mapping.utils"
+local awful = require "awful"
+local utils = require "mapping.utils"
 
-local command = require"command"
+local command = require "command"
 
 return awful.util.table.join(
   utils.key("   ", "XF86AudioRaiseVolume", command.volume("up"),

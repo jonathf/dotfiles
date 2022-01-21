@@ -91,6 +91,7 @@ require'which-key'.register({
 vim.cmd [[
 autocmd FileType python :lua whichkeyPython()
 autocmd FileType r :lua whichkeyR()
+autocmd FileType lua :lua whichkeyLua()
 ]]
 
 _G.whichkeyPython = function()
@@ -116,13 +117,25 @@ _G.whichkeyR = function()
   require'which-key'.register({
     ["<leader>"] = {
       ["p"] = {
-        name = "+Lua",
-        ["i"] = {':lua require"terminal".insert"radian -q"<cr>', "Radian", buffer = buf},
-        ["o"] = {':lua require"terminal".open"radian -q"<cr>', "Open", buffer = buf},
-        ["l"] = {':lua require"terminal".run_line"radian -q"<cr>', "Run line", buffer = buf},
-        ["r"] = {':lua require"terminal".run_file"radian -q"<cr>', "Run file", buffer = buf},
+        name = "+R",
+        ["i"] = {':lua require"terminal".insert"R -q"<cr>', "Radian", buffer = buf},
+        ["o"] = {':lua require"terminal".open"R -q"<cr>', "Open", buffer = buf},
+        ["l"] = {':lua require"terminal".run_line"R -q"<cr>', "Run line", buffer = buf},
+        ["r"] = {':lua require"terminal".run_file"R -q"<cr>', "Run file", buffer = buf},
         ["f"] = {':exec !R -q -e "library(\"formatR\"); args = commandArgs(trailingOnly=TRUE); formatR::tidy_source(args[1], file=args[1])"', "Format", buffer = buf},
+      },
     },
+  })
+end
+
+_G.whichkeyLua = function()
+  local buf = vim.api.nvim_get_current_buf()
+  require'which-key'.register({
+    ["<leader>"] = {
+      ["p"] = {
+        name = "+Lua",
+        ["f"] = {':exec "!lua-format -i ".bufname("%")<cr>', "Format", buffer = buf},
+      },
     },
   })
 end

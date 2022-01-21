@@ -1,5 +1,4 @@
--- Brightness Arc Widget
-
+--- Brightness Arc Widget
 --- Update widget based on command output.
 -------------------------------------------------------------------------------
 -- @param widget wibox.widget: Constructed widget.
@@ -10,11 +9,11 @@ local function update_widget(widget, stdout)
   widget.message = string.format("Brightness: %d %%", brightness_level)
 end
 
-local widget = require"widgets.construct"{
+local widget = require "widgets.construct" {
   command = "xbacklight -get",
   update = update_widget,
   image = "pics/light_mode_white_24dp.svg",
   colors = {"#9e824c"},
-  frequency = 30,
+  frequency = 30
 }
 return widget

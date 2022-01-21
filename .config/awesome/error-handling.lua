@@ -1,10 +1,10 @@
-local naughty = require"naughty"
+local naughty = require "naughty"
 
 local in_error = false
 local notify = function(text)
   if in_error then return end
   in_error = true
-  naughty.notify{preset = naughty.config.presets.critical, text = text}
+  naughty.notify {preset = naughty.config.presets.critical, text = text}
   in_error = false
 end
 

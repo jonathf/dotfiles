@@ -1,5 +1,4 @@
--- Battery Arc Widget for Awesome Window Manager
-
+--- Battery Arc Widget for Awesome Window Manager
 --- Update widget based on command output.
 -------------------------------------------------------------------------------
 -- @param widget wibox.widget: Constructed widget.
@@ -13,16 +12,16 @@ local function update_widget(widget, stdout)
     widget.colors = {"#ffffff"}
   elseif charge < 10 then
     widget.colors = {"#e53935"}
-    require"naughty".notify{text = widget.message}
+    require"naughty".notify {text = widget.message}
   else
     widget.colors = {"#8c9440"}
   end
 end
 
-local widget = require"widgets.construct"{
+local widget = require "widgets.construct" {
   command = "acpi",
   image = "pics/bolt_white_24dp.svg",
   update = update_widget,
-  frequency = 30,
+  frequency = 30
 }
 return widget

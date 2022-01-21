@@ -1,5 +1,5 @@
 -- Network Widget for Awesome Window Manager
-local naughty = require"naughty"
+local naughty = require "naughty"
 
 local last_ssid = ""
 local function update_widget(widget, stdout)
@@ -7,7 +7,7 @@ local function update_widget(widget, stdout)
     widget.value = 0
     widget.message = "Wifi: Disconnected"
     if last_ssid ~= "" then
-      naughty.notify{text="Wifi: Disconnected"}
+      naughty.notify {text = "Wifi: Disconnected"}
       last_ssid = ""
     end
   else
@@ -17,17 +17,17 @@ local function update_widget(widget, stdout)
     widget.value = signal
     widget.message = string.format("Wifi: %s, %d %%", ssid, signal)
     if last_ssid ~= ssid then
-      naughty.notify{text=widget.message}
+      naughty.notify {text = widget.message}
       last_ssid = ssid
     end
   end
 end
 
-local widget = require"widgets.construct"{
+local widget = require "widgets.construct" {
   command = "nmcli -f IN-USE,SIGNAL,SSID device wifi",
   update = update_widget,
   image = "pics/wifi_white_24dp.svg",
   colors = {"#5e8d87"},
-  frequency = 5,
+  frequency = 5
 }
 return widget
