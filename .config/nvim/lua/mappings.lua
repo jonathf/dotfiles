@@ -83,15 +83,46 @@ require'which-key'.register({
     },
     ["s"] = {":set spell!<cr>", "Toggle spelling"},
     ["p"] = {
-      name = "+Python",
-      ["i"] = {':lua require"terminal".insert"ipython --nosep"<cr>', "Insert"},
-      ["o"] = {':lua require"terminal".open"ipython --nosep"<cr>', "Open"},
-      ["l"] = {':lua require"terminal".run_line"ipython --nosep"<cr>', "Run line"},
-      ["r"] = {':lua require"terminal".run_file"ipython --nosep"<cr>', "Run file"},
-      ["t"] = {':lua require"terminal".run_file{repl="fish", cmd="pytest -vv --doctest-modules"}<cr>', "Pytest"},
-      ["d"] = {':lua require"terminal".run_file{repl="fish", cmd="pytest -vv --doctest-modules --pdb"}<cr>', "Debug"},
       ["c"] = {':lua require"terminal".close()<cr>', "Close"},
-      ["f"] = {':exec "!tidy-import --black --replace-star-import --action REPLACE ".bufname("%") | e <cr>', "Format"}
     },
   },
 })
+
+vim.cmd [[
+autocmd FileType python :lua whichkeyPython()
+autocmd FileType r :lua whichkeyR()
+]]
+
+_G.whichkeyPython = function()
+  local buf = vim.api.nvim_get_current_buf()
+  require'which-key'.register({
+    ["<leader>"] = {
+      ["p"] = {
+        name = "+Python",
+        ["i"] = {':lua require"terminal".insert"ipython --nosep"<cr>', "IPython", buffer = buf},
+        ["o"] = {':lua require"terminal".open"ipython --nosep"<cr>', "Open", buffer = buf},
+        ["l"] = {':lua require"terminal".run_line"ipython --nosep"<cr>', "Run line", buffer = buf},
+        ["r"] = {':lua require"terminal".run_file"ipython --nosep"<cr>', "Run file", buffer = buf},
+        ["f"] = {':exec "!tidy-imports --black --replace-star-import --action REPLACE ".bufname("%") | exec "!black ".bufname("%") | e <cr>', "Format", buffer = buf},
+        ["t"] = {':lua require"terminal".run_file{repl="fish", cmd="pytest -vv --doctest-modules"}<cr>', "Pytest", buffer = buf},
+        ["d"] = {':lua require"terminal".run_file{repl="fish", cmd="pytest -vv --doctest-modules --pdb"}<cr>', "Debug", buffer = buf},
+    },
+    },
+  })
+end
+
+_G.whichkeyR = function()
+  local buf = vim.api.nvim_get_current_buf()
+  require'which-key'.register({
+    ["<leader>"] = {
+      ["p"] = {
+        name = "+Lua",
+        ["i"] = {':lua require"terminal".insert"radian -q"<cr>', "Radian", buffer = buf},
+        ["o"] = {':lua require"terminal".open"radian -q"<cr>', "Open", buffer = buf},
+        ["l"] = {':lua require"terminal".run_line"radian -q"<cr>', "Run line", buffer = buf},
+        ["r"] = {':lua require"terminal".run_file"radian -q"<cr>', "Run file", buffer = buf},
+        ["f"] = {':exec !R -q -e "library(\"formatR\"); args = commandArgs(trailingOnly=TRUE); formatR::tidy_source(args[1], file=args[1])"', "Format", buffer = buf},
+    },
+    },
+  })
+end

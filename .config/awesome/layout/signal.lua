@@ -1,6 +1,5 @@
-local awful = require("awful")
-local beautiful = require("beautiful")
-local mapping = require("mapping")
+local awful = require"awful"
+local mapping = require"mapping"
 
 -- Prevent clients from being unreachable after screen count changes.
 client.connect_signal("manage",
@@ -14,9 +13,5 @@ client.connect_signal("manage",
     end
   end)
 
-client.connect_signal("focus", function(c)
-    c.border_color = beautiful.border_focus
-end)
-client.connect_signal("unfocus", function(c)
-    c.border_color = beautiful.border_normal
-end)
+client.connect_signal("focus", function(c) c.opacity = 1 end)
+client.connect_signal("unfocus", function(c) c.opacity = 0.5 end)

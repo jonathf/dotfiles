@@ -5,7 +5,10 @@ local theme = {
   hotkeys_font = "Ubuntu Mono derivative Powerline 12",
   hotkeys_description_font = "Ubuntu Mono derivative Powerline 12",
 
+
   bg_normal = "#000000bb",  fg_normal = "#6c7a80",
+  taglist_fg_focus = "#fff",
+  taglist_fg_occupied = "#6c7a80",
   bg_focus = "#00000055",   fg_focus = "#5f819d",
   bg_urgent = "#a54242",    fg_urgent = "#c5c8c6",
   bg_minimize = "#5f819d",  fg_minimize = "#2d3c46",

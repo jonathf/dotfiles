@@ -1,6 +1,6 @@
-local awful = require("awful")
-local naughty = require("naughty")
-local wibox = require("wibox")
+local awful = require"awful"
+local naughty = require"naughty"
+local wibox = require"wibox"
 
 local notification = nil
 
@@ -29,28 +29,33 @@ local function construct(args)
     widget = wibox.container.arcchart,
   }
   local widget = wibox.widget(configuration)
-  widget.get_command = args.get_command
-  widget.set_command = args.set_command
-  widget.actions = args.actions
 
   --- Produce output notification with command standard output.
   -----------------------------------------------------------------------------
   -- @param stdout string: Standard output from running command.
-  local function create_notification(stdout)
+  local function create_notification()
     naughty.destroy(notification)
     notification = naughty.notify{text = widget.message}
   end
 
   --- Trigger notification on mouse click.
   -----------------------------------------------------------------------------
+  local command = "bash -c'"..args.command.."'"
   local function button_press(_, _, _, button)
     if button == 1 then
-      awful.spawn.easy_async("bash -c '"..args.command.."'", create_notification)
+      awful.spawn.easy_async(command, create_notification)
     end
   end
 
   widget:connect_signal("button::press", button_press)
-  awful.widget.watch(args.command, 10, args.update, widget)
+  awful.widget.watch(args.command, args.frequency, args.update, widget)
+
+  widget.update = function()
+    awful.spawn.easy_async(args.command, function(stdout) 
+      args.update(widget, stdout)
+    end)
+  end
+
   return widget
 end
 

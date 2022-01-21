@@ -68,10 +68,11 @@ export fish_pager_color_progress=("brwhite" "--background=cyan")
 [ -d "$HOME/.pyenv" ] && 
 export PYENV_ROOT="$HOME/.pyenv"
 [ -d "$HOME/.pyenv" ] && [[ "$PATH" != *"$HOME/.pyenv"* ]] && export PATH="$PATH:$PYENV_ROOT/bin"
+[ -d "/opt/clang-format-static" ] && export PATH="$PATH:/opt/clang-format-static"
 
 export GOPRIVATE='github.com/vippsas/*'
 export G0111MODULE=on
 export RMVIEW_CONF=$HOME/.rmview.json
 export PYFLYBY_PATH=$HOME/.config/pyflyby.py:.../.pyflyby.py
 
-alias luamake=$HOME/.cache/nvim/nlua/sumneko_lua/lua-language-server/3rd/luamake/luamake
+setxkbmap no

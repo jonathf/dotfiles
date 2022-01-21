@@ -12,9 +12,9 @@ To install, follow the steps:
 
    .. code:: bash
 
-       sudo pacman -Syu awesome vicious lain xcompmgr \
-           network-manager-applet scrot blueman powerline-fonts \
-           xfce4-power-manager xorg-xbacklight alacritty \
+       sudo pacman -Syu awesome vicious xcompmgr \
+           network-manager-applet scrot blueman \
+           xorg-xbacklight alacritty \
            ttf-ubuntu-font-family xtrlock
        yay -Syu dmenu-distrotube-git
 
@@ -25,9 +25,8 @@ On Ubuntu:
        sudo add-apt-repository ppa:mmstick76/alacritty
        sudo apt update
        sudo apt install awesome awesome-extras scrot blueman \
-           xfce4-power-manager xbacklight alacritty xcompmgr
+           xbacklight alacritty xcompmgr
        cd ~/.config/awesome
-       git clone https://github.com/copycat-killer/lain
 
 
 2. (Optional) Add LightDM and Slick-greeter. On Arch Linux:

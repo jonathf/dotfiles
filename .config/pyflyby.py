@@ -9,6 +9,7 @@ import numpy as np
 from numpy import array, ndarray
 
 import pandas
+import pandas as pd
 from pandas import DataFrame, Series
 
 import matplotlib.pyplot

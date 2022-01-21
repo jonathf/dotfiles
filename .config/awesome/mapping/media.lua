@@ -1,32 +1,29 @@
-local awful = require("awful")
-
+local awful = require"awful"
 local utils = require"mapping.utils"
 
-local volume = require"command.volume"
-local brightness = require"command.brightness"
-local xrandr = require"command.xrandr"
+local command = require"command"
 
 return awful.util.table.join(
-  utils.key("   ", "XF86AudioRaiseVolume", volume("up"),
+  utils.key("   ", "XF86AudioRaiseVolume", command.volume("up"),
     {group="media", description="volume up"}),
-  utils.key("m  ", "XF86AudioRaiseVolume", volume("max"),
+  utils.key("m  ", "XF86AudioRaiseVolume", command.volume("max"),
     {group="media", description="volume max"}),
-  utils.key("   ", "XF86AudioLowerVolume", volume("down"),
+  utils.key("   ", "XF86AudioLowerVolume", command.volume("down"),
     {group="media", description="volume down"}),
-  utils.key("m  ", "XF86AudioLowerVolume", volume("min"),
+  utils.key("m  ", "XF86AudioLowerVolume", command.volume("min"),
     {group="media", description="volume min"}),
-  utils.key("   ", "XF86AudioMute", volume("mute"),
+  utils.key("   ", "XF86AudioMute", command.volume("mute"),
     {group="media", description="volume mute"}),
-  utils.key("   ", "XF86MonBrightnessDown", brightness("down"),
+  utils.key("   ", "XF86MonBrightnessDown", command.brightness("down"),
     {group="media", description="brightness down"}),
-  utils.key("m  ", "XF86MonBrightnessDown", brightness("min"),
+  utils.key("m  ", "XF86MonBrightnessDown", command.brightness("min"),
     {group="media", description="brightness min"}),
-  utils.key("   ", "XF86MonBrightnessUp", brightness("up"),
+  utils.key("   ", "XF86MonBrightnessUp", command.brightness("up"),
     {group="media", description="brightness up"}),
-  utils.key("m  ", "XF86MonBrightnessUp", brightness("max"),
+  utils.key("m  ", "XF86MonBrightnessUp", command.brightness("max"),
     {group="media", description="brightness max"}),
-  utils.key("m  ", "F7", xrandr),
-  utils.key("m  ", "F8", function() awful.utils.spawn.with_shell("nmcli connection up 'unifon'") end),
+  utils.key("m  ", "F7", command.xrandr),
+  utils.key("m  ", "F8", utils.spawn("nmcli connection up 'unifon'")),
   utils.key("   ", "Print", utils.spawn("scrot -e 'mv $f ~/temp/screenshots/ 2>/dev/null'"),
     {group="media", description="print screen"})
 )

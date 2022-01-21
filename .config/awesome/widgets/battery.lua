@@ -1,8 +1,4 @@
 -- Battery Arc Widget for Awesome Window Manager
-local naughty = require("naughty")
-local construct = require("widgets.construct")
-
-local last_battery_check = os.time()
 
 --- Update widget based on command output.
 -------------------------------------------------------------------------------
@@ -17,16 +13,16 @@ local function update_widget(widget, stdout)
     widget.colors = {"#ffffff"}
   elseif charge < 10 then
     widget.colors = {"#e53935"}
-    naughty.notify{text = widget.message}
+    require"naughty".notify{text = widget.message}
   else
     widget.colors = {"#8c9440"}
   end
 end
 
-return function()
-  return construct{
-    command = "acpi",
-    image = "pics/bolt_white_24dp.svg",
-    update = update_widget,
-  }
-end
+local widget = require"widgets.construct"{
+  command = "acpi",
+  image = "pics/bolt_white_24dp.svg",
+  update = update_widget,
+  frequency = 30,
+}
+return widget

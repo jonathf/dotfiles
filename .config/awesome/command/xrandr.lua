@@ -1,19 +1,19 @@
-local naughty = require("naughty")
+local awful = require"awful"
+local naughty = require"naughty"
 
 local notification = nil
 
 local function xrandr()
-  local file = assert(io.popen("xrandr", "r"))
-  local stdout = file:read("*all")
-  file:close()
-  for match in string.gmatch(stdout, "(%w+) connected") do
-    if match ~= "eDP1" then
-      assert(io.popen("xrandr --output eDP1 --below "..match, "r")):close()
+  awful.spawn.easy_async("xrandr", function(stdout)
+    for adapter, resolution in string.gmatch(stdout, "(%w+) connected .*\n   (%d+x%d+)") do
+      if adapter ~= "eDP1" then
 
-      naughty.destroy(notification)
-      notification = naughty.notify{text = string.format("display: %s", match)}
+        awful.spawn.easy_async("xrandr --output eDP1 --below "..adapter)
+        naughty.destroy(notification)
+        notification = naughty.notify{text = string.format("display: %s [%d]", adapter, resolution)}
+      end
     end
-  end
+  end)
 end
 
 return xrandr

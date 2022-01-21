@@ -24,6 +24,7 @@ abbr t pytest -vv --doctest-modules
 abbr z zathura
 abbr vi nvim
 abbr r radian -q
+abbr gg git log --graph --all --oneline
 
 abbr 27 install_python_environment 2 7
 abbr 37 install_python_environment 3 7

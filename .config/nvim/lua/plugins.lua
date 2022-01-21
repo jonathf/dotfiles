@@ -49,12 +49,6 @@ return require("packer").startup(function()
     config = function() require"gitsigns".setup{
       keymaps = {noremap = false}, yadm = {enable = true}} end}
 
-  -- -- use {"kassio/neoterm", config = function()
-  -- --   vim.g["neoterm_default_mod"] = "rightbelow"
-  -- --   vim.g["neoterm_direct_open_repl"] = 1
-  -- --   vim.g["neoterm_repl_python"] = {"ipython"}
-  -- -- end}
-
   -- Filetype highlighting
   use {"cespare/vim-toml", ft = {"toml"}}
   use {"jonathf/vim-fish", ft = {"fish"}}
@@ -128,9 +122,8 @@ return require("packer").startup(function()
   -- Color theme
   use {"marko-cerovac/material.nvim", config = function()
     vim.g.material_style = 'darker'
-    require('material').setup{
+    require"material".setup{
       disable = {background = true, term_colors = true},
-      contrast_windows = {},
       custom_colors = {
         white        =  '#ffffff', gray         =  '#c5c8c6', variable     =  '#c5c8c6',
         black        =  '#1d1f21', red          =  '#cc6666', green        =  '#b5bd68',

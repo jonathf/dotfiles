@@ -1,8 +1,7 @@
-local widget = {
-  acpi = require 'widgets.acpi',
-  amixer = require 'widgets.amixer',
-  nmcli = require 'widgets.nmcli',
-  xbacklight = require 'widgets.xbacklight',
+local widgets = {
+  battery = require"widgets.battery",
+  volume = require"widgets.volume",
+  wifi = require"widgets.wifi",
+  brightness = require"widgets.brightness",
 }
-
-return widget
+return widgets

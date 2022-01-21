@@ -1,8 +1,6 @@
-local awful = require("awful")
-local beautiful = require("beautiful")
-local mapping = require("mapping")
+local awful = require"awful"
+local beautiful = require"beautiful"
 
--- Rules
 awful.rules.rules = {
   {
     rule = {},
@@ -11,17 +9,13 @@ awful.rules.rules = {
         border_color = beautiful.border_normal,
         focus = awful.client.focus.filter,
         raise = true,
-        keys = mapping.client,
+        keys = require"mapping".client,
         screen = awful.screen.preferred,
         placement = awful.placement.no_overlap+awful.placement.no_offscreen,
     }
   },
-
   {rule={class="plugin-container"}, properties={floating=true, focus=true}},
-
   {rule={class="Plugin-container"}, properties={floating=true, focus=true}},
-
   {rule={class="libreoffice"}, properties={floating=false, maximized=true, focus=true}},
-
   {rule={class="mpv"}, properties={fullscreen=true, focus=true}}
 }

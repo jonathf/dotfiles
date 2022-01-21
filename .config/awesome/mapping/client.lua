@@ -1,6 +1,6 @@
-local awful = require("awful")
+local awful = require"awful"
 
-local utils = require("mapping.utils")
+local utils = require"mapping.utils"
 
 
 return awful.util.table.join(

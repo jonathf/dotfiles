@@ -51,3 +51,5 @@
     signingkey = 558C5F4DBB8597A140DA91C53673F898D24A40A7
 [credential]
 	helper = cache
+[init]
+	defaultBranch = main

@@ -77,7 +77,7 @@ luasnip.snippets = {
     },
 
     --- codeblock stuff
-    snippet("``", {text({"```", ""}), insert(1), text({"", "```"})}),
+    snippet("``", {text({"```", ""}), insert(0), text({"", "```"})}),
     snippet("`", text("``")),
   python = {
     --- doctest stuff
@@ -91,10 +91,10 @@ luasnip.snippets = {
     snippet({trig = "doctest: +IGNORE_EXCEPTION_DETAILS", hidden = true}, text("doctest: +SKIP"), {condition=in_comment}),
 
     --- string stuff
-    snippet({trig = ":", hidden = true}, {text({":", '    """'}), insert(1), text('"""')}),
-    snippet({trig = '""', hidden = true}, {text('"""'), insert(1), text('"""')}),
+    snippet({trig = ":", hidden = true}, {text({":", '    """'}), insert(0), text('"""')}),
+    snippet({trig = '""', hidden = true}, {text('"""'), insert(0), text('"""')}),
     snippet({trig = '"', hidden = true}, text('""')),
-    snippet({trig = "''", hidden = true}, {text("'''"), insert(1), text("'''")}),
+    snippet({trig = "''", hidden = true}, {text("'''"), insert(0), text("'''")}),
     snippet({trig = "'", hidden = true}, text("''")),
 
     --- logger stuff
