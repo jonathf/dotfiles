@@ -12,6 +12,11 @@
     current = yellow
     local = yellow
     remote = green
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
 [color "diff"]
     meta = yellow bold
     frag = magenta bold
@@ -27,7 +32,7 @@
     excludesfile = ~/.config/git/ignore
     autocrlf = input
     filemode = false
-    pager = less --LONG-PROMPT --chop-long-lines --tabs=4 --jump-target=3 --ignore-case --status-column
+    pager = /usr/share/git/diff-highlight/diff-highlight | less --LONG-PROMPT --chop-long-lines --tabs=4 --jump-target=3 --ignore-case --status-column
 [fetch]
     prune = true
 [filter "lfs"]

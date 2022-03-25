@@ -4,8 +4,17 @@ wheel
 keyring
 artifacts-keyring
 mypy-ls
+python-lsp-server
+pycodestyle
+pydocstyle
+esbonio
+rope
+pylsp-rope
 python-lsp-black
-python-lsp-server[all]
+pylsp-mypy
+
+matplotlib
+matplotlib-sixel
 
 ipython
 pyflyby

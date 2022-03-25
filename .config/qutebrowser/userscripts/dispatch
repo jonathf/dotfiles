@@ -62,7 +62,7 @@ function map(values)
 end
 
 -- The page we are in
-QUTE_URL = os.getenv("QUTE_URL")
+QUTE_URL = os.getenv("QUTE_URL") or ""
 
 -- stripped down version of the url
 BASE_URL = string.match(QUTE_URL, "https?://(.*)") or QUTE_URL
