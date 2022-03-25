@@ -12,4 +12,4 @@ client.connect_signal("manage", function(c)
 end)
 
 client.connect_signal("focus", function(c) c.opacity = 1 end)
-client.connect_signal("unfocus", function(c) c.opacity = 0.5 end)
+client.connect_signal("unfocus", function(c) c.opacity = 0.8 end)
