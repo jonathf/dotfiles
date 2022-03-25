@@ -30,19 +30,6 @@ To install, follow the steps:
 
       fish --version
 
-4. Change the default shell to Fish. In case Fish is installed
-   globally, this can be done using the command:
-
-   .. code:: bash
-
-       chsh --shell /usr/bin/fish
-
-   If installed locally, run the following command instead:
-
-   .. code:: bash
-
-       chsh --shell $HOME/.local/bin/fish
-
 Optional Installs
 -----------------
 
