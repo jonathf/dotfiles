@@ -2,6 +2,14 @@ vim.g["mapleader"] = " "
 
 vim.api.nvim_set_keymap("i", "<c-s>", "<c-g>u<Esc>[s1z=`]a<c-g>u", {noremap = true})
 
+-- LUASNIPS COMMAND --
+vim.api.nvim_set_keymap("i", "<c-k>", "<cmd>lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("i", "<c-j>", "<cmd>lua if require'luasnip'.choice_active() then require'luasnip'.change_choice(-1) end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("s", "<c-k>", "<cmd>lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("s", "<c-j>", "<cmd>lua if require'luasnip'.choice_active() then require'luasnip'.change_choice(-1) end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<c-k>", ":lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<c-j>", ":lua if require'luasnip'.choice_active() then require'luasnip'.change_choice(-1) end<cr>", {noremap = true})
+
 -- MY ESCAPE SEQUENCES --
 vim.api.nvim_set_keymap("t", "<esc>", "<c-\\><c-n>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<esc>", "<esc>:silent! nohls<cr><Plug>(anzu-clear-search-status)", {})
@@ -79,7 +87,12 @@ require'which-key'.register({
       ["r"] = {":lua vim.lsp.buf.rename()<cr>", "Rename"},
       ["i"] = {":lua vim.lsp.buf.incoming_calls()<cr>", "Incomming"},
       ["o"] = {":lua vim.lsp.buf.outgoing_calls()<cr>", "Outgoing"},
-      ["c"] = {":lua vim.lsp.buf.code_action()<cr>", "Code Action"}
+      ["a"] = {":lua vim.lsp.buf.code_action()<cr>", "Code Action"}
+    },
+    ["r"] = {
+      name = "+Reload",
+      ["v"] = {":luafile ~/.config/nvim/init.lua<cr>", "Vim"},
+      ["c"] = {":luafile %<cr>", "Current"},
     },
     ["s"] = {":set spell!<cr>", "Toggle spelling"},
     ["p"] = {

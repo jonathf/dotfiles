@@ -1,4 +1,4 @@
-vim.cmd[[
+vim.cmd [[
 augroup AutoCommands
     autocmd!
     autocmd BufWritePre * ++once let &backupext='-'.strftime("%y%m")
@@ -14,7 +14,7 @@ augroup AutoCommands
 augroup end
 ]]
 
-require'plugins'
-require'settings'
-require'mappings'
-require'snippets'
+require "plugins"
+require "settings"
+require "mappings"
+require "snippets"

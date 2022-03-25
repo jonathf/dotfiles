@@ -1,11 +1,13 @@
-local cmp = require"cmp"
-local luasnip = require"luasnip"
+local cmp = require "cmp"
+local luasnip = require "luasnip"
 local snippet = luasnip.snippet
 local snip_node = luasnip.snip_node
-local text = luasnip.text_node
+local t = luasnip.text_node
 local insert = luasnip.insert_node
 local func = luasnip.function_node
 local dynamic = luasnip.dynamic_node
+local choice = luasnip.choice_node
+local fmt = require("luasnip.extras.fmt").fmt
 
 local function filepath_exists(file)
   local ok, err, code = os.rename(file, file)
@@ -19,8 +21,8 @@ local function folder_exists(_, trigger)
   return trigger:sub(1, 1) == "/" and trigger:sub(-1) ~= "/" and filepath_exists(trigger.."/")
 end
 
-local function in_comment()
-  local query = vim.treesitter.parse_query(vim.bo.filetype, "(comment) @comment")
+local function in_context(string)
+  local query = vim.treesitter.parse_query(vim.bo.filetype, string)
   local row = vim.fn.line(".")-1
   local col = vim.fn.col(".")
   local parser = vim.treesitter.get_parser(0)
@@ -41,6 +43,10 @@ local function in_comment()
   return false
 end
 
+local function in_comment() return in_context("(comment) @comment") end
+local function in_string() return in_context("(string) @string") end
+
+
 local function expand_underline(_, args)
   local cur = vim.api.nvim_win_get_cursor(0)
   local aline = vim.api.nvim_buf_get_lines(0, cur[1]-2, cur[1]-1, false)
@@ -48,23 +54,19 @@ local function expand_underline(_, args)
   return string.rep(args.captures[1], length)
 end
 
-local function rearange_as_call(_, args, prefix)
-  return args.captures[1]..prefix.."("..args.captures[2]..")"
-end
-
-luasnip.snippets = {
+luasnip.add_snippets(nil, {
   all = {
-    snippet({trig = "true", hidden = true}, text("false")),
-    snippet({trig = "false", hidden = true}, text("true")),
-    snippet({trig = "True", hidden = true}, text("False")),
-    snippet({trig = "False", hidden = true}, text("True")),
+    snippet({trig = "true", hidden = true}, t"false"),
+    snippet({trig = "false", hidden = true}, t"true"),
+    snippet({trig = "True", hidden = true}, t"False"),
+    snippet({trig = "False", hidden = true}, t"True"),
     snippet({trig = "~", hidden = true}, func(function(_, args) return os.getenv("HOME") end, {})),
 
     --- Repeat special char to be same
-    snippet({trig = "(-)--+", regTrig = true, hidden = true}, func(expand_underline, {})),
-    snippet({trig = "(=)==+", regTrig = true, hidden = true}, func(expand_underline, {})),
-    snippet({trig = "(~)~~+", regTrig = true, hidden = true}, func(expand_underline, {})),
-    snippet({trig = "(#)##+", regTrig = true, hidden = true}, func(expand_underline, {})),
+    snippet({trig = "(-)-+", regTrig = true, hidden = true}, func(expand_underline, {})),
+    snippet({trig = "(=)=+", regTrig = true, hidden = true}, func(expand_underline, {})),
+    snippet({trig = "(~)~+", regTrig = true, hidden = true}, func(expand_underline, {})),
+    snippet({trig = "(#)#+", regTrig = true, hidden = true}, func(expand_underline, {})),
 
     --- Expand date
     snippet({trig = "20", dscr = "Today's date"}, func(function(_, args) return os.date("%Y-%m-%d") end, {})),
@@ -77,50 +79,41 @@ luasnip.snippets = {
     },
 
     --- codeblock stuff
-    snippet("``", {text({"```", ""}), insert(0), text({"", "```"})}),
-    snippet("`", text("``")),
+    snippet("``", {t{"```", ""}, insert(0), t{"", "```"}}),
+    snippet("`", t"``"),
   python = {
     --- doctest stuff
-    snippet({trig = "  # *doctest", regTrig = true, hidden = true}, text("  # doctest: +SKIP")),
-    snippet({trig = " # *doctest", regTrig = true, hidden = true}, text("  # doctest: +SKIP")),
-    snippet({trig = "# *doctest", regTrig = true, hidden = true}, text("  # doctest: +SKIP")),
-    snippet("doctest", text("doctest: +SKIP"), {condition=in_comment}),
-    snippet({trig = "doctest: +SKIP", hidden = true}, text("doctest: +NORMALIZE_WHITESPACE"), {condition=in_comment}),
-    snippet({trig = "doctest: +NORMALIZE_WHITESPACE", hidden = true}, text("doctest: +ELLIPSIS"), {condition=in_comment}),
-    snippet({trig = "doctest: +ELLIPSIS", hidden = true}, text("doctest: +IGNORE_EXCEPTION_DETAILS"), {condition=in_comment}),
-    snippet({trig = "doctest: +IGNORE_EXCEPTION_DETAILS", hidden = true}, text("doctest: +SKIP"), {condition=in_comment}),
+    snippet(
+      {trig = "doctest", regTrig = true},
+      fmt("doctest: +{}", {choice(1, {t"SKIP", t"NORMALIZE_WHITESPACE", t"ELLIPSIS", t"IGNORE_EXCEPTION_DETAILS"})}),
+      {condition = in_comment}
+    ),
+    snippet({trig = "__name__"}, fmt('__name__ == "__main__":\n    {}', {insert(0, "pass")})),
 
     --- string stuff
-    snippet({trig = ":", hidden = true}, {text({":", '    """'}), insert(0), text('"""')}),
-    snippet({trig = '""', hidden = true}, {text('"""'), insert(0), text('"""')}),
-    snippet({trig = '"', hidden = true}, text('""')),
-    snippet({trig = "''", hidden = true}, {text("'''"), insert(0), text("'''")}),
-    snippet({trig = "'", hidden = true}, text("''")),
+    snippet({trig = ":", hidden = true}, {t{":", '    """'}, insert(0), t'"""'}),
+    snippet({trig = '""', hidden = true}, {t'"""', insert(0), t'"""'}),
+    snippet({trig = '"', hidden = true}, t'""'),
+    snippet({trig = "''", hidden = true}, {t"'''", insert(0), t"'''"}),
+    snippet({trig = "'", hidden = true}, t"''"),
 
-    --- logger stuff
-    snippet({trig = "logger"}, text("logger = logging.getLogger(__name__)")),
-    snippet({trig = "^(%s*)(.*) ?print", regTrig = true, hidden = true}, func(rearange_as_call, {}, "print")),
-    snippet({trig = "^(%s*)(.*) ?debug", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.debug")),
-    snippet({trig = "^(%s*)(.*) ?info", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.info")),
-    snippet({trig = "^(%s*)(.*) ?warning", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.warning")),
-    snippet({trig = "^(%s*)(.*) ?error", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.error")),
-    snippet({trig = "^(%s*)(.*) ?exception", regTrig = true, hidden = true}, func(rearange_as_call, {}, "logger.exception")),
-
-    snippet({trig = "print%((.*[^\"'])%)", regTrig = true, hidden = true}, func(function(_, args)
-      return 'print(f"{'..args.captures[1]..'=}")'
-    end, {})),
-    snippet({trig = "print%((.*[^\"'])%)", regTrig = true, hidden = true}, func(function(_, args)
-      return 'print(f"{'..args.captures[1]..'=}")'
-    end, {})),
+    snippet({trig = "assert"}, fmt('assert False, f"""\n{{{}}}\n"""', {insert(1)})),
+    snippet({trig = "logger"}, t"logger = logging.getLogger(__name__)"),
+    snippet({trig = "log"}, fmt('logger.{}("{}")', {choice(1, {t"debug", t"info", t"warning", t"error", t"exception"}), insert(0)})),
+    snippet({trig = "print"}, fmt('print(f"{{{}=}}")', {insert(1)})),
+    snippet({trig = "try"},
+      fmt('try:\n    {}\nexcept {}{}:\n    {}', {insert(1, "pass"), insert(2, "Exception"), insert(3, " as error"), insert(4, "pass")})
+    )
   },
   tex = {
     snippet({trig = "\\?begin", regTrig = true, hidden = true},
-      {text("\\begin{"), insert(1, "environment"),
-       text("}"), insert(0), text({"", "\\end{"}),
-       func(function(args) return args[1][1] end, {1}), text("}")}),
+      fmt("\\begin{{{}}}\n\\end{{{}}}", {insert(1, "environment"), func(function(args) return args[1][1] end, {1})})),
+      -- {t"\\begin{", insert(1, "environment"),
+      --  t"}", insert(0), t{"", "\\end{"},
+      --  func(function(args) return args[1][1] end, {1}), t"}"}),
     snippet("begin",
-      {text("\\begin{"), insert(1, "environment"),
-       text("}"), insert(0), text({"", "\\end{"}),
-       func(function(args) return args[1][1] end, {1}), text("}")}),
+      {t"\\begin{", insert(1, "environment"),
+       t"}", insert(0), t{"", "\\end{"},
+       func(function(args) return args[1][1] end, {1}), t"}"}),
   },
-}
+})
