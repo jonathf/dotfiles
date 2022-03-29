@@ -179,19 +179,22 @@ EOF
   sudo systemctl restart udevmon.service
 fi
 
-if [ "$install_gpg"]; then
+if [ "$install_gpg" ]; then
   if [ "$OS" == "arch" ]; then
     sudo yay -Sy --noconfirm pass xdotool xsel
   else
-    sudo apt install -y pass xdotool xsel
+    sudo apt install -y pass xdotool xsel pinentry-gnome3
   fi
-  if [[ -f private_keys.gpg ]]; then
+  if [[ -f "~/.gnupg/private_keys.gpg" ]]; then
     gpg --import ~/.gnupg/private_keys.gpg
     KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
     echo -e "5\ny\n" |  gpg --command-fd 0 --expert --edit-key $KEY trust
     mv ~/.gnupg/{,delete_my_}private_key.gpg
   fi
   gpg --armor --export jonathf@gmail.com > ~/.gnupg/public_key.asc
+  if [[ ! -d "~/.password-store" ]]; then
+    git clone git@github.com:jonathf/passwords ~/.password-store
+  fi
   if [[ ! -f "~/.password-store/.gpg-id" ]]; then
     pass init $KEY
   fi
