@@ -77,3 +77,4 @@ export RMVIEW_CONF=$HOME/.rmview.json
 export PYFLYBY_PATH=$HOME/.config/pyflyby.py:.../.pyflyby.py
 
 setxkbmap no
+. "$HOME/.cargo/env"

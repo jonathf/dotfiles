@@ -54,7 +54,7 @@ fi fi fi
 
 PYTHON=python
 if [ $install_python ]; then
-  [ ! -d ~/.pyenv ] && git clone git@github.com:pyenv/pyenv ~/.pyenv
+  [ ! -d ~/.pyenv ] && git clone https://github.com/pyenv/pyenv ~/.pyenv
   pushd ~/.pyenv
   git reset --hard
   git pull
@@ -62,9 +62,8 @@ if [ $install_python ]; then
   if [ "$OS" == "arch" ]; then
     yay -Sy --noconfirm python-pipx
   else if [ "$OS" == "ubuntu" ]; then
-    sudo apt install -y python3-pip
-    PYTHON=python3
-    $PYTHON -m pip install -U pip
+    sudo apt install -y python3-pip python3-venv
+    PYTHON="sudo python3"
     $PYTHON -m pip install -U pipx
   fi fi
   yes | pipx install pipenv
@@ -104,12 +103,17 @@ fi
 
 if [ "$install_fish" ]; then
   if [ "$OS" == "arch" ]; then
-    yay -Sy --noconfirm fish starship direnv exa ripgrep
+    yay -Sy --noconfirm fish direnv
   else if [ "$OS" == "ubuntu" ]; then
-    sudo apt install -y fish direnv ripgrep
-    sudo cargo install exa
+    sudo apt install -y fish direnv
   fi fi
-  sudo chsh --shell /usr/bin/fish
+  if [[ ! -d ~/.cargo ]]; then
+    sudo apt remove -y rustc
+    curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  fi
+  ~/.cargo/bin/cargo install exa
+  ~/.cargo/bin/cargo install starship
+  ~/.cargo/bin/cargo install ripgrep
 fi
 
 if [ "$install_neovim" ]; then

@@ -1,5 +1,6 @@
 #!/bin/bash
 [[ $- != *i* ]] && return
+source ~/.profile
 if [ -z "$BASH_EXECUTION_STRING" ]; then exec fish; fi
 
 set -o vi
@@ -24,3 +25,6 @@ eval "$(starship init bash)"
 
 greetings
 wait
+
+alias luamake=/home/jonathf/.cache/nvim/nlua/sumneko_lua/lua-language-server/3rd/luamake/luamake
+. "$HOME/.cargo/env"

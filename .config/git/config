@@ -26,8 +26,6 @@
     untracked = dim
     added = green
     changed = cyan
-[commit]
-    gpgsign = true
 [core]
     excludesfile = ~/.config/git/ignore
     autocrlf = input
@@ -40,8 +38,6 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
     required = true
-[gpg]
-    program = gpg
 [merge]
     conflictstyle=diff3
 [pull]
@@ -53,7 +49,6 @@
 [user]
     email = jonathf@gmail.com
     name = Jonathan Feinberg
-    signingkey = 558C5F4DBB8597A140DA91C53673F898D24A40A7
 [credential]
 	helper = cache
 [init]
