@@ -10,7 +10,8 @@ install [f]ish and some command line tools.
 install [a]wesome wm, display manager, and some desktop apps.
 install [n]eovim and configure plugins
 install [q]utebrowser and extensions.
-install [i]ntercept and enable caps2esc and ctrl2ins."
+install [i]ntercept and enable caps2esc and ctrl2ins.
+install [g]pg and password manager."
 [ "$OS" == "arch" ] && install_opt="$install_opt
 [o]ptimize pacman"
 
@@ -25,6 +26,7 @@ $install_opt
 [[ "$flags" == *n* ]] && install_neovim=y
 [[ "$flags" == *i* ]] && install_intercept=y
 [[ "$flags" == *q* ]] && install_qutebrowser=y
+[[ "$flags" == *g* ]] && install_gpg=y
 [[ "$flags" == *o* ]] && optimize_pacman=y
 
 mkdir -p ~/source
@@ -88,7 +90,7 @@ if [ "$install_awesome" ]; then
       network-manager-applet scrot blueman powerline-fonts \
       xorg-xbacklight alacritty ttf-ubuntu-font-family \
       xtrlock dmenu-distrotube-git lightdm-slick-greeter \
-      lxappearance materia-gtk-theme networkmanager-dmenu-git
+      lxappearance materia-gtk-theme
 
   else if [ "$OS" == "ubuntu" ]; then
     sudo add-apt-repository -y ppa:mmstick76/alacritty
@@ -99,16 +101,22 @@ if [ "$install_awesome" ]; then
   fi fi
   sudo cp -v ~/.config/awesome/{pics/background.jpg,slick-greeter.conf} /etc/lightdm
   sudo chmod -v 644 /etc/lightdm/{background.jpg,slick-greeter.conf}
+
+  sudo mkdir -p /root/.icons/default /root/.config/gtk-3.0
+  sudo cp ~/.icons/default/index.theme /root/.icons/default/
+  sudo cp ~/.config/gtk-3.0/settings.ini /root/.config/gtk-3.0/
 fi
 
 if [ "$install_fish" ]; then
   if [ "$OS" == "arch" ]; then
     yay -Sy --noconfirm fish direnv
   else if [ "$OS" == "ubuntu" ]; then
+    sudo apt-add-repository -y ppa:fish-shell/release-3
+    sudo apt update
     sudo apt install -y fish direnv
+    sudo apt remove -y rustc
   fi fi
   if [[ ! -d ~/.cargo ]]; then
-    sudo apt remove -y rustc
     curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   fi
   ~/.cargo/bin/cargo install exa
@@ -118,9 +126,9 @@ fi
 
 if [ "$install_neovim" ]; then
   if [ "$OS" == "arch" ]; then
-    yay -Sy --noconfirm neovim-git ctags xsel ninja
+    yay -Sy --noconfirm neovim-git xsel ninja
   else if [ "$OS" == "ubuntu" ]; then
-    sudo apt install -y exuberant-ctags xsel
+    sudo apt install -y xsel
     sudo add-apt-repository -y ppa:neovim-ppa/unstable
     sudo apt-get update
     sudo apt-get install -y neovim lua5.1 ninja-build
@@ -128,7 +136,7 @@ if [ "$install_neovim" ]; then
   if [ ! -d ~/.config/nvim/venv ]; then
     $PYTHON -m venv ~/.config/nvim/venv
   fi
-  ~/.config/nvim/venv/bin/pip install -U pip pynvim neovim-remote python-lsp-server debugpy
+  ~/.config/nvim/venv/bin/pip install -Ur ~/.config/requirements.txt
   if [ ! -d ~/.cache/nvim/nlua/sumneko_lua/lua-language-server ]; then
     mkdir -p ~/.cache/nvim/nlua/sumneko_lua
     git clone --recursive https://github.com/sumneko/lua-language-server ~/.cache/nvim/nlua/sumneko_lua/lua-language-server
@@ -169,6 +177,25 @@ EOF
   sudo systemctl enable udevmon.service
   sudo systemctl start udevmon.service
   sudo systemctl restart udevmon.service
+fi
+
+if [ "$install_gpg"]; then
+  if [ "$OS" == "arch" ]; then
+    sudo yay -Sy --noconfirm pass xdotool xsel
+  else
+    sudo apt install -y pass xdotool xsel
+  fi
+  if [[ -f private_keys.gpg ]]; then
+    gpg --import ~/.gnupg/private_keys.gpg
+    KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
+    echo -e "5\ny\n" |  gpg --command-fd 0 --expert --edit-key $KEY trust
+    mv ~/.gnupg/{,delete_my_}private_key.gpg
+  fi
+  gpg --armor --export jonathf@gmail.com > ~/.gnupg/public_key.asc
+  if [[ ! -f "~/.password-store/.gpg-id" ]]; then
+    pass init $KEY
+  fi
+
 fi
 
 if [ "$optimize_pacman" ]; then

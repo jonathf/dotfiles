@@ -26,7 +26,7 @@ vim.o.relativenumber = true -- line numbering
 
 -- vim.o.inccommand = "nosplit"
 vim.o.list = true
-vim.o.listchars = "tab:» ,trail:▮,nbsp:░"
+vim.o.listchars = "tab:↦ ,trail:▮,nbsp:░"
 vim.o.formatoptions = "croqnlj" -- continue commenting
 vim.o.previewheight = 3
 vim.o.scrolloff = 5 -- never reach bottom

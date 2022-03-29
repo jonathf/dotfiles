@@ -59,7 +59,7 @@ def dmenu_run(
     """
     command = ["dmenu", "-p", str(prompt)]
     if input:
-        command.extend(["-l", str(len(input))])
+        command.extend(["-l", str(min(40, len(input)))])
     command.extend(sys.argv[1:])
     return subprocess.run(
         command,

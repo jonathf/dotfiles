@@ -14,7 +14,7 @@ or on Debian::
 
     $ sudo apt install pass
 
-(The executable ``gpg`` should be pre-installed on all major linux systems.)
+(The executable ``gpg`` should be pre-installed on all major Linux systems.)
 
 Starting from scratch
 ---------------------

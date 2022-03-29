@@ -148,25 +148,31 @@ return require"packer".startup(function()
   end}
   use {"nvim-treesitter/playground"}
 
-  --- Language Server Protocol
+  -- Language Server Protocol
   use {"neovim/nvim-lspconfig", requires = {"tjdevries/nlua.nvim"},
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require "cmp_nvim_lsp".update_capabilities(capabilities)
-      require "lspconfig".pylsp.setup{
-        capabilities = capabilities,
-      }
-      require "lspconfig".r_language_server.setup{
-        capabilities = capabilities,
-      }
-      require "lspconfig".ccls.setup{
+      capabilities = require"cmp_nvim_lsp".update_capabilities(capabilities)
+      lspconfig = require"lspconfig"
+      lspconfig.bashls.setup{capabilities = capabilities}
+      lspconfig.ccls.setup{
         capabilities = capabilities,
         init_options = {cache = {directory = ".ccls-cache"}},
       }
-      require'lspconfig'.esbonio.setup{
-        cmd = {"python", "-m", "esbonio"}
+      lspconfig.dockerls.setup{capabilities = capabilities}
+      lspconfig.esbonio.setup{
+        cmd = {"/home/jonathf/.config/nvim/venv/bin/python", "-m", "esbonio"},
+        capabilities = capabilities,
       }
-      require "nlua.lsp.nvim".setup(require "lspconfig",
+      lspconfig.jsonls.setup{capabilities = capabilities}
+      lspconfig.ltex.setup{capabilities = capabilities}
+      lspconfig.pylsp.setup{capabilities = capabilities}
+      lspconfig.r_language_server.setup{capabilities = capabilities}
+      lspconfig.remark_ls.setup{capabilities = capabilities}
+      lspconfig.taplo.setup{capabilities = capabilities}
+      lspconfig.texlab.setup{capabilities = capabilities}
+      lspconfig.vimls.setup{capabilities = capabilities}
+      require"nlua.lsp.nvim".setup(lspconfig,
         {globals = {"awesome", "screen", "client", "root"},
          library = {["/usr/share/awesome/lib"] = true}})
     end}
