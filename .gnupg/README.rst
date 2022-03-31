@@ -70,7 +70,6 @@ to allow for signing of git commit messages. To do so, add to you global
 ``.gitconfig`` file. For example::
 
     $ gpg --list-keys
-    /home/jonathf/.gnupg/pubring.kbx
     --------------------------------
     pub   rsa4096 2020-05-17 [SC]
         558C5F4DBB8597A140DA91C53673F898D24A40A7
@@ -82,7 +81,7 @@ GNOME keyring
 -------------
 
 If you are tired of being prompted for password, it is possible to let GNOME
-keyring link PAM (login password) to GnuPG passfrase:
+keyring link PAM (login password) to GnuPG passphrase:
 `<https://wiki.archlinux.org/index.php/GNOME/Keyring>`_
 
 The idea is that if your machine password is identical to your GPG passphrase,

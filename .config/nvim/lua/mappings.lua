@@ -14,6 +14,7 @@ vim.api.nvim_set_keymap("n", "<c-j>", ":lua if require'luasnip'.choice_active() 
 vim.api.nvim_set_keymap("t", "<esc>", "<c-\\><c-n>", {noremap = true})
 vim.api.nvim_set_keymap("n", "<esc>", "<esc>:silent! nohls<cr><Plug>(anzu-clear-search-status)", {})
 
+
 -- IMPROVE THE DEFAULTS --
 vim.api.nvim_set_keymap("n", "n", "<Plug>(anzu-n-with-echo)", {})
 vim.api.nvim_set_keymap("n", "N", "<Plug>(anzu-N-with-echo)", {})
@@ -151,4 +152,4 @@ _G.whichkeyLua = function()
       },
     },
   })
-end
+nd

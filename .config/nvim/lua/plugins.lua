@@ -8,7 +8,7 @@ end
 -- Packer package manager --
 ----------------------------
 return require"packer".startup(function()
-  use "wbthomason/packer.nvim"
+  use {"wbthomason/packer.nvim"}
 
   -- N_- :: line comment
   -- N__ :: block comment
@@ -35,10 +35,14 @@ return require"packer".startup(function()
 
   -- count number in status with N_* N_# N_n N_N
   use {"osyo-manga/vim-anzu", config = function() vim.g["anzu_status_format"] = "%p %#WarningMsg#[%i/%l]" end}
+  -- show scrollbar with LSP diagnostics
+  use {"petertriho/nvim-scrollbar", config = function()
+    require"scrollbar".setup()
+  end}
 
   -- Help menu for everything
   use {"folke/which-key.nvim",
-       config = function() require "which-key".setup{
+       config = function() require"which-key".setup{
          plugins = {spelling = {enabled = true, suggestions = 40}}} end}
 
   use "tpope/vim-fugitive"
@@ -46,13 +50,13 @@ return require"packer".startup(function()
     config = function() require "gitsigns".setup{
       keymaps = {noremap = false}, yadm = {enable = true}} end}
 
-  -- Filetype highlighting
+  -- File type handle
   use {"cespare/vim-toml", ft = {"toml"}}
   use {"jonathf/vim-fish", ft = {"fish"}}
   use {"euclidianAce/BetterLua.vim", ft = {"lua"}}
   use {"zorab47/vim-gams", ft = {"gams"}}
   use {"Vimjas/vim-python-pep8-indent", ft = {"python"}}
-  use {"jamessan/vim-gnupg", ft = {"dsl"}}
+  use {"jamessan/vim-gnupg"}
 
   -- Completion engine
   use {
@@ -136,17 +140,20 @@ return require"packer".startup(function()
     }
     vim.cmd[[colorscheme material]]
   end}
-  use {"norcalli/nvim-colorizer.lua", config = function() require "colorizer".setup{} end}
+  use {"norcalli/nvim-colorizer.lua", config = function() require"colorizer".setup{} end}
 
-  --- Treesitter
+  -- Treesitter
   use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = function()
-    require "nvim-treesitter.configs".setup{
+    require"nvim-treesitter.configs".setup{
       ensure_installed = "maintained",
       highlight = {enable = true},
       indent = {enable = false},
     }
-  end}
+  end} 
   use {"nvim-treesitter/playground"}
+
+  -- Don't spellcheck code
+  use {"lewis6991/spellsitter.nvim", config = function() require"spellsitter".setup() end}
 
   -- Language Server Protocol
   use {"neovim/nvim-lspconfig", requires = {"tjdevries/nlua.nvim"},

@@ -190,8 +190,10 @@ if [ "$install_gpg" ]; then
     KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
     echo -e "5\ny\n" |  gpg --command-fd 0 --expert --edit-key $KEY trust
     mv ~/.gnupg/{,delete_my_}private_key.gpg
+    gpg --armor --export jonathf@gmail.com > ~/.gnupg/public_key.asc
+  else
+    KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
   fi
-  gpg --armor --export jonathf@gmail.com > ~/.gnupg/public_key.asc
   if [[ ! -d "~/.password-store" ]]; then
     git clone git@github.com:jonathf/passwords ~/.password-store
   fi
