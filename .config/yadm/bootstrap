@@ -45,16 +45,24 @@ if [ "$OS" == "arch" ]; then
   popd
   yay -Syu
 else if [ "$OS" == "ubuntu" ]; then
-  sudo apt install -y cargo
+  sudo apt remove -y rustc
 else if [ "$OS" = "mac" ]; then
   if ! command -v brew >/dev/null 2>&1; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
-  [ -f "$HOME/.Brewfile" ] && brew bundle --global
+  [ ! -f "$HOME/.Brewfile" ] && brew bundle --global
   brew install git
 fi fi fi
+if [[ ! -d ~/.cargo ]]; then
+  curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+fi
 
-PYTHON=python
+if [ "$OS" == "ubuntu" ]; then
+  PYTHON="sudo python3"
+else
+  PYTHON=python
+fi
+
 if [ $install_python ]; then
   [ ! -d ~/.pyenv ] && git clone https://github.com/pyenv/pyenv ~/.pyenv
   pushd ~/.pyenv
@@ -65,13 +73,12 @@ if [ $install_python ]; then
     yay -Sy --noconfirm python-pipx
   else if [ "$OS" == "ubuntu" ]; then
     sudo apt install -y python3-pip python3-venv
-    PYTHON="sudo python3"
     $PYTHON -m pip install -U pipx
   fi fi
-  yes | pipx install pipenv
-  yes | pipx install poetry
-  yes | pipx install pdm
-  yes | pipx install pyflyby
+  yes | $PYTHON -m pipx install pipenv
+  yes | $PYTHON -m pipx install poetry
+  yes | $PYTHON -m pipx install pdm
+  yes | $PYTHON -m pipx install pyflyby
 fi
 
 if [ "$install_qutebrowser" ]; then
@@ -88,13 +95,12 @@ if [ "$install_awesome" ]; then
   if [ "$OS" == "arch" ]; then
     yay -Sy --noconfirm awesome vicious lain xcompmgr \
       network-manager-applet scrot blueman powerline-fonts \
-      xorg-xbacklight alacritty ttf-ubuntu-font-family \
-      xtrlock dmenu-distrotube-git lightdm-slick-greeter \
+      xorg-xbacklight alacritty-sixel ttf-ubuntu-font-family \
+      xtrlock lightdm-slick-greeter \
       lxappearance materia-gtk-theme
 
   else if [ "$OS" == "ubuntu" ]; then
     sudo add-apt-repository -y ppa:mmstick76/alacritty
-    sudo apt update
     sudo apt install -y awesome awesome-extra scrot blueman \
       xfce4-power-manager xbacklight alacritty xcompmgr
     git clone https://github.com/copycat-killer/lain ~/.config/awesome/lain
@@ -112,13 +118,8 @@ if [ "$install_fish" ]; then
     yay -Sy --noconfirm fish direnv
   else if [ "$OS" == "ubuntu" ]; then
     sudo apt-add-repository -y ppa:fish-shell/release-3
-    sudo apt update
     sudo apt install -y fish direnv
-    sudo apt remove -y rustc
   fi fi
-  if [[ ! -d ~/.cargo ]]; then
-    curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  fi
   ~/.cargo/bin/cargo install exa
   ~/.cargo/bin/cargo install starship
   ~/.cargo/bin/cargo install ripgrep
@@ -128,10 +129,8 @@ if [ "$install_neovim" ]; then
   if [ "$OS" == "arch" ]; then
     yay -Sy --noconfirm neovim-git xsel ninja
   else if [ "$OS" == "ubuntu" ]; then
-    sudo apt install -y xsel
     sudo add-apt-repository -y ppa:neovim-ppa/unstable
-    sudo apt-get update
-    sudo apt-get install -y neovim lua5.1 ninja-build
+    sudo apt install -y xsel neovim lua5.1 ninja-build
   fi fi
   if [ ! -d ~/.config/nvim/venv ]; then
     $PYTHON -m venv ~/.config/nvim/venv
