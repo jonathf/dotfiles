@@ -44,6 +44,15 @@ vim.api.nvim_set_keymap("n", "ø", ':lua require"terminal".insert"fish"<cr>', {n
 
 require'which-key'.register({
   -- ["ø"] = {':lua require"terminal".open"fish"<cr>', "Open terminal"},
+  ["z"] = {
+    name = "+Spell",
+    ["g"] = {"zg", "Good word globally"},
+    ["G"] = {"zG", "Good word locally"},
+    ["w"] = {"zw", "Wrong word globally"},
+    ["W"] = {"zW", "Wrong word locally"},
+    ["ug"] = {"zug", "Undo good word"},
+    ["ug"] = {"zuw", "Undo wrong word"},
+  },
   ["]"] = {
     name = "+Next",
     ["b"] = { ":bnext<cr>", "Next buffer" },
@@ -92,7 +101,7 @@ require'which-key'.register({
     },
     ["r"] = {
       name = "+Reload",
-      ["v"] = {":luafile ~/.config/nvim/init.lua<cr>", "Vim"},
+      ["v"] = {":luafile ~/.config/nvim/init.lua<cr>:PackerCompile<cr>", "Vim"},
       ["c"] = {":luafile %<cr>", "Current"},
     },
     ["s"] = {":set spell!<cr>", "Toggle spelling"},
@@ -152,4 +161,4 @@ _G.whichkeyLua = function()
       },
     },
   })
-nd
+end

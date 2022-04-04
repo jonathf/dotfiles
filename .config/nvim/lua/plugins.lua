@@ -39,6 +39,51 @@ return require"packer".startup(function()
   use {"petertriho/nvim-scrollbar", config = function()
     require"scrollbar".setup()
   end}
+  use {"nvim-lualine/lualine.nvim",
+    requires = {"kyazdani42/nvim-web-devicons", "arkav/lualine-lsp-progress"}, config = function()
+    require"lualine".setup{
+      options = {
+        icons_enabled = false,
+        theme = "hybrid",
+        component_separators = {left = "", right = ""},
+        section_separators = {left = "", right = ""},
+        disabled_filetypes = {},
+        always_divide_middle = true,
+        globalstatus = false,
+      },
+      sections = {
+        lualine_a = {{"mode", fmt = function(str) return str:sub(1, 1) end}},
+        lualine_b = {{"filename", symbols = {modified = "+"}, padding = {left = 1, right = 0}},
+                     {"location", padding = {left = 0, right = 0}},
+                     {"progress", padding = {left = 0, right = 1}}},
+        lualine_c = {{"encoding", fmt = function(str) return str:gsub("utf%-8", "") end},
+                     {"filetype", colored = false},
+                     {"fileformat", fmt = function(str) return str:gsub("unix", "") end}},
+        lualine_x = {"branch", "diff"},
+        lualine_y = {{"diagnostics", sources = {"nvim_lsp", "nvim_diagnostic"}}},
+        lualine_z = {"lsp_progress"},
+      },
+      inactive_sections = {
+        lualine_a = {{"mode", fmt = function(str) return str:sub(1, 1) end}},
+        lualine_b = {{"filename", symbols = {modified = "+"}, padding = {left = 1, right = 0}},
+                     {"location", padding = {left = 0, right = 0}},
+                     {"progress", padding = {left = 0, right = 1}}},
+        lualine_c = {},
+        lualine_y = {},
+        lualine_x = {},
+        lualine_z = {},
+      },
+      tabline = {
+        lualine_a = {{"buffers", show_filename_only = false}},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+      },
+      extensions = {}
+    }
+  end}
 
   -- Help menu for everything
   use {"folke/which-key.nvim",

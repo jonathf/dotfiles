@@ -31,7 +31,7 @@ vim.o.formatoptions = "croqnlj" -- continue commenting
 vim.o.previewheight = 3
 vim.o.scrolloff = 5 -- never reach bottom
 vim.o.linebreak = true -- smart (fake) auto-line break
-vim.o.statusline = "%L %f%=%m%w %P %n"
+-- vim.o.statusline = "%L %f%=%m%w %P %n"
 vim.o.termguicolors = true
 vim.o.virtualedit = "block"
 vim.o.cursorline = true
