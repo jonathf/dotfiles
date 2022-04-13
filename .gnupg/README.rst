@@ -94,17 +94,27 @@ My personal password archive can be installed from::
 
     $ git clone git@github.com:jonathf/passwords ~/.password-store
 
+(Replace my git URL with your own.)
+
 Connect ``pass`` to the GnuPG like this::
 
     $ pass init 558C5F4DBB8597A140DA91C53673F898D24A40A7
 
-Using ``dpass`` (and ``dinsert``)
----------------------------------
+Using ``dpass``
+---------------
 
-The frontend wrapper needs some extra dependencies. For Arch::
+In `~/.local/bin <../.local/bin/>`_ there are some scripts that leverages
+``dmenu``. In particular ``dpass`` uses it to create popup interface for
+fetching passwords from pass.
+
+To use this wrapper, first install ``dmenu`` (or one of the patched clones) and
+the following extra dependencies:
 
     $ sudo pacman -Syu xdotool xsel
 
 For Debian/Ubuntu::
 
     $ sudo apt install xdotool xsel
+
+By linking the script to some hotkey like e.g. `WIN-p` usernames, passwords,
+and autofill is only a few keystrokes away.
