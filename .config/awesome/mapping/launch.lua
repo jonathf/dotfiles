@@ -10,8 +10,8 @@ return awful.util.table.join(
 
   utils.key("m  ", "Return", utils.spawn("alacritty"),
     {group="launch", description="terminal"}),
-  utils.key("m  ", "v", utils.spawn("qutebrowser"),
-    {group="launch", description="qutebrowser"}),
+  utils.key("m c", "Return", utils.spawn("alacritty --command bash --norc"),
+    {group="launch", description="terminal"}),
   utils.key("m  ", "r", utils.spawn("drun"),
     {group="launch", description="program"}),
   utils.key("m  ", "p", utils.spawn("dpass"),

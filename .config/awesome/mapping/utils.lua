@@ -10,7 +10,13 @@ M.modifiers = {
   ["m c"] = {"Mod4", "Control"}
 }
 
-M.spawn = function(command) return function() awful.spawn(command) end end
+M.spawn = function(command, idx)
+  local tag = awful.screen.focused().tags[idx]
+  return function()
+    if tag then tag:view_only() end
+    awful.spawn(command)
+  end
+end
 
 M.key = function(mod, ...) return awful.key(M.modifiers[mod], ...) end
 

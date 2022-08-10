@@ -2,7 +2,7 @@ local awful = require "awful"
 
 local function create_taglist(screen)
 
-  awful.tag({'1', '2', '3', '4', '5'}, screen,
+  awful.tag({'1', '2', '3', '4', '5', '6', '7', '8', '9'}, screen,
             awful.layout.suit.max)
 
   local taglist_buttons = awful.util.table.join(
