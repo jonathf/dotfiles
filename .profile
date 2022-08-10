@@ -75,6 +75,7 @@ export GOPRIVATE='github.com/vippsas/*'
 export G0111MODULE=on
 export RMVIEW_CONF=$HOME/.rmview.json
 export PYFLYBY_PATH=$HOME/.config/pyflyby.py:.../.pyflyby.py
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 setxkbmap no
 . "$HOME/.cargo/env"
