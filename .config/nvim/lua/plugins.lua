@@ -16,8 +16,17 @@ return require"packer".startup(function()
     require "Comment".setup{
       toggler = {line = "--", block = "__"},
       opleader = {line = "-", block = "_"},
-    } end
-  }
+    }
+  end}
+
+  use {"lukas-reineke/indent-blankline.nvim", config = function()
+    require("indent_blankline").setup{
+      char = "│",
+      char_blankline = '¦',
+      use_treesitter = true,
+      show_current_context = true,
+    }
+  end}
 
   -- O_i O_I :: "inside" operator
   -- O_o O_O :: "outside" operator
@@ -102,6 +111,7 @@ return require"packer".startup(function()
   use {"zorab47/vim-gams", ft = {"gams"}}
   use {"Vimjas/vim-python-pep8-indent", ft = {"python"}}
   use {"jamessan/vim-gnupg"}
+  use {"Glench/Vim-Jinja2-Syntax", ft = {"html"}}
 
   -- Completion engine
   use {
