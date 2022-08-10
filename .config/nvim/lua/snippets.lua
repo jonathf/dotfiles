@@ -76,18 +76,18 @@ luasnip.add_snippets(nil, {
       {trig = "[a-zA-Z0-9-_./]+", regTrig = true, hidden = true},
       func(function(_, args) return args.trigger.."/" end, {}),
       {condition = folder_exists}),
-    },
 
     --- codeblock stuff
     snippet("``", {t{"```", ""}, insert(0), t{"", "```"}}),
     snippet("`", t"``"),
+  },
   python = {
     --- doctest stuff
-    snippet(
-      {trig = "doctest", regTrig = true},
-      fmt("doctest: +{}", {choice(1, {t"SKIP", t"NORMALIZE_WHITESPACE", t"ELLIPSIS", t"IGNORE_EXCEPTION_DETAILS"})}),
-      {condition = in_comment}
-    ),
+    snippet({trig = "doctest:"}, t"doctest: +SKIP"),
+    snippet({trig = "doctest: +SKIP", hidden = true}, t"doctest: +NORMALIZE_WHITESPACE"),
+    snippet({trig = "doctest: +NORMALIZE_WHITESPACE", hidden = true}, t"doctest: +ELLIPSIS"),
+    snippet({trig = "doctest: +ELLIPSIS", hidden = true}, t"doctest: +IGNORE_EXCEPTION_DETAILS"),
+    snippet({trig = "doctest: +IGNORE_EXCEPTION_DETAILS", hidden = true}, t"doctest: +SKIP"),
     snippet({trig = "__name__"}, fmt('__name__ == "__main__":\n    {}', {insert(0, "pass")})),
 
     --- string stuff
@@ -99,11 +99,12 @@ luasnip.add_snippets(nil, {
 
     snippet({trig = "assert"}, fmt('assert False, f"""\n{{{}}}\n"""', {insert(1)})),
     snippet({trig = "logger"}, t"logger = logging.getLogger(__name__)"),
-    snippet({trig = "log"}, fmt('logger.{}("{}")', {choice(1, {t"debug", t"info", t"warning", t"error", t"exception"}), insert(0)})),
-    snippet({trig = "print"}, fmt('print(f"{{{}=}}")', {insert(1)})),
-    snippet({trig = "try"},
-      fmt('try:\n    {}\nexcept {}{}:\n    {}', {insert(1, "pass"), insert(2, "Exception"), insert(3, " as error"), insert(4, "pass")})
-    )
+    snippet({trig = "log"}, fmt("logger.debug(\"{}\")", {insert(0)})),
+    snippet({trig = "loggger.debug(\"", hidden = true}, t"logger.info(\""),
+    snippet({trig = "loggger.info(\"", hidden = true}, t"logger.warning(\""),
+    snippet({trig = "loggger.warning(\"", hidden = true}, t"logger.error(\""),
+    snippet({trig = "loggger.error(\"", hidden = true}, t"logger.debug(\""),
+    snippet({trig = "print"}, fmt('print(f"{{{}=}}")', {insert(1)}))
   },
   tex = {
     snippet({trig = "\\?begin", regTrig = true, hidden = true},
