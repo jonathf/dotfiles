@@ -1,4 +1,16 @@
+-- filetypes --
+
+vim.g.do_filetype_lua = 1  -- new shine lua filetype handle
+vim.g.did_load_filetypes = 0  -- old slow viml filetype handle
+vim.filetype.add({
+  extension = {
+    gms = "gams",
+    ipynb = "notebook",
+  }
+})
+
 -- files --
+
 vim.g.python3_host_prog = vim.fn.stdpath("config") .. "/venv/bin/python"
 vim.o.backup = true
 vim.o.backupdir = vim.fn.stdpath("data") .. "/backup"
