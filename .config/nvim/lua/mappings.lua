@@ -1,14 +1,35 @@
+luasnip = require"luasnip"
+terminal = require"terminal"
+
 vim.g["mapleader"] = " "
 
 vim.api.nvim_set_keymap("i", "<c-s>", "<c-g>u<Esc>[s1z=`]a<c-g>u", {noremap = true})
 
 -- LUASNIPS COMMAND --
-vim.api.nvim_set_keymap("i", "<c-k>", "<cmd>lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
+-- vim.api.nvim_set_keymap("i", "<c-k>", "<cmd>lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("i", "<c-k>", "", {noremap = true, callback = function()
+  if luasnip.expand_or_jumpable() then luasnip.expand_or_jump() end
+end})
 -- vim.api.nvim_set_keymap("i", "<c-j>", "<cmd>lua if require'luasnip'.choice_active() then require'luasnip'.change_choice(-1) end<cr>", {noremap = true})
-vim.api.nvim_set_keymap("s", "<c-k>", "<cmd>lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
-vim.api.nvim_set_keymap("s", "<c-j>", "<cmd>lua if require'luasnip'.choice_active() then require'luasnip'.change_choice(-1) end<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<c-k>", ":lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<c-j>", ":lua if require'luasnip'.choice_active() then require'luasnip'.change_choice(-1) end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("i", "<c-j>", "", {noremap = true, callback = function()
+  if luasnip.choice_active() then luasnip.change_choice(-1) end
+end})
+-- vim.api.nvim_set_keymap("s", "<c-k>", "<cmd>lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("s", "<c-k>", "", {noremap = true, callback = function()
+  if luasnip.expand_or_jumpable() then luasnip.expand_or_jump() end
+end})
+-- vim.api.nvim_set_keymap("s", "<c-j>", "<cmd>lua if require'luasnip'.choice_active() then require'luasnip'.change_choice(-1) end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("s", "<c-j>", "", {noremap = true, callback = function()
+  if luasnip.choice_active() then luasnip.change_choice(-1) end
+end})
+-- vim.api.nvim_set_keymap("n", "<c-k>", ":lua if require'luasnip'.expand_or_jumpable() then require'luasnip'.expand_or_jump() end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<c-k>", "", {noremap = true, callback = function()
+  if luasnip.expand_or_jumpable() then luasnip.expand_or_jump() end
+end})
+-- vim.api.nvim_set_keymap("n", "<c-j>", ":lua if require'luasnip'.choice_active() then require'luasnip'.change_choice(-1) end<cr>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<c-j>", "", {noremap = true, callback = function()
+  if luasnip.choice_active() then luasnip.change_choice(-1) end
+end})
 
 -- MY ESCAPE SEQUENCES --
 vim.api.nvim_set_keymap("t", "<esc>", "<c-\\><c-n>", {noremap = true})
@@ -39,7 +60,8 @@ vim.api.nvim_set_keymap("n", "<c-d>", "<c-d>zz", {noremap = true})
 
 vim.api.nvim_set_keymap("n", "å", ":Gcd<cr>", {noremap = true})
 vim.api.nvim_set_keymap("n", "æ", ":exec ':cd '.fnamemodify(expand('%'), ':h')<cr>", {noremap = true})
-vim.api.nvim_set_keymap("n", "ø", ':lua require"terminal".insert"fish"<cr>', {noremap = true})
+-- vim.api.nvim_set_keymap("n", "ø", ':lua require"terminal".insert"fish"<cr>', {noremap = true})
+vim.keymap.set("n", "ø", function() terminal.insert"fish" end)
 -- vim.api.nvim_set_keymap("n", "ø", ":silent exec ':cd '.fnamemodify(expand('%'), ':h')<cr>:vs<cr>:terminal<cr>", {noremap = true})
 
 require'which-key'.register({
@@ -126,7 +148,7 @@ _G.whichkeyPython = function()
         ["i"] = {':lua require"terminal".insert"ipython --nosep"<cr>', "IPython", buffer = buf},
         ["o"] = {':lua require"terminal".open"ipython --nosep"<cr>', "Open", buffer = buf},
         ["l"] = {':lua require"terminal".run_line"ipython --nosep"<cr>', "Run line", buffer = buf},
-        ["r"] = {':lua require"terminal".run_file"ipython --nosep"<cr>', "Run file", buffer = buf},
+        ["r"] = {':lua require"terminal".run_file{repl = "ipython --nosep", cmd = "%run"}<cr>', "Run file", buffer = buf},
         ["f"] = {':exec "!tidy-imports --black --replace-star-import --action REPLACE ".bufname("%") | exec "!black ".bufname("%") | e <cr>', "Format", buffer = buf},
         ["t"] = {':lua require"terminal".run_file{repl="fish", cmd="pytest -vv --doctest-modules"}<cr>', "Pytest", buffer = buf},
         ["d"] = {':lua require"terminal".run_file{repl="fish", cmd="pytest -vv --doctest-modules --pdb"}<cr>', "Debug", buffer = buf},
