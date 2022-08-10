@@ -14,6 +14,6 @@ starship init fish | source
 set --export GPG_TTY (tty)
 set --export SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 gpgconf --launch gpg-agent
-[ -n "$DESKTOP_SESSION" ] && set (gnome-keyring-daemon --start | string split "=") && gpg-connect-agent updatestartuptty /bye >/dev/null
+[ -n "$DESKTOP_SESSION" ] && set (gnome-keyring-daemon --start 2>/dev/null | string split "=") && gpg-connect-agent updatestartuptty /bye >/dev/null
 
 source ~/.config/fish/abbreviation.fish
