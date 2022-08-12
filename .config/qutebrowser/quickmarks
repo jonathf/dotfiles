@@ -5,6 +5,7 @@ cirleci app.circleci.com
 codecov codecov.io
 danskebank danskebank.no/bedrift?n-login=bbnettbank
 depositum storebrand.no/create-bank-account-web/depositumskonto
+doffin https://www.doffin.no/Notice?pageNumber=1&pageSize=10&OrderingType=1&OrderingDirection=1&CountyId=29&IsAdvancedSearch=false&location=29&NoticeType=2&IncludeExpired=false
 facebook facebook.com
 fiken fiken.no
 github github.com
@@ -16,6 +17,7 @@ numpoly github.com/jonathf/numpoly
 obos bank.obos.no/logg-inn
 photos photos.google.com
 pyvroom github.com/VROOM-Project/pyvroom
+sbanken bedrift.sbanken.no
 slack-brainbase brainbaseteam.slack.com
 slack-folq folq.slack.com
 slack-tallented tallentednetwork.slack.com
