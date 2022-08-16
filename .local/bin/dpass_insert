@@ -9,7 +9,7 @@ selected=$1
 domain=$(dirname $selected)
 username=$(basename $selected)
 choices="autotype password $username $domain"
-action=$(printf "%s\n" $choices | dmenu -c -bw 2 -l 20 -fn "Ubuntu Mono-14:normal")
+action=$(printf "%s\n" $choices | dmenu -l 20 -fn "Ubuntu Mono-14:normal")
 
 
 if [ "$action" = "password" ]; then

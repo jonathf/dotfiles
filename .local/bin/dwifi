@@ -1,4 +1,0 @@
-#!/bin/bash
-
-selected=$(nmcli -f SSID device wifi | tail -n 2 | dmenu -c -bw 2 -l 20 -fn "Ubuntu Mono-14:normal" | xargs)
-nmcli device wifi connect "$selected"
