@@ -53,8 +53,8 @@ return require"packer".startup(function()
     require"lualine".setup{
       options = {
         icons_enabled = false,
-        theme = "hybrid",
-        component_separators = {left = "", right = ""},
+        theme = "ayu_dark",
+        component_separators = {left = " ", right = ""},
         section_separators = {left = "", right = ""},
         disabled_filetypes = {},
         always_divide_middle = true,
@@ -200,11 +200,14 @@ return require"packer".startup(function()
   -- Treesitter
   use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate", config = function()
     require"nvim-treesitter.configs".setup{
-      ensure_installed = "maintained",
+      -- ensure_installed = "maintained",
+      ensure_installed = {"bash", "bibtex", "c", "cpp", "css", "dockerfile", "fish",
+                          "help", "html", "json", "latex", "lua", "markdown", "ninja",
+                          "python", "r", "regex", "rst", "sql", "toml", "yaml"},
       highlight = {enable = true},
       indent = {enable = false},
     }
-  end} 
+  end}
   use {"nvim-treesitter/playground"}
 
   -- Don't spellcheck code
@@ -215,7 +218,7 @@ return require"packer".startup(function()
     config = function()
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require"cmp_nvim_lsp".update_capabilities(capabilities)
-      lspconfig = require"lspconfig"
+      local lspconfig = require"lspconfig"
       lspconfig.bashls.setup{capabilities = capabilities}
       lspconfig.ccls.setup{
         capabilities = capabilities,
@@ -235,7 +238,7 @@ return require"packer".startup(function()
       lspconfig.texlab.setup{capabilities = capabilities}
       lspconfig.vimls.setup{capabilities = capabilities}
       require"nlua.lsp.nvim".setup(lspconfig,
-        {globals = {"awesome", "screen", "client", "root"},
+        {globals = {"awesome", "screen", "client", "root", "use"},
          library = {["/usr/share/awesome/lib"] = true}})
     end}
 

@@ -1,13 +1,13 @@
 -- filetypes --
 
-vim.g.do_filetype_lua = 1  -- new shine lua filetype handle
-vim.g.did_load_filetypes = 0  -- old slow viml filetype handle
-vim.filetype.add({
-  extension = {
-    gms = "gams",
-    ipynb = "notebook",
-  }
-})
+-- vim.g.do_filetype_lua = 1  -- new shine lua filetype handle
+-- vim.g.did_load_filetypes = 0  -- old slow viml filetype handle
+-- vim.filetype.add({
+--   extension = {
+--     gms = "gams",
+--     ipynb = "notebook",
+--   }
+-- })
 
 -- files --
 
