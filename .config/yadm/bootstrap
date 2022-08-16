@@ -5,7 +5,7 @@ OS=$(cat /etc/os-release | grep "^ID=" | sed -e 's/ID=//' | sed -e 's/"//')
 echo "distribution: $OS"
 
 install_opt="
-install [p]yenv, pipx and some pyproject managers.
+install [p]thon and pyenv.
 install [f]ish and some command line tools.
 install [a]wesome wm, display manager, and some desktop apps.
 install [n]eovim and configure plugins
@@ -58,7 +58,7 @@ if [[ ! -d ~/.cargo ]]; then
 fi
 
 if [ "$OS" == "ubuntu" ]; then
-  PYTHON="sudo python3"
+  PYTHON=python3
 else
   PYTHON=python
 fi
@@ -69,16 +69,9 @@ if [ $install_python ]; then
   git reset --hard
   git pull
   popd
-  if [ "$OS" == "arch" ]; then
-    yay -Sy --noconfirm python-pipx
-  else if [ "$OS" == "ubuntu" ]; then
+  if [ "$OS" == "ubuntu" ]; then
     sudo apt install -y python3-pip python3-venv
-    $PYTHON -m pip install -U pipx
-  fi fi
-  yes | $PYTHON -m pipx install pipenv
-  yes | $PYTHON -m pipx install poetry
-  yes | $PYTHON -m pipx install pdm
-  yes | $PYTHON -m pipx install pyflyby
+  fi
 fi
 
 if [ "$install_qutebrowser" ]; then
@@ -95,22 +88,22 @@ if [ "$install_awesome" ]; then
   if [ "$OS" == "arch" ]; then
     yay -Sy --noconfirm awesome vicious lain xcompmgr \
       network-manager-applet scrot blueman powerline-fonts \
-      xorg-xbacklight alacritty-sixel ttf-ubuntu-font-family \
+      xorg-xbacklight ttf-ubuntu-font-family \
       xtrlock lightdm-slick-greeter \
-      lxappearance materia-gtk-theme
+      lxappearance materia-gtk-theme alacritty-sixel \
+      mpv
+      sudo cp -v ~/.config/awesome/{pics/background.jpg,slick-greeter.conf} /etc/lightdm
+      sudo chmod -v 644 /etc/lightdm/{background.jpg,slick-greeter.conf}
+      sudo mkdir -p /root/.icons/default /root/.config/gtk-3.0
+      sudo cp ~/.icons/default/index.theme /root/.icons/default/
+      sudo cp ~/.config/gtk-3.0/settings.ini /root/.config/gtk-3.0/
 
   else if [ "$OS" == "ubuntu" ]; then
-    sudo add-apt-repository -y ppa:mmstick76/alacritty
+    sudo add-apt-repository -y ppa:aslatter/ppa
     sudo apt install -y awesome awesome-extra scrot blueman \
-      xfce4-power-manager xbacklight alacritty xcompmgr
+      xfce4-power-manager xbacklight xcompmgr alacritty mpv
     git clone https://github.com/copycat-killer/lain ~/.config/awesome/lain
   fi fi
-  sudo cp -v ~/.config/awesome/{pics/background.jpg,slick-greeter.conf} /etc/lightdm
-  sudo chmod -v 644 /etc/lightdm/{background.jpg,slick-greeter.conf}
-
-  sudo mkdir -p /root/.icons/default /root/.config/gtk-3.0
-  sudo cp ~/.icons/default/index.theme /root/.icons/default/
-  sudo cp ~/.config/gtk-3.0/settings.ini /root/.config/gtk-3.0/
 fi
 
 if [ "$install_fish" ]; then
