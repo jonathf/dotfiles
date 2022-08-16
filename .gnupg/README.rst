@@ -110,11 +110,11 @@ fetching passwords from pass.
 To use this wrapper, first install ``dmenu`` (or one of the patched clones) and
 the following extra dependencies:
 
-    $ sudo pacman -Syu xdotool xsel
+    $ sudo pacman -Syu pass xdotool xsel
 
 For Debian/Ubuntu::
 
-    $ sudo apt install xdotool xsel
+    $ sudo apt install pass xdotool xsel
 
 By linking the script to some hotkey like e.g. `WIN-p` usernames, passwords,
 and autofill is only a few keystrokes away.
