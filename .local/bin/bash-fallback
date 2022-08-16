@@ -1,0 +1,4 @@
+#/bin/env bash
+
+export BASH_EXECUTION_STRING=1
+alacritty -e "bash"
