@@ -19,7 +19,7 @@ export RIPGREP_CONFIG_PATH=$HOME/.config/ripgreprc
 export VISUAL="nvim"
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
 export MANPAGER='nvim +Man!'
-export TERM="alacritty"
+export TERM="xterm"
 
 # Man page colors
 export LESS_TERMCAP_md=$(printf "\e[01;32m")    # bold
@@ -64,8 +64,11 @@ export fish_pager_color_progress=("brwhite" "--background=cyan")
 
 # Extend PATH
 [[ "$PATH" != *"$HOME/.local/bin"* ]] && export PATH="$HOME/.local/bin:$PATH"
-[ -d "$HOME/.cargo" ] && export CARGO_ROOT="$HOME/.cargo"
-[ -d "$HOME/.cargo" ] && [[ "$PATH" != *"$HOME/.cargo"* ]] && export PATH="$PATH:$CARGO_ROOT/bin"
+
+export CARGO_ROOT="$HOME/.cargo"
+[[ "$PATH" != *"$CARGO_ROOT/bin"* ]] && export PATH="$PATH:$CARGO_ROOT/bin"
+[[ -f "$CARGO_ROOT/env" ]] && . "$CARGO_ROOT/env"
+
 [ -d "$HOME/.pyenv" ] && 
 export PYENV_ROOT="$HOME/.pyenv"
 [ -d "$HOME/.pyenv" ] && [[ "$PATH" != *"$HOME/.pyenv"* ]] && export PATH="$PATH:$PYENV_ROOT/bin"
@@ -77,5 +80,3 @@ export RMVIEW_CONF=$HOME/.rmview.json
 export PYFLYBY_PATH=$HOME/.config/pyflyby.py:.../.pyflyby.py
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
-setxkbmap no
-. "$HOME/.cargo/env"
