@@ -8,7 +8,6 @@ password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
 selected=$(printf "%s\n%s\n" $(cat /tmp/dpass) ${password_files[@]} | sed -e 's/.gpg//' | dmenu -l 20 -fn "Ubuntu Mono-14:normal")
-popd
 
 [ -z "$selected" ] && exit
 
