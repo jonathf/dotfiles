@@ -1,11 +1,12 @@
-#!/bin/env bash
+#!/bin/bash
 
 OS=$(cat /etc/os-release | grep "^ID=" | sed -e 's/ID=//' | sed -e 's/"//')
 [ "$(uname -s)" == "Darwin" ] && OS=mac
 echo "distribution: $OS"
 
 install_opt="
-install [p]thon and pyenv.
+install [c]ommon software.
+install [p]ython and pyenv.
 install [f]ish and some command line tools.
 install [a]wesome wm, display manager, and some desktop apps.
 install [n]eovim and configure plugins
@@ -20,6 +21,7 @@ $install_opt
 
 [pfaniqo]: " flags
 
+[[ "$flags" == *c* ]] && install_common=y
 [[ "$flags" == *p* ]] && install_python=y
 [[ "$flags" == *f* ]] && install_fish=y
 [[ "$flags" == *a* ]] && install_awesome=y
@@ -32,32 +34,35 @@ $install_opt
 mkdir -p ~/source
 cd ~/source
 
+if [ $install_common ]; then
 
-if [ "$OS" == "arch" ]; then
-  if ! command -v yay >/dev/null 2>&1; then
-    sudo pacman --noconfirm -S git
-    git clone https://aur.archlinux.org/yay.git ~/source/yay
+  if [ "$OS" == "arch" ]; then
+    if ! command -v yay >/dev/null 2>&1; then
+      sudo pacman --noconfirm -S git
+      git clone https://aur.archlinux.org/yay.git ~/source/yay
+    fi
+    pushd ~/source/yay
+    git reset --hard
+    git pull
+    sudo makepkg --noconfirm -si
+    popd
+    yay -Syu
+  else if [ "$OS" == "ubuntu" ]; then
+    sudo apt remove -y rustc
+  else if [ "$OS" = "mac" ]; then
+    if ! command -v brew >/dev/null 2>&1; then
+      /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+    [ ! -f "$HOME/.Brewfile" ] && brew bundle --global
+    brew install git
+    brew install cmake
+  fi fi fi
+  if [[ ! -d ~/.cargo ]]; then
+    curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   fi
-  pushd ~/source/yay
-  git reset --hard
-  git pull
-  sudo makepkg --noconfirm -si
-  popd
-  yay -Syu
-else if [ "$OS" == "ubuntu" ]; then
-  sudo apt remove -y rustc
-else if [ "$OS" = "mac" ]; then
-  if ! command -v brew >/dev/null 2>&1; then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
-  [ ! -f "$HOME/.Brewfile" ] && brew bundle --global
-  brew install git
-fi fi fi
-if [[ ! -d ~/.cargo ]]; then
-  curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 fi
 
-if [ "$OS" == "ubuntu" ]; then
+if [ "$OS" != "arch" ]; then
   PYTHON=python3
 else
   PYTHON=python
@@ -103,7 +108,10 @@ if [ "$install_awesome" ]; then
     sudo apt install -y awesome awesome-extra scrot blueman \
       xfce4-power-manager xbacklight xcompmgr alacritty mpv
     git clone https://github.com/copycat-killer/lain ~/.config/awesome/lain
-  fi fi
+
+  else if [ "$OS" == "mac" ]; then
+    brew install awesome
+  fi fi fi
 fi
 
 if [ "$install_fish" ]; then
@@ -124,7 +132,9 @@ if [ "$install_neovim" ]; then
   else if [ "$OS" == "ubuntu" ]; then
     sudo add-apt-repository -y ppa:neovim-ppa/unstable
     sudo apt install -y xsel neovim lua5.1 ninja-build
-  fi fi
+  else if [ "$OS" == "mac" ]; then
+    brew install neovim
+  fi fi fi
   if [ ! -d ~/.config/nvim/venv ]; then
     $PYTHON -m venv ~/.config/nvim/venv
   fi
