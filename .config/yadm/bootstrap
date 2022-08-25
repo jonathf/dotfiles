@@ -38,7 +38,7 @@ if [ $install_common ]; then
 
   if [ "$OS" == "arch" ]; then
     if ! command -v yay >/dev/null 2>&1; then
-      sudo pacman --noconfirm -S git
+      pacman --noconfirm -S git
       git clone https://aur.archlinux.org/yay.git ~/source/yay
     fi
     pushd ~/source/yay
@@ -50,11 +50,7 @@ if [ $install_common ]; then
   else if [ "$OS" == "ubuntu" ]; then
     sudo apt remove -y rustc
   else if [ "$OS" = "mac" ]; then
-    if ! command -v brew >/dev/null 2>&1; then
-      /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    fi
     [ ! -f "$HOME/.Brewfile" ] && brew bundle --global
-    brew install git
     brew install cmake
   fi fi fi
   if [[ ! -d ~/.cargo ]]; then
@@ -75,8 +71,14 @@ if [ $install_python ]; then
   git pull
   popd
   if [ "$OS" == "ubuntu" ]; then
-    sudo apt install -y python3-pip python3-venv
-  fi
+    sudo apt-get install make build-essential libssl-dev zlib1g-dev \
+      libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+      libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+  else if [ "$OS" == "mac" ]; then
+    brew install openssl readline sqlite3 xz zlib tcl-tk
+  else if [ "$OS" == "arch" ]; then
+    yay -S --needed base-devel openssl zlib xz tk
+  fi fi fi
 fi
 
 if [ "$install_qutebrowser" ]; then
