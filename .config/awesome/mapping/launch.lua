@@ -16,7 +16,7 @@ return awful.util.table.join(
     {group="launch", description="program"}),
   utils.key("m  ", "p", utils.spawn("dpass"),
     {group="launch", description="password"}),
-  utils.key("ms ", "p", utils.spawn("dpass_insert")),
+  utils.key("ms ", "p", utils.spawn("dpass-insert")),
   utils.key("m  ", "w", utils.spawn("networkmanager_dmenu -fn \"Ubuntu Mono-14:normal\""),
     {group="launch", description="wifi"}),
   utils.key("m  ", "b", utils.spawn("dmenu-bluetooth"),

@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+"""
+Update dpass data files.
+
+dpass-counters Dict[str, int]:
+    Keys are record entries and values is the count for how many times they
+    have been accessed.
+dpass-current: List[str]:
+    Record entries sorted based on dpass-counters, where the most accessed
+    records are at the top.
+dpass-selected: str:
+    If an argument are passed to script, this will be assumed as a new element that needs to be added to the collection.
+"""
+import re
+import os
+import sys
+import glob
+import json
+
+from pathlib import Path
+
+PASS_STORE = Path(os.environ["HOME"]) / ".password-store"
+TMP_DIR = Path("/tmp")
+COUNTERS_FILE = TMP_DIR / "dpass-counters"
+CURRENT_FILE = TMP_DIR / "dpass-current"
+SELECTED_FILE = TMP_DIR / "dpass-selected"
+
+
+def main():
+
+    # Retrieve counters data
+    data = {}
+    if COUNTERS_FILE.is_file():
+        with COUNTERS_FILE.open() as f:
+            data = json.loads(f.read().strip() or "{}")
+
+    # Update counters with new entries from password store, if any
+    regex = re.compile(r".password-store/([^/]+/[^/]+)\.gpg$")
+    usernames = [
+        re.search(regex, str(path)).group(1)
+        for path in PASS_STORE.rglob("*.gpg")
+    ]
+    for username in usernames:
+        data[username] = data.get(username, 0)
+
+    # Update counters with new entry, if provided by user
+    if len(sys.argv) > 1:
+        selected = sys.argv[1]
+        assert selected
+        data[selected] = data.get(selected, 0) + 1
+
+        # Make accessible from dmenu-insert wihtout args
+        with SELECTED_FILE.open("w") as f:
+            f.write(selected)
+
+    with open(COUNTERS_FILE, "w") as f:
+        json.dump(data, f)
+
+    # Sort based on number of access, and name if tied.
+    current = sorted(data)
+    current = sorted(current, key=lambda entry: data[entry], reverse=True)
+
+    with CURRENT_FILE.open("w") as f:
+        f.write("\n".join(current))
+
+
+if __name__ == "__main__":
+    main()

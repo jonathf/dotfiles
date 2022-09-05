@@ -1,0 +1,34 @@
+#!/bin/bash
+set -e
+
+CLIP_TIMEOUT=20000  # seconds/1000 before clipboard is cleared again
+AUTOTYPE_SPEED=1  # seconds/10 used to autotype user/pw
+
+# retrieve variables
+selected="$@"
+[ -n "$selected" ] && selected=$(cat /tmp/dpass-selected)
+domain=${selected%/*}
+username=${selected#*/}
+
+# Query action from user
+action=$(printf "autotype\npassword\n$username\n$domain" | dmenu -l 20 -fn "Ubuntu Mono-14:normal")
+
+# Execute action
+if [ "$action" = "password" ]; then
+  pass show "$domain/$username" | sed -e 's/\n//' | xsel -p -t $CLIP_TIMEOUT
+  pass show "$domain/$username" | sed -e 's/\n//' | xsel -b -t $CLIP_TIMEOUT
+
+else if [ "$action" = "$username" ]; then
+  printf "$username" | xsel -p -t $CLIP_TIMEOUT
+  printf "$username" | xsel -b -t $CLIP_TIMEOUT
+
+else if [ "$action" = "$domain" ]; then
+  printf "$domain" | xsel -p -t $CLIP_TIMEOUT
+  printf "$domain" | xsel -b -t $CLIP_TIMEOUT
+
+else if [ "$action" = "autotype" ]; then
+  printf "$username" | xdotool type --delay $AUTOTYPE_SPEED --clearmodifiers --file -
+  xdotool key Tab
+  pass show "$domain/$username" | sed -e 's/\n//' | xdotool type --delay $AUTOTYPE_SPEED --clearmodifiers --file -
+
+fi fi fi fi
