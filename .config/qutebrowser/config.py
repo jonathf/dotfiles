@@ -17,6 +17,7 @@ container.window.title_format = "{current_title}"
 
 set_mappings(container, api)
 
+
 # Always restore open sites when qutebrowser is reopened. Without this
 # option set, `:wq` (`:quit --save`) needs to be used to save open tabs
 # (and restore them), while quitting qutebrowser in any other way will
@@ -179,10 +180,10 @@ container.url.searchengines = {
 
 # Default zoom level.
 # Type: Perc
-container.zoom.default = '150%'
+container.zoom.default = '120%'
 
 # Available zoom levels.
 # Type: List of Perc
-container.zoom.levels = ['25%', '50%', '75%', '100%', '150%', '200%', '250%', '300%', '400%', '500%']
+container.zoom.levels = ['50%', '75%', '80%', '100%', '120%', '150%', '200%', '300%']
 
 api.source("theme.py")
