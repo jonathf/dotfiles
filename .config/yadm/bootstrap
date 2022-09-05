@@ -87,7 +87,10 @@ if [ "$install_qutebrowser" ]; then
 
   else if [ "$OS" == "ubuntu" ]; then
     sudo apt install -y qutebrowser lua5.1
-  fi fi
+
+  else if [ "$OS" == "mac" ]; then
+    brew install qutebrowser lua5.1
+  fi fi fi
 fi
 
 if [ "$install_awesome" ]; then
@@ -122,9 +125,11 @@ if [ "$install_fish" ]; then
   else if [ "$OS" == "ubuntu" ]; then
     sudo apt-add-repository -y ppa:fish-shell/release-3
     sudo apt install -y fish direnv
-  fi fi
+  else if [ "$OS" == "mac" ]; then
+    brew install fish direnv
+  fi fi fi
   ~/.cargo/bin/cargo install exa
-  ~/.cargo/bin/cargo install starship
+  curl -sS https://starship.rs/install.sh | sh
   ~/.cargo/bin/cargo install ripgrep
 fi
 
@@ -141,6 +146,7 @@ if [ "$install_neovim" ]; then
     $PYTHON -m venv ~/.config/nvim/venv
   fi
   ~/.config/nvim/venv/bin/pip install -Ur ~/.config/requirements.txt
+  ~/.config/nvim/venv/bin/pip install neovim-remote
   if [ ! -d ~/.cache/nvim/nlua/sumneko_lua/lua-language-server ]; then
     mkdir -p ~/.cache/nvim/nlua/sumneko_lua
     git clone --recursive https://github.com/sumneko/lua-language-server ~/.cache/nvim/nlua/sumneko_lua/lua-language-server
@@ -185,10 +191,15 @@ fi
 
 if [ "$install_gpg" ]; then
   if [ "$OS" == "arch" ]; then
-    sudo yay -Sy --noconfirm pass xdotool xsel
-  else
+    yay -Sy --noconfirm pass xdotool xsel
+    echo "pinentry-program /usr/bin/pinentry-gnome3" | sudo tee ~/.gnupg/gpg-agent.conf
+  else if [ "$OS" == "ubuntu" ]; then
     sudo apt install -y pass xdotool xsel pinentry-gnome3
-  fi
+    echo "pinentry-program /usr/bin/pinentry-gnome3" | sudo tee ~/.gnupg/gpg-agent.conf
+  else if [ "$OS" == "mac" ]; then
+    brew install pass gnupg xdotool xsel pinentry pinentry-mac
+    echo "pinentry-program /opt/homebrew/bin/pinentry-mac" | sudo tee ~/.gnupg/gpg-agent.conf
+  fi fi fi
   if [[ -f "~/.gnupg/private_keys.gpg" ]]; then
     gpg --import ~/.gnupg/private_keys.gpg
     KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
