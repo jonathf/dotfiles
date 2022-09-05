@@ -112,6 +112,7 @@ return require"packer".startup(function()
   use {"Vimjas/vim-python-pep8-indent", ft = {"python"}}
   use {"jamessan/vim-gnupg"}
   use {"Glench/Vim-Jinja2-Syntax", ft = {"html"}}
+  use {"hashivim/vim-terraform", ft = {"terraform"}}
 
   -- Completion engine
   use {
