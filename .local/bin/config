@@ -1,4 +1,0 @@
-#!/bin/sh
-
-echo -e "\e[90m$HOME/.config/dotfiles\e[m"
-git --git-dir=$HOME/.config/dotfiles --work-tree=$HOME "$@"

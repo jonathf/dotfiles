@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Create database if first time executing
-[ -f "/tmp/dpass-current" ] || dpass-update
+[ -f "/tmp/dpass-current" ] || $HOME/.local/bin/dpass-update 2> /tmp/file
 
 # Query user for entry
 selected=$(cat /tmp/dpass-current | dmenu -l 20 -fn "Ubuntu Mono-14:normal")
 
 # Pass jobb to insertion
-[ -n "$selected" ] && dpass-insert "$selected"
+[ -n "$selected" ] && $HOME/.local/bin/dpass-insert "$selected"
 
 # Update database
-dpass-update "$selected"
+$HOME/.local/bin/dpass-update "$selected"

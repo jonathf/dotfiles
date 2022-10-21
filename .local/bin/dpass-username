@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+AUTOTYPE_SPEED=1  # seconds/10 used to autotype user/pw
+
+# retrieve variables
+selected="$@"
+[ -z "$selected" ] && selected=$(cat /tmp/dpass-selected)
+username=${selected#*/}
+
+printf "$username" | xdotool type --delay $AUTOTYPE_SPEED --clearmodifiers --file -

@@ -1,0 +1,26 @@
+#!/bin/env python3
+import os
+import sys
+from pathlib import Path
+
+FILEPATH = Path("/tmp/brightness")
+
+if FILEPATH.is_file():
+    with FILEPATH.open() as f:
+        current = int(f.read())
+else:
+    current = 100
+
+if sys.argv[1] == "get":
+    print(current)
+else:
+    if sys.argv[1] == "increment":
+        current += int(sys.argv[2])
+    elif sys.argv[1] == "set":
+        current = int(sys.argv[2])
+    current = current if current < 100 else 100
+    current = current if current > 0 else 0
+
+    os.system(f"xrandr --output eDP-1 --brightness {current / 100}")
+    with FILEPATH.open("w") as f:
+        f.write(str(current))
