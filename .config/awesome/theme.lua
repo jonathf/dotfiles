@@ -7,8 +7,15 @@ local theme = {
 
   bg_normal = "#000000bb",
   fg_normal = "#6c7a80",
-  taglist_fg_focus = "#fff",
-  taglist_fg_occupied = "#6c7a80",
+
+  taglist_bg_focus = "#5f819d",
+  taglist_fg_focus = "#1d1f21",
+  taglist_fg_occupied = "#5f819d",
+  taglist_fg_empty = "#1d1f21",
+
+  tasklist_disable_icon = true,
+  tasklist_align = "center",
+
   bg_focus = "#00000055",
   fg_focus = "#5f819d",
   bg_urgent = "#a54242",

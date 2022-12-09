@@ -22,5 +22,20 @@ awful.rules.rules = {
   }, {
     rule = {class = "libreoffice"},
     properties = {floating = false, maximized = true, focus = true}
-  }, {rule = {class = "mpv"}, properties = {fullscreen = true, focus = true}}
+  }, {
+    rule = {class = "mpv"},
+    properties = {fullscreen = true, focus = true}
+  -- }, {
+  --   rule = { class = "qutebrowser" },
+  --   properties = { screen = root.tags()[1].screen,
+  --                  tag = root.tags()[7].name }
+  -- }, {
+  --   rule = { class = "firefox" },
+  --   properties = { screen = root.tags()[1].screen,
+  --                  tag = root.tags()[8].name }
+  -- }, {
+  --   rule = { class = "brave-browser" },
+  --   properties = { screen = root.tags()[1].screen,
+  --                  tag = root.tags()[9].name }
+  }
 }

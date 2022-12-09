@@ -20,21 +20,29 @@ end
 
 M.key = function(mod, ...) return awful.key(M.modifiers[mod], ...) end
 
-M.move_screen = function(idx)
+M.view_tag = function(idx)
   return function()
-    local tag = awful.screen.focused().tags[idx]
-    if tag then tag:view_only() end
+    local tag = root.tags()[idx]
+    if tag then
+      tag:view_only()
+      awful.screen.focus(tag.screen)
+    end
   end
 end
 
-M.swap_screen = function(idx)
+M.move_client = function(idx)
   return function()
     if client.focus then
-      local tag = client.focus.screen.tags[idx]
-      if tag then client.focus:move_to_tag(tag) end
+      local tag = awful.screen.focused().tags[idx-1]
+      client.focus:move_to_tag(tag)
+      tag:view_only()
+    else
+      local tag = root.tags()[idx]
+      if tag then
+        tag:view_only()
+        awful.screen.focus(tag.screen)
+      end
     end
-    local tag = awful.screen.focused().tags[idx]
-    if tag then tag:view_only() end
   end
 end
 

@@ -1,5 +1,7 @@
 local awful = require "awful"
 
+tasklist = require "layout.tasklist"
+taglist = require "layout.taglist"
 require "layout.signal"
 require "layout.rules"
 
@@ -16,8 +18,8 @@ awful.layout.layouts = {awful.layout.suit.max, awful.layout.suit.tile.left}
 awful.screen.connect_for_each_screen(function(screen)
 
   set_wallpaper(screen)
-  screen.taglist = require "layout.taglist"(screen)
-  screen.tasklist = require "layout.tasklist"(screen)
+  screen.taglist = taglist(screen)
+  screen.tasklist = tasklist(screen)
 
   screen.mywibox = awful.wibar {position = "top", screen = screen}
   screen.mywibox:set_widget(require "layout.taskbar"(screen.taglist,

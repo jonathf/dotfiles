@@ -4,14 +4,13 @@ local widgets = require "widgets"
 
 local notification = nil
 local actions = {
-  up = "-inc 10",
-  down = "-dec 10",
-  min = "-set 1",
-  max = "-set 100",
-  mute = "toggle"
+  up = "increment 10",
+  down = "increment -10",
+  min = "set 1",
+  max = "set 100",
 }
-local set_command = "xbacklight "
-local get_command = "xbacklight -get"
+local set_command = "brightness "
+local get_command = "brightness get"
 
 local function volume(action)
   return function()
