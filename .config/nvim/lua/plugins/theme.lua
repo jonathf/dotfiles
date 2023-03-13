@@ -1,0 +1,488 @@
+return {
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      local kanagawa = require"kanagawa"
+      kanagawa.setup{
+        compile = true,
+        undercurl = false,
+        commentStyle = {italic = true},
+        keywordStyle = {italic = false},
+        statementStyle = {bold = false},
+        transparent = true,
+        dimInactive = false,
+        terminalColors = false,
+        overrides = function(colors) return {
+          TermCursor = {bg = colors.theme.ui.fg},  -- visible Terminal cursor
+        } end,
+      }
+      kanagawa.load("dragon")
+    end
+  },
+  -- {
+  --   "rktjmp/lush.nvim",
+  --   dependencies = {},
+  --   lazy = false,
+  --   config = function()
+  --     local lush = require "lush"
+  --
+  --     -- BASELINE COLORS
+  --     local black = lush.hsluv "#0f191f"
+  --     local white = lush.hsluv "#c7d6d0"
+  --     local red = lush.hsluv "#d8665a"
+  --     local green = lush.hsluv "#92aa92"
+  --     local yellow = lush.hsluv "#f0c674"
+  --     local blue = lush.hsluv "#81a2be"
+  --     local purple = lush.hsluv "#b294bb"
+  --
+  --     local brown = "#aa8877"
+  --
+  --     local diff_add_fg = green --"#557755"
+  --     local diff_delete_fg = red -- "#995555"
+  --
+  --     local function generate()
+  --
+  --       ---@diagnostic disable: undefined-global
+  --       -- selene: allow(undefined_variable)
+  --       -- stylua: ignore start
+  --       return lush(function(injected_functions)
+  --         -- functions are injected via a table for future expansion
+  --         -- you probably want to alias it locally
+  --         local sym = injected_functions.sym
+  --         return {
+  --           Normal          { bg = "NONE", fg = white }, -- normal text
+  --
+  --           Underlined      { gui = "underline" }, -- (preferred) text that stands out, HTML links
+  --           Bold            { gui = "bold" },
+  --           Italic          { gui = "italic" },
+  --
+  --           Error           { fg = red }, -- (preferred) any erroneous construct
+  --           ErrorMsg        { Error }, -- error messages on the command line
+  --           WarningMsg      { fg = yellow }, -- warning messages
+  --
+  --           Comment         { fg = black.li(38).de(24), gui = "italic" }, -- any comment
+  --           Conceal         { fg = white.da(30), gui = "bold,italic" }, -- placeholder characters substituted for concealed text (see 'conceallevel')
+  --
+  --           Cursor          { bg = white.li(20), fg = black }, -- character under the cursor
+  --           lCursor         { Cursor, bg = Cursor.bg.da(35)  }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
+  --           -- CursorIM     { }, -- like Cursor, but used when in IME mode |CursorIM|
+  --           TermCursor      { Cursor }, -- cursor in a focused terminal
+  --           TermCursorNC    { lCursor }, -- cursor in an unfocused terminal
+  --
+  --           CursorLine      { bg = black.li(4) }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if foreground (ctermfg OR guifg) is not set.
+  --           CursorColumn    { CursorLine }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
+  --           -- ColorColumn     { bg = yellow.saturation(46).lightness(black.l + 18) }, -- used for the columns set with 'colorcolumn'
+  --           ColorColumn     { bg = black.li(4) }, -- XXX
+  --
+  --           -- DiffAdd         { bg = green.saturation(50).lightness(black.l + 8) }, -- diff mode: Added line |diff.txt|
+  --           DiffAdd         { bg = green.saturation(50).lightness(black.l + 8), fg = diff_add_fg }, -- XXX
+  --           -- DiffChange      { bg = blue.saturation(50).lightness(black.l + 8) }, -- diff mode: Changed line |diff.txt|
+  --           DiffChange      { bg = "NONE", fg = "NONE" }, -- XXX
+  --           -- DiffDelete      { bg = red.saturation(30).lightness(black.l + 8) }, -- diff mode: Deleted line |diff.txt|
+  --           DiffDelete      { bg = red.saturation(30).lightness(black.l + 8), fg = diff_delete_fg }, -- XXX
+  --           -- DiffText        { bg = blue.saturation(50).lightness(black.l + 20), fg = white }, -- diff mode: Changed text within a changed line |diff.txt|
+  --           DiffText        { bg = blue.saturation(50).lightness(black.l + 20), fg = yellow }, -- XXX
+  --
+  --           LineNr          { fg = black.li(35), bg = black.li(4) }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
+  --           SignColumn      { LineNr }, -- column where |signs| are displayed
+  --           FoldColumn      { LineNr, gui = "bold" }, -- 'foldcolumn'
+  --           Folded          { bg = "NONE", fg = black.li(64) }, -- line used for closed folds
+  --           CursorLineNr    { LineNr, fg = white, gui = "bold" }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+  --
+  --           -- ModeMsg      { }, -- 'showmode' message (e.g., "-- INSERT -- ")
+  --           -- MsgArea      { }, -- Area for messages and cmdline
+  --           -- MsgSeparator { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
+  --           MoreMsg         { fg = green, gui = "bold" }, -- |more-prompt|
+  --           NormalFloat     { bg = black.li(10) }, -- Normal text in floating windows.
+  --           -- FloatBorder     { fg = black.li(46), bg = solid_float_border and NormalFloat.black or "NONE" }, -- Normal text in floating windows.
+  --           FloatBorder     { fg = lush.hsluv "#203f57", bg = "NONE" }, -- --border-color XXX
+  --
+  --           Pmenu           { bg = black.li(10) }, -- Popup menu: normal item.
+  --           PmenuSel        { bg = black.li(22) }, -- Popup menu: selected item.
+  --           PmenuSbar       { bg = black.li(32) }, -- Popup menu: scrollbar.
+  --           PmenuThumb      { bg = black.li(50) }, -- Popup menu: Thumb of the scrollbar.
+  --
+  --           -- Search          { bg = purple.lightness(black.l + 24), fg = white }, -- Last search pattern highlighting (see 'hlsearch').  Also used for similar items that need to stand out.
+  --           Search          { bg = "foreground", fg = white }, -- XXX
+  --           -- IncSearch       { bg = purple.lightness(black.l + 56), fg = black, gui = "bold" }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+  --           IncSearch       { bg = purple.lightness(black.l + 56), fg = "foreground", gui = "bold" }, -- XXX
+  --           -- Substitute   { }, -- |:substitute| replacement text highlighting
+  --           -- MatchParen      { Search }, -- The character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
+  --           MatchParen      {gui = "bold"}, -- XXX
+  --           -- QuickFixLine { }, -- Current |quickfix| item in the quickfix window. Combined with |hl-CursorLine| when the cursor is there.
+  --           CurSearch       { IncSearch },
+  --
+  --           SpellBad        { fg = Error.fg.de(30), gui = "undercurl", guisp = Error.fg }, -- Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
+  --           SpellCap        { SpellBad, guisp = Error.fg.da(10) }, -- Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
+  --           SpellLocal      { SpellCap }, -- Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
+  --           SpellRare       { SpellBad, guisp = yellow }, -- Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
+  --
+  --           StatusLine      { bg = black.li(12), fg = white }, -- status line of current window
+  --           StatusLineNC    { bg = black.li(6), fg = white.li(28) }, -- status lines of not-current windows Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window.
+  --           TabLine         { StatusLine }, -- tab pages line, not active tab page label
+  --           TabLineFill     { StatusLineNC }, -- tab pages line, where there are no labels
+  --           TabLineSel      { gui = "bold" }, -- tab pages line, active tab page label
+  --           VertSplit       { fg = LineNr.fg, bg = StatusLineNC.bg }, -- the column separating vertically split windows
+  --           WinSeparator    { VertSplit },
+  --
+  --           -- Visual          { bg = white.de(18).lightness(black.l + 18) }, -- Visual mode selection
+  --           Visual          { bg = "foreground" }, -- XXX
+  --           -- VisualNOS    { }, -- Visual mode selection when vim is "Not Owning the Selection".
+  --
+  --           NonText         { fg = black.li(30) }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
+  --           SpecialKey      { NonText, gui = "italic" }, -- Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
+  --           Whitespace      { NonText }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+  --           EndOfBuffer     { NonText }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
+  --
+  --           WildMenu        { bg = purple, fg = black }, -- current match in 'wildmenu' completion
+  --           Directory       { gui = "bold" }, -- directory names (and other special names in listings)
+  --           Question        { MoreMsg }, -- |hit-enter| prompt and yes/no questions
+  --           Title           { fg = white, gui = "bold" }, -- titles for output from ":set all", ":autocmd" etc.
+  --
+  --           -- These groups are not listed as default vim groups,
+  --           -- but they are defacto standard group names for syntax highlighting.
+  --           -- commented out groups should chain up to their "preferred" group by
+  --           -- default,
+  --           -- Uncomment and edit if you want more specific syntax highlighting.
+  --
+  --           -- Constant        { fg = white.da(24), gui = "italic" }, -- (preferred) any constant
+  --           Constant        { fg = brown }, -- XXX
+  --           -- String       { }, --   a string constant: "this is a string"
+  --           -- Character    { }, --  a character constant: 'c', '\n'
+  --           -- Number          { fg = white, gui = "italic" }, --   a number constant: 234, 0xff
+  --           Number          { fg = purple }, --  XXX
+  --           Boolean         { Number }, --  a boolean constant: TRUE, false
+  --           -- Float        { }, --    a floating point constant: 2.3e10
+  --
+  --           -- Identifier      { fg = white.da(14) }, -- (preferred) any variable name
+  --           Identifier      { fg = green }, -- XXX
+  --           Function        { fg = white }, -- function name (also: methods for classes)
+  --
+  --           Statement       { fg = white, gui = "bold" }, -- (preferred) any statement
+  --           -- Conditional  { }, --  if, then, else, endif, switch, etc.
+  --           -- Repeat       { }, --   for, do, while, etc.
+  --           -- Label        { }, --    case, default, etc.
+  --           -- Operator     { }, -- "sizeof", "+", "*", etc.
+  --           -- Keyword      { }, --  any other keyword
+  --           -- Exception    { }, --  try, catch, throw
+  --
+  --           PreProc         { Statement }, -- (preferred) generic Preprocessor
+  --           -- Include      { }, --  preprocessor #include
+  --           -- Define       { }, --   preprocessor #define
+  --           -- Macro        { }, --    same as Define
+  --           -- PreCondit    { }, --  preprocessor #if, #else, #endif, etc.
+  --
+  --           Type            { fg = black.li(58) }, -- (preferred) int, long, char, etc.
+  --           -- StorageClass { }, -- static, register, volatile, etc.
+  --           -- Structure    { }, --  struct, union, enum, etc.
+  --           -- Typedef      { }, --  A typedef
+  --
+  --           Special         { fg = white.da(20), gui = "bold" }, -- (preferred) any special symbol
+  --           -- SpecialChar  { }, --  special character in a constant
+  --           -- Tag          { }, --    you can use CTRL-] on this
+  --           Delimiter       { fg = black.li(47) }, --  character that needs attention
+  --           SpecialComment  { Comment, gui = "NONE" }, -- special things inside a comment
+  --           -- Debug        { }, --    debugging statements
+  --
+  --           -- ("Ignore", below, may be invisible...)
+  --           -- Ignore       { }, -- (preferred) left blank, hidden  |hl-Ignore|
+  --
+  --           Todo            { gui = "bold,underline" }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+  --
+  --           -- These groups are for the native LSP client. Some other LSP clients may
+  --           -- use these groups, or use their own. Consult your LSP client's
+  --           -- documentation.
+  --
+  --           LspReferenceText           { ColorColumn }, -- used for highlighting "text" references
+  --           LspReferenceRead           { ColorColumn }, -- used for highlighting "read" references
+  --           LspReferenceWrite          { ColorColumn }, -- used for highlighting "write" references
+  --           LspCodeLens                { LineNr },
+  --
+  --           DiagnosticError            { Error },
+  --           DiagnosticWarn             { WarningMsg },
+  --           DiagnosticInfo             { fg = blue },
+  --           DiagnosticHint             { fg = purple },
+  --           DiagnosticDeprecated       { DiagnosticWarn },
+  --           DiagnosticUnnecessary      { DiagnosticWarn },
+  --
+  --           DiagnosticSignError        { SignColumn, fg = DiagnosticError.fg },
+  --           DiagnosticSignWarn         { SignColumn, fg = DiagnosticWarn.fg },
+  --           DiagnosticSignInfo         { SignColumn, fg = DiagnosticInfo.fg },
+  --           DiagnosticSignHint         { SignColumn, fg = DiagnosticHint.fg },
+  --
+  --           DiagnosticVirtualTextError { DiagnosticError, bg = DiagnosticError.fg.saturation(8).lightness(black.l + 4) },
+  --           DiagnosticVirtualTextWarn  { DiagnosticWarn, bg = DiagnosticWarn.fg.saturation(8).lightness(black.l + 4) },
+  --           DiagnosticVirtualTextInfo  { DiagnosticInfo, bg = DiagnosticInfo.fg.saturation(8).lightness(black.l + 4) },
+  --           DiagnosticVirtualTextHint  { DiagnosticHint, bg = DiagnosticHint.fg.saturation(8).lightness(black.l + 4) },
+  --
+  --           DiagnosticUnderlineError   { fg = DiagnosticError.fg, gui = "undercurl", sp = DiagnosticError.fg },
+  --           DiagnosticUnderlineWarn    { fg = DiagnosticWarn.fg, gui = "undercurl", sp = DiagnosticWarn.fg },
+  --           DiagnosticUnderlineInfo    { fg = DiagnosticInfo.fg, gui = "undercurl", sp = DiagnosticInfo.fg },
+  --           DiagnosticUnderlineHint    { fg = DiagnosticHint.fg, gui = "undercurl", sp = DiagnosticHint.fg },
+  --
+  --           -- Tree-sitter
+  --           sym "@annotation"            { PreProc },
+  --           sym "@attribute"             { PreProc },
+  --           sym "@boolean"               { Number },
+  --           sym "@character"             { Constant },
+  --           sym "@character.special"     { Special },
+  --           sym "@comment"               { Comment },
+  --           sym "@conditional"           { Statement },
+  --           sym "@constant"              { Identifier, gui = "bold" },
+  --           sym "@constant.builtin"      { Number },
+  --           sym "@constant.macro"        { Number },
+  --           sym "@constructor"           { Special },
+  --           sym "@debug"                 { Special },
+  --           sym "@define"                { PreProc },
+  --           sym "@exception"             { Statement },
+  --           sym "@field"                 { Identifier },
+  --           sym "@float"                 { Number },
+  --           sym "@function"              { Function },
+  --           sym "@function.builtin"      { Special },
+  --           sym "@function.call"         { Function },
+  --           sym "@function.macro"        { PreProc },
+  --           sym "@include"               { PreProc },
+  --           sym "@keyword"               { Statement },
+  --           sym "@keyword.function"      { Statement },
+  --           sym "@keyword.operator"      { Statement },
+  --           sym "@keyword.return"        { Statement },
+  --           sym "@keyword.coroutine"     { Statement },
+  --           sym "@label"                 { Statement },
+  --           sym "@method"                { Function },
+  --           sym "@method.call"           { Function },
+  --           sym "@namespace"             { Special },
+  --           sym "@none"                  { },
+  --           sym "@number"                { Number },
+  --           sym "@operator"              { Statement },
+  --           sym "@parameter"             { Identifier },
+  --           sym "@parameter.reference"   { sym "@parameter" },
+  --           sym "@preproc"               { PreProc },
+  --           sym "@property"              { Identifier },
+  --           sym "@punctuation.bracket"   { Delimiter },
+  --           sym "@punctuation.delimiter" { Delimiter },
+  --           sym "@punctuation.special"   { Delimiter },
+  --           sym "@repeat"                { Statement },
+  --           sym "@storageclass"          { Type },
+  --           sym "@string"                { Constant },
+  --           sym "@string.escape"         { Special },
+  --           sym "@string.regex"          { Constant },
+  --           sym "@string.special"        { Special },
+  --           sym "@symbol"                { Identifier },
+  --           sym "@tag"                   { Special },
+  --           sym "@tag.attribute"         { sym "@property" },
+  --           sym "@tag.delimiter"         { Delimiter },
+  --           sym "@text"                  { sym "@none" },
+  --           sym "@text.danger"           { Error },
+  --           sym "@text.emphasis"         { Italic },
+  --           sym "@text.environment"      { PreProc },
+  --           sym "@text.environment.name" { Type },
+  --           sym "@text.literal"          { Constant },
+  --           sym "@text.math"             { Special },
+  --           sym "@text.note"             { DiagnosticInfo },
+  --           sym "@text.reference"        { Constant },
+  --           sym "@text.strike"           { gui = "strikethrough" },
+  --           sym "@text.strong"           { Bold },
+  --           sym "@text.title"            { Title },
+  --           sym "@text.underline"        { Underlined },
+  --           sym "@text.uri"              { Underlined },
+  --           sym "@text.warning"          { WarningMsg },
+  --           sym "@todo"                  { Todo },
+  --           sym "@type"                  { Type },
+  --           sym "@type.builtin"          { Type },
+  --           sym "@type.definition"       { Type },
+  --           sym "@type.qualifier"        { Type },
+  --           sym "@variable"              { Identifier },
+  --           sym "@variable.builtin"      { Number },
+  --
+  --           sym "@punctuation.special.markdown" { Special },
+  --           sym "@string.escape.markdown"       { SpecialKey },
+  --           sym "@text.reference.markdown"      { Identifier, gui = "underline" },
+  --           sym "@text.emphasis.markdown"       { Italic },
+  --           sym "@text.title.markdown"          { Statement },
+  --           sym "@text.literal.markdown"        { Type },
+  --           sym "@text.uri.markdown"            { SpecialComment },
+  --
+  --           -- LSP Semantic Token Groups
+  --           sym "@lsp.type.boolean"                    { sym "@boolean" },
+  --           sym "@lsp.type.builtinType"                { sym "@type.builtin" },
+  --           sym "@lsp.type.comment"                    { sym "@comment" },
+  --           sym "@lsp.type.enum"                       { sym "@type" },
+  --           sym "@lsp.type.enumMember"                 { sym "@constant" },
+  --           sym "@lsp.type.escapeSequence"             { sym "@string.escape" },
+  --           sym "@lsp.type.formatSpecifier"            { sym "@punctuation.special" },
+  --           sym "@lsp.type.keyword"                    { sym "@keyword" },
+  --           sym "@lsp.type.namespace"                  { sym "@namespace" },
+  --           sym "@lsp.type.number"                     { sym "@number" },
+  --           sym "@lsp.type.parameter"                  { sym "@parameter" },
+  --           sym "@lsp.type.property"                   { sym "@property" },
+  --           sym "@lsp.type.selfKeyword"                { sym "@variable.builtin" },
+  --           sym "@lsp.type.string.rust"                { sym "@string" },
+  --           sym "@lsp.type.typeAlias"                  { sym "@type.definition" },
+  --           sym "@lsp.type.unresolvedReference"        { gui = "undercurl", sp = Error.fg },
+  --           sym "@lsp.type.variable"                   { sym "@variable" },
+  --           sym "@lsp.typemod.class.defaultLibrary"    { sym "@type.builtin" },
+  --           sym "@lsp.typemod.enum.defaultLibrary"     { sym "@type.builtin" },
+  --           sym "@lsp.typemod.enumMember.defaultLibrary" { sym "@constant.builtin" },
+  --           sym "@lsp.typemod.method.defaultLibrary"   { sym "@function.builtin" },
+  --           sym "@lsp.typemod.function.defaultLibrary" { sym "@function.builtin" },
+  --           sym "@lsp.typemod.macro.defaultLibrary"    { sym "@function.builtin" },
+  --           sym "@lsp.typemod.keyword.async"           { sym "@keyword.coroutine" },
+  --           sym "@lsp.typemod.operator.injected"       { sym "@operator" },
+  --           sym "@lsp.typemod.string.injected"         { sym "@string" },
+  --           sym "@lsp.typemod.variable.defaultLibrary" { sym "@variable.builtin" },
+  --           sym "@lsp.typemod.variable.injected"       { sym "@variable" },
+  --
+  --           -- Syntax
+  --           diffAdded                 { fg = green },
+  --           diffRemoved               { fg = red },
+  --           diffChanged               { fg = blue },
+  --           diffOldFile               { fg = red, gui = "italic" },
+  --           diffNewFile               { fg = green, gui = "italic" },
+  --           diffFile                  { fg = yellow, gui = "bold" },
+  --           diffLine                  { fg = purple, gui = "bold" },
+  --           diffIndexLine             { fg = yellow },
+  --
+  --           gitcommitOverflow         { WarningMsg },
+  --
+  --           -- markdownUrl               { SpecialComment },
+  --           markdownUrl               { SpecialComment, fg = lush.hsluv "#8ec77e" }, -- XXX
+  --           markdownCode              { Type },
+  --           markdownLinkText          { Identifier, gui = "underline" },
+  --           markdownLinkTextDelimiter { Delimiter },
+  --
+  --           helpHyperTextEntry        { Special },
+  --           -- helpHyperTextJump         { Constant },
+  --           helpHyperTextJump         { Constant, fg = lush.hsluv "#8ec77e" }, -- --link-color XXX
+  --           helpSpecial               { Type },
+  --           -- helpOption                { Constant },
+  --           helpOption                { Constant, fg = lush.hsluv "#8ec77e" }, -- XXX
+  --
+  --           -- Other plugins
+  --           GitSignsAdd                      { SignColumn, fg = green },
+  --           GitSignsChange                   { SignColumn, fg = blue },
+  --           GitSignsDelete                   { SignColumn, fg = red },
+  --
+  --           GitGutterAdd                     { GitSignsAdd },
+  --           GitGutterChange                  { GitSignsChange },
+  --           GitGutterDelete                  { GitSignsDelete },
+  --
+  --           IndentBlanklineChar              { fg = black.li(14).de(22) },
+  --
+  --           TelescopeSelection               { CursorLine },
+  --           TelescopeSelectionCaret          { TelescopeSelection, fg = red },
+  --           TelescopeMatching                { fg = purple, gui = "bold" },
+  --           TelescopeBorder                  { fg = FloatBorder.fg },
+  --
+  --           Sneak                            { Search },
+  --           SneakLabel                       { WildMenu },
+  --           SneakLabelMask                   { fg = purple },
+  --
+  --           LeapMatch                        { gui = "bold,underline,nocombine" },
+  --           LeapLabelPrimary                 { Search , gui = "bold,nocombine" },
+  --           LeapLabelSecondary               { DiffText, gui = "bold,nocombine" },
+  --           LeapLabelSelected                { IncSearch },
+  --
+  --           HopNextKey                       { fg = purple, gui = "bold,underline" },
+  --           HopNextKey1                      { fg = blue, gui = "bold,underline" },
+  --           HopNextKey2                      { fg = blue },
+  --           HopUnmatched                     { fg = Comment.fg },
+  --
+  --           BufferCurrent                    { TabLineSel },
+  --           BufferVisible                    { fg = StatusLineNC.fg },
+  --           BufferVisibleSign                { fg = StatusLineNC.fg },
+  --           BufferVisibleIndex               { fg = StatusLineNC.fg },
+  --
+  --           CocErrorSign                     { DiagnosticSignError },
+  --           CocWarningSign                   { DiagnosticSignWarn },
+  --           CocInfoSign                      { DiagnosticSignInfo },
+  --           CocHintSign                      { DiagnosticSignHint },
+  --           CocErrorHighlight                { DiagnosticUnderlineError },
+  --           CocWarningHighlight              { DiagnosticUnderlineWarn },
+  --           CocInfoHighlight                 { DiagnosticUnderlineInfo },
+  --           CocHintHighlight                 { DiagnosticUnderlineHint },
+  --           CocErrorVirtualText              { DiagnosticVirtualTextError },
+  --           CocWarningVitualText             { DiagnosticVirtualTextWarn },
+  --           CocMenuSel                       { CursorLine },
+  --           CocSelectedText                  { SpellBad },
+  --           CocCodeLens                      { LineNr },
+  --           CocMarkdownLink                  { fg = blue, gui = "underline" },
+  --           CocSearch                        { Search },
+  --
+  --           NeogitNotificationError          { DiagnosticError },
+  --           NeogitNotificationWarning        { DiagnosticWarn },
+  --           NeogitNotificationInfo           { DiagnosticInfo },
+  --
+  --           NeogitDiffContextHighlight       { CursorLine },
+  --           NeogitDiffDeleteHighlight        { DiffDelete },
+  --           NeogitDiffAddHighlight           { DiffAdd },
+  --           NeogitHunkHeader                 { LineNr },
+  --           NeogitHunkHeaderHighlight        { CursorLine, fg = white, gui = "bold" },
+  --
+  --           WhichKey                         { Statement },
+  --           WhichKeyGroup                    { Special },
+  --           WhichKeySeparator                { fg = LineNr.fg },
+  --           WhichKeyValue                    { Constant },
+  --
+  --           TroubleNormal                    { Function },
+  --           TroubleText                      { Function },
+  --           TroubleSource                    { Constant },
+  --
+  --           NvimTreeNormal                   { Normal, bg = "NONE" },
+  --           NvimTreeWinSeparator             { WinSeparator },
+  --           NvimTreeCursorLine               { bg = StatusLineNC.bg },
+  --           NvimTreeCursorColumn             { NvimTreeCursorLine  },
+  --           NvimTreeRootFolder               { fg = blue, gui = "bold" },
+  --           NvimTreeSymlink                  { fg = blue },
+  --           NvimTreeGitDirty                 { diffChanged },
+  --           NvimTreeGitNew                   { diffAdded },
+  --           NvimTreeGitDeleted               { diffRemoved },
+  --           NvimTreeSpecialFile              { fg = purple, gui = "underline" },
+  --
+  --           CmpItemAbbr                      { fg = white.da(14) },
+  --           CmpItemAbbrDeprecated            { fg = white.da(42) },
+  --           CmpItemAbbrMatch                 { fg = white, gui = "bold" },
+  --           CmpItemAbbrMatchFuzzy            { fg = white.da(10), gui = "bold" },
+  --           CmpItemKind                      { fg = white.da(24) },
+  --           CmpItemMenu                      { fg = white.da(30) },
+  --
+  --           NnnNormal                        { NvimTreeNormal },
+  --           NnnNormalNC                      { NnnNormal },
+  --           NnnWinSeparator                  { NvimTreeWinSeparator },
+  --           NnnVertSplit                     { NnnWinSeparator },
+  --
+  --           MasonHighlight                   { fg = blue },
+  --           MasonHighlightBlock              { fg = black, bg = MasonHighlight.fg },
+  --           MasonHighlightBlockBold          { MasonHighlightBlock, gui = "bold" },
+  --           MasonHighlightSecondary          { fg = yellow },
+  --           MasonHighlightBlockSecondary     { fg = black, bg = MasonHighlightSecondary.fg },
+  --           MasonHighlightBlockBoldSecondary { MasonHighlightBlockSecondary, gui = "bold" },
+  --           MasonMuted                       { fg = white.da(24) },
+  --           MasonMutedBlock                  { fg = black, bg = MasonMuted.fg },
+  --           MasonMutedBlockBold              { MasonMutedBlock, gui = "bold" },
+  --           MasonHeader                      { fg = black, bg = yellow, gui = "bold" },
+  --           MasonError                       { Error },
+  --
+  --           NoiceCmdlineIcon                 { fg = p.blue },
+  --           NoiceCmdlineIconSearch           { WarningMsg },
+  --           NoiceCmdlinePopupBorder          { NoiceCmdlineIcon },
+  --           NoiceCmdlinePopupBorderSearch    { WarningMsg },
+  --           NoiceCmdlinePopupTitle           { NoiceCmdlineIcon },
+  --           NoiceCompletionItemKindDefault   { fg = p1.fg4 },
+  --           NoiceConfirmBorder               { NoiceCmdlineIcon },
+  --
+  --           -- FlashLabel                       { bg = p.blue.lightness(p1.bg.l + 24), fg = p.fg },
+  --           FlashBackdrop                    { fg = Comment.fg },
+  --
+  --           Headline        { bg = purple.li(-60) },
+  --           CodeBlock       { bg = blue.li(-70) },
+  --           Dash            { bg = yellow.li(-50) },
+  --
+  --         }
+  --       end
+  --     )
+  --   end
+  --
+  --   lush(generate(), { force_clean = false })
+  --   end,
+  -- },
+}

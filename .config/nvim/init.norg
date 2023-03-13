@@ -1,0 +1,58 @@
+@document.meta
+title: README
+authors: jonathf
+created: 2023-07-07
+updated: 2023-07-22
+version: 1.1.1
+tangle: init.lua
+@end
+
+* Package management with Lazy.nvim
+
+  We ensure that Lazy exists on the system and and add it to path.
+
+  @code lua
+  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+  if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "https://github.com/folke/lazy.nvim.git",
+      "--branch=stable",
+      lazypath,
+    })
+  end
+  vim.opt.rtp:prepend(lazypath)
+  @end
+
+  The line `--branch=stable` means we use the stable release.
+
+* Nested session handle with Flatten.nvim
+
+  Check if a session is active by looking at the \$NVIM variable (which neovim
+  creates). If that is the case, activate Flatten and stop loading anything else.
+
+  @code lua
+  if os.getenv("NVIM") ~= nil then
+    require "lazy".setup {{ "willothy/flatten.nvim", config = true }}
+    return
+  end
+  @end
+
+* Loading native settings, mappings and auto-commands
+
+  Load {:lua/settings:}[Neovim settings],
+  {:lua/mappings:}[key-mapping] and {:lua/autocmd:}[auto-commands]:
+
+  @code lua
+  require "jonathf".setup()
+  @end
+
+* Loading plugins
+
+  load all plugins from {./lua/plugins/README.norg}[plugins]:
+
+  @code lua
+  require "lazy".setup "plugins"
+  @end

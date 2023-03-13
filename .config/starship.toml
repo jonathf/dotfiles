@@ -1,96 +1,83 @@
 add_newline=false
 format = """\
-$username$hostname$directory\
-$fill\
-$hg_branch$git_branch$git_commit$git_status$git_state\
-$cmd_duration$jobs$custom\
+$directory$sudo$memory_usage $fill\
+$env_var$aws$package$python$conda\
+$git_branch$git_commit$git_status \
+$newline
 $character\
 """
-right_format = """\
-$package\
-$python\
-$conda\
-$docker_context\
-$golang\
-$julia\
-$rust\
-"""
+right_format="$cmd_duration$jobs$git_state"
 
-[username]
-format="[$user ]($style)"
-style_root="cyan"
-style_user="green"
-
-[hostname]
-format="[$hostname ](bright-blue)"
-ssh_only=true
-trim_at="."
+[custom.ls]
+when=true
+command="exa --color=always --group-directories-first | paste -sd ' ' - "
+format='$output'
 
 [directory]
-format="[$read_only](red)[$path ](bright-yellow)"
+format="[$path](fg:blue)([$read_only](fg:red))"
+repo_root_format='[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style)'
 read_only="!"
-truncation_length=4
-truncate_to_repo=false
-fish_style_pwd_dir_length=3
+home_symbol="~"
+truncation_length=8
+truncate_to_repo=true
+fish_style_pwd_dir_length=10
+repo_root_style="bold fg:blue"
+style="fg:bright-blue"
+
+[sudo]
+disabled=false
+format="( [ $symbol ](fg:bright-black bg:yellow))"
+symbol="#"
+
+[memory_usage]
+disabled=false
+threshold=80
+format="( [ $ram_pct ](bold bg:bright-black fg:bright-yellow))([$swap_pct ](bold bg:bright-black fg:bright-red))"
 
 [fill]
 symbol=" "
-
-[hg_branch]
-format="[$branch ](bold bright-white)"
-
-[git_branch]
-format="[$branch ](bold bright-white)"
-
-[git_commit]
-format="[$hash ](bright-black)"
-commit_hash_length=7
-only_detached=true
-
-[git_state]
-format="[$state $progress_current/$progress_total ](bold green)"
-rebase="REBASE"
-merge="MERGE"
-revert="REVERT"
-cherry_pick="CHERRY-PICK"
-bisect="BISECT"
-
-[git_status]
-format="([$all_status$ahead_behind](bright-white) )"
-conflicted="[$count!](bright-red)"
-diverged="[${ahead_count}+${behind_count}-](bright-cyan)"
-ahead="[${count}+](bright-cyan)"
-behind="[${count}-](bright-cyan)"
-untracked="$count?"
-stashed="[${count}S](bright-red)"
-modified="${count}m"
-staged="${count}s"
-renamed="${count}r"
-deleted="[${count}D](bright-red)"
+style="bg:bright-black"
 
 [package]
-format="[$version ](bright-white)"
+format="( [ $version ](bold bg:bright-black fg:bright-white))"
 
 [python]
-format="[$version ](italic bright-white)"
+format="( [ $virtualenv ](bold bg:bright-black fg:yellow))"
 version_format="${raw}"
 detect_extensions = []
 
 [conda]
-format="[$environment ](italic bright-white)"
+format="( [ $environment ](italic bright-white))"
 
-[docker_context]
-format="[docker $context ](bright-white)"
-only_with_files=true
+[git_branch]
+format="( [ $branch ](bold bg:bright-black))"
 
-[golang]
-format="[$version ](bright-white)"
+[git_commit]
+format="( [ $hash ](bold bg:bright-black fg:bright-yellow))"
+commit_hash_length=7
+only_detached=true
 
-[julia]
-format="[$version ](bright-white)"
+[git_status]
+format="( [ $conflicted$deleted$renamed$modified$staged$diverged$ahead$behind$up_to_date$untracked$stashed ](bg:bright-black))"
+up_to_date="[====](bold bg:bright-black fg:green)"
+conflicted="([!$count](bold bg:bright-black fg:bright-red))"
+ahead="([+${count}](bold bg:bright-black fg:bright-yellow))"
+behind="([-${count}](bold bg:bright-black fg:bright-yello))"
+untracked="([?$count](bold bg:bright-black fg:bright-white))"
+stashed="([_${count}](bold bg:bright-black fg:bright-white))"
+modified="([M${count}](bold bg:bright-black fg:bright-cyan))"
+staged="([S${count}](bold bg:bright-black fg:bright-green))"
+renamed="([^${count}](bold: bg:bright-black fg:bright-green))"
+deleted="([x${count}](bold bg:bright-black fg:bright-red))"
 
-[rust]
-format="[$version ](bright-white)"
+[character]
+format="$symbol "
+success_symbol='[\$](bold bright-green)'
+error_symbol='[\$](bold bright-red)'
+vicmd_symbol='[N](bold blue)'
+vimcmd_replace_one_symbol='[R](bold bright-cyan)'
+vimcmd_replace_symbol='[R](bold magenta)'
+vimcmd_visual_symbol='[V](bold yellow)'
 
 [cmd_duration]
 format="[$duration ](yellow)"
@@ -100,8 +87,21 @@ min_time=1000
 format="[&$number ](bold yellow)"
 threshold = 1
 
-[character]
-format="$symbol"
-success_symbol="[\n\\$ ](bright-green)"
-error_symbol="[\n\\$ ](bright-red)"
-vicmd_symbol="[ VI-MODE \n> ](bold fg:black bg:yellow)"
+[git_state]
+format="( [ $state $progress_current/$progress_total ](bold fg:black bg:bright-green) )"
+rebase="REBASE"
+merge="MERGE"
+revert="REVERT"
+cherry_pick="CHERRY-PICK"
+bisect="BISECT"
+
+[aws]
+format="( [ $profile ](bold bg:bright-yellow fg:black))"
+[aws.profile_aliases]
+ds-admin="root"
+ds-read="ro"
+ds-pu="pu"
+
+[env_var]
+variable="AWS_ACTIVE_VPN_SESSION"
+format="( [ $env_value ](bold fg:bright-black bg:yellow))"

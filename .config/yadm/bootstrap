@@ -2,7 +2,7 @@
 
 OS=$(cat /etc/os-release | grep "^ID=" | sed -e 's/ID=//' | sed -e 's/"//')
 [ "$(uname -s)" == "Darwin" ] && OS=mac
-echo "distribution: $OS"
+echo "Distribution identified as '$OS'"
 
 install_opt="
 install [c]ommon software.
@@ -11,7 +11,6 @@ install [f]ish and some command line tools.
 install [a]wesome wm, display manager, and some desktop apps.
 install [n]eovim and configure plugins
 install [q]utebrowser and extensions.
-install [i]ntercept and enable caps2esc and ctrl2ins.
 install [g]pg and password manager."
 [ "$OS" == "arch" ] && install_opt="$install_opt
 [o]ptimize pacman"
@@ -19,14 +18,13 @@ install [g]pg and password manager."
 read -p "what to do?
 $install_opt
 
-[pfaniqo]: " flags
+[cpfanqo]: " flags
 
 [[ "$flags" == *c* ]] && install_common=y
 [[ "$flags" == *p* ]] && install_python=y
 [[ "$flags" == *f* ]] && install_fish=y
 [[ "$flags" == *a* ]] && install_awesome=y
 [[ "$flags" == *n* ]] && install_neovim=y
-[[ "$flags" == *i* ]] && install_intercept=y
 [[ "$flags" == *q* ]] && install_qutebrowser=y
 [[ "$flags" == *g* ]] && install_gpg=y
 [[ "$flags" == *o* ]] && optimize_pacman=y
@@ -48,7 +46,7 @@ if [ $install_common ]; then
     popd
     yay -Syu
   else if [ "$OS" == "ubuntu" ]; then
-    sudo apt remove -y rustc
+    sudo apt install curl
   else if [ "$OS" = "mac" ]; then
     [ ! -f "$HOME/.Brewfile" ] && brew bundle --global
     brew install cmake
@@ -128,7 +126,7 @@ if [ "$install_fish" ]; then
   else if [ "$OS" == "mac" ]; then
     brew install fish direnv
   fi fi fi
-  ~/.cargo/bin/cargo install exa
+  ~/.cargo/bin/cargo install eza
   curl -sS https://starship.rs/install.sh | sh
   ~/.cargo/bin/cargo install ripgrep
 fi
@@ -147,46 +145,6 @@ if [ "$install_neovim" ]; then
   fi
   ~/.config/nvim/venv/bin/pip install -Ur ~/.config/requirements.txt
   ~/.config/nvim/venv/bin/pip install neovim-remote
-  if [ ! -d ~/.cache/nvim/nlua/sumneko_lua/lua-language-server ]; then
-    mkdir -p ~/.cache/nvim/nlua/sumneko_lua
-    git clone --recursive https://github.com/sumneko/lua-language-server ~/.cache/nvim/nlua/sumneko_lua/lua-language-server
-    pushd ~/.cache/nvim/nlua/sumneko_lua/lua-language-server/3rd/luamake
-    ./compile/install.sh
-    cd ../..
-    ./3rd/luamake/luamake rebuild
-    popd
-  fi
-  nvim --headless +PackerUpdate +qall
-fi
-
-if [ "$install_intercept" ]; then
-  if [ "$OS" == "arch" ]; then
-    sudo yay -Sy --noconfirm interception-dual-function-keys
-  fi
-  cat << EOF | sudo tee /etc/interception/udevmon.yaml
-- JOB: "intercept -g \$DEVNODE | dual-function-keys -c /etc/interception/dual-function-keys.yaml | uinput -d \$DEVNODE"
-  DEVICE:
-    EVENTS:
-      EV_KEY: [KEY_CAPSLOCK, KEY_ESC, KEY_RIGHTCTRL, KEY_INSERT]
-EOF
-  cat << EOF | sudo tee /etc/interception/dual-function-keys
-TIMING:
-  TAP_MILISEC: 200
-  DOUBLE_TAP_MILISEC: 150
-
-MAPPINGS:
-- KEY: KEY_CAPSLOCK
-  TAP: KEY_ESC
-  HOLD: KEY_RIGHTCTRL
-  HOLD_START: BEFORE_CONSUME
-- KEY: KEY_RIGHTCTRL
-  TAP: KEY_INSERT
-  HOLD: KEY_RIGHTCTRL
-  HOLD_START: BEFORE_CONSUME
-EOF
-  sudo systemctl enable udevmon.service
-  sudo systemctl start udevmon.service
-  sudo systemctl restart udevmon.service
 fi
 
 if [ "$install_gpg" ]; then

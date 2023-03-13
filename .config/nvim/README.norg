@@ -1,0 +1,31 @@
+@document.meta
+title: README
+authors: jonathf
+created: 2023-07-10
+updated: 2023-07-13
+version: 1.1.1
+tangle: install.sh
+@end
+
+  @code bash
+  #!/bin/env bash
+
+  set -e
+  @end
+
+* Ensure everything is ready before install
+
+  @code bash
+  OS=$(cat /etc/os-release | grep "^ID=" | sed -e 's/ID=//' | sed -e 's/"//')
+  [ "$(uname -s)" == "Darwin" ] && OS=mac
+  if [ -z "$OS" ]; then
+    echo "Unknown host"
+    exit 1
+  fi
+  echo "distribution: $OS"
+
+  if [ ! -d "$HOME/.pyenv"]; then
+    echo "pyenv is missing"
+    exit 1
+  fi
+  @end

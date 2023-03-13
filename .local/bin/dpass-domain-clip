@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+CLIP_TIMEOUT=20000  # seconds/1000 before clipboard is cleared again
+
+# retrieve variables
+selected="$@"
+[ -z "$selected" ] && selected=$(cat /tmp/dpass-selected)
+domain=${selected%/*}
+
+
+printf "$domain" | xsel -p -t $CLIP_TIMEOUT
+printf "$domain" | xsel -b -t $CLIP_TIMEOUT

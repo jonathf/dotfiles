@@ -33,7 +33,7 @@ end
 M.move_client = function(idx)
   return function()
     if client.focus then
-      local tag = awful.screen.focused().tags[idx-1]
+      local tag = awful.screen.focused().tags[idx]
       client.focus:move_to_tag(tag)
       tag:view_only()
     else

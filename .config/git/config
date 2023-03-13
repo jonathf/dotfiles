@@ -6,6 +6,7 @@
     add-all = "!git add `git ls-files -m | uniq`"
     ls = "ls-files ."
     fame = "!git-fame"
+    stats = "!git-stats"
 [color]
     ui = auto
 [color "branch"]

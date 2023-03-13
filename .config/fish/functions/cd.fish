@@ -24,6 +24,15 @@ with neovim.attach('socket', path='$NVIM_LISTEN_ADDRESS') as session:
         return $status
     end
 
+    # Skip history when going home.
+    if test -z "$argv"
+        set argv "$HOME"
+    end
+    if test (realpath $argv) = "$HOME"
+        builtin cd $argv
+        return $status
+    end
+
     # Avoid set completions.
     set -l previous $PWD
 

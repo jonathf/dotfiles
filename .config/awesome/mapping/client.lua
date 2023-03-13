@@ -4,7 +4,8 @@ local utils = require "mapping.utils"
 
 
 return awful.util.table.join(
-  utils.key("m  ", "f", function(client) client.fullscreen = not client.fullscreen end),
-  utils.key("m  ", "c", function(client) client:kill() end),
-  utils.key("m  ", "o", function(client) client.move_to_screen() end)
+  utils.key("m  ", "f", function(client)
+    client.fullscreen = not client.fullscreen end,            {group="awesome", description="toggle fullscreen"}),
+
+  utils.key("m  ", "c", function(client) client:kill() end,   {group="awesome", description="kill application"})
 )

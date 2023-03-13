@@ -1,0 +1,27 @@
+@document.meta
+title: ftplugin
+authors: jonathf
+created: 2023-07-08
+updated: 2023-07-10
+version: 1.1.1
+@end
+
+#tangle norg.lua
+@code lua
+vim.api.nvim_create_autocmd(
+  "BufWritePost", { group="U", buffer=0, command="Neorg tangle current-file" }
+)
+vim.bo.formatoptions = "crqnlj"
+@end
+
+#tangle help.lua
+@code lua
+vim.api.nvim_create_autocmd(
+  "BufWinEnter", { group="U", buffer=0, command="wincmd L" }
+)
+@end
+
+#tangle python.lua
+@code lua
+  vim.g.python3_host_prog = vim.fn.stdpath("config") .. "/venv/bin/python"
+@end

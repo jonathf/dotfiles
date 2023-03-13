@@ -1,3 +1,5 @@
+qbittorrent http://192.168.68.84:9090/
+openmediavault http://192.168.68.84/
 bilkollektivet https://desktop.bilkollektivet.no/nb/login
 calendar https://calendar.google.com
 chaospy https://github.com/jonathf/chaospy
@@ -19,17 +21,29 @@ photos https://photos.google.com
 pogdesign https://pogdesign.co.uk/cat
 pyvroom https://github.com/VROOM-Project/pyvroom
 sbanken https://bedrift.sbanken.no
-slack-brainbase https://brainbaseteam.slack.com
-slack-folq https://folq.slack.com
-slack-tallented https://tallentednetwork.slack.com
 vroom https://github.com/VROOM-Project/vroom
 youtube https://youtube.com
 yr https://yr.no/en/forecast/daily-table/1-72837/Norway/Oslo/Oslo/Oslo
 travic https://travic.app/?z=12&x=1193054.6&y=8383237.1
-
-jira https://jira.ruter.no/secure/RapidBoard.jspa
-confluence https://ruterwiki.ruter.no/display/DS/Data+Science
-intility https://portal.intility.com/no/
+slack-brainbase https://brainbaseteam.slack.com
+slack-folq https://folq.slack.com
+slack-witted https://wittednetwork.slack.com
+slack-turbodata https://turbodata.slack.com
 slack-ruter https://ruteras.slack.com
+ruterwiki https://ruterwiki.ruter.no/display/DS/Data+Science
+intility https://portal.intility.com/no/
 outlook https://outlook.office365.com/mail/
 tripletex https://tripletex.no/
+awsapps https://d-93671bac31.awsapps.com/start
+jira-overview https://jira.ruter.no/secure/RapidBoard.jspa
+jira-calendar https://jira.ruter.no/secure/Dashboard.jspa?selectPageId=23931
+
+dataload https://gitlab.com/ruter-as/datascience/ml/data-load/pipeline-steps
+loadpred-ng https://gitlab.com/ruter-as/datascience/ml/loadpred
+loadpred-old https://gitlab.com/ruter-as/datascience/ml/load-pred/pipeline-steps
+loadpred-fe https://gitlab.com/ruter-as/datascience/data-engineering/flink/loadpred-fe
+apcpred https://gitlab.com/ruter-as/datascience/ml/apc-pred/pipeline-steps
+ksqldb-connect https://gitlab.com/ruter-as/datascience/data-engineering/ksqldb/ksqldb-connect
+gitlab-ci https://gitlab.com/ruter-as/datascience/common/gitlab-ci
+zmk-sweep https://github.com/jonathf/zmk-sweep
+zmk-dev https://zmk.dev

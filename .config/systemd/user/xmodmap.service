@@ -1,0 +1,14 @@
+[Unit]
+Description=Run xmodmap at startup after network becomes reachable
+After=getty.target
+Before=sleep.target
+
+[Service]
+User=jonathf
+Type=simple
+RemainAfterExit=yes
+ExecStart=/usr/bin/xmodmap /home/jonathf/.Xmodmap
+TimeoutStartSec=0
+
+[Install]
+WantedBy=default.target

@@ -8,3 +8,5 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame, Series
 import scipy as sp
+
+from s3path import S3Path

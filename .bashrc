@@ -1,7 +1,9 @@
 #!/bin/bash
 [[ $- != *i* ]] && return
 source ~/.profile
-if [ -z "$BASH_EXECUTION_STRING" ]; then exec fish; fi
+if [ -z "$BASH_EXECUTION_STRING" ]; then
+  exec fish
+fi
 
 set -o vi
 set editing-mode vi
@@ -28,3 +30,7 @@ wait
 
 alias luamake=/home/jonathf/.cache/nvim/nlua/sumneko_lua/lua-language-server/3rd/luamake/luamake
 . "$HOME/.cargo/env"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

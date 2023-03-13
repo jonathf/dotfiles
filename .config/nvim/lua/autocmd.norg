@@ -1,0 +1,124 @@
+@document.meta
+author: Jonathan Feinberg
+title: Collection of autocommands
+tangle: jonathf/autocmd.lua
+@end
+
+* Helper function
+
+  As a precurser the following function is used:
+
+  @code lua
+  vim.api.nvim_create_augroup("U", {})
+  local function autocmd(args)
+    event = args.event
+    args["event"] = nil
+    if not args.group then args["group"] = "U" end
+    vim.api.nvim_create_autocmd(event, args)
+  end
+  @end
+
+  This exist to simplify auto-command creation.
+
+* Close command window with escape
+
+  The command window is annoying as it easy to mistakenly get into. Think `q:`
+  instead `:q`. So adding a quick escape hatch to simplify getting out:
+
+  @code lua
+  autocmd{
+    event = "CmdwinEnter",
+    callback = function() vim.keymap.set("n", "<esc>", ":q<cr>", {buffer = true}) end,
+  }
+  @end
+
+* Relative and absolute numbering
+
+  Best of two worlds: Absolute numbering while editing, and relative numbering
+  when not:
+
+  @code lua
+  autocmd{
+    event = {"BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdlineLeave"},
+    callback = function() vim.o.relativenumber = true end,
+  }
+  autocmd{
+    event = {"BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdlineEnter"},
+    callback = function() vim.o.relativenumber = false end,
+  }
+  @end
+
+* Cursor line and color column
+
+  Add cursor line and color column to the current working window, but not
+  elsewere.
+
+  @code lua
+  autocmd{
+    event = {"BufEnter", "WinEnter"},
+    callback = function()
+      vim.opt.colorcolumn = "80"
+      vim.opt.cursorline = true
+    end,
+  }
+  autocmd{
+    event = {"BufLeave", "WinLeave"},
+    callback = function()
+    vim.opt.colorcolumn = "0"
+    vim.opt.cursorline = false
+    end,
+  }
+  @end
+
+* Remember the last cursor position in the document
+
+  @code lua
+  autocmd{
+    event = "BufReadPost",
+    callback = function()
+      local cursor = vim.api.nvim_buf_get_mark(0, '"')
+      if cursor[1] > 0 and cursor[1] <= vim.api.nvim_buf_line_count(0) then
+        vim.api.nvim_win_set_cursor(0, cursor)
+      end
+    end,
+  }
+  @end
+
+* Quick exit terminal windows if the the process is dead
+
+  Terminal emulator normally exits with a error status screen. This little
+  snippet closes the window automatically when that happens.
+
+  @code lua
+  autocmd{
+    event = "TermClose",
+    command = "if !v:event.status | exe 'bdelete! '..expand('<abuf>') | endif",
+  }
+  @end
+
+  Currently this has to be done in vimscript since `v:event` isn't available.
+
+* Disable Lsp formatting on attach
+
+  Python Lsp formatter is annoying, so we turn it off.
+
+  @code lua
+  autocmd{
+    event = "LspAttach",
+    pattern = "*.py",
+    callback = function(event) vim.bo[event.buf].formatexpr = nil end,
+  }
+  @end
+
+* Neorg metagen
+
+  When working with neorg file, it is nice to ensure that the metagen is always
+  up-to-date:
+
+  @code lua
+  autocmd{
+    event = "BufWritePre",
+    pattern = "*.norg",
+    command = "Neorg update-metadata",
+  }
+  @end

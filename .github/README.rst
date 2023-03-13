@@ -1,13 +1,17 @@
 My personal configuration files
 ===============================
 
-This repository is meant to be used using git bare, as described in the
+This repository is meant to be used with git bare, as described in the
 `Atlassian tutorials <https://www.atlassian.com/git/tutorials/dotfiles>`_.
-I personally use `YADM <https://yadm.io/#>`_, but the either works.
+I personally use `YADM <https://yadm.io/#>`_, but either works.
 
-Start by copying over Github SSH keys to the new system, and clone the repo:
+Start by copying over Github keys GPG keys to the new system, and clone the
+repo:
 
+```sh
+  sudo apt install yadm
   yadm clone git@github.com:jonathf/dotfiles
+```
 
 Kickstart the bootstrap script when prompted to install accompanied software
 dependencies.
@@ -15,7 +19,7 @@ dependencies.
 Sub-categories
 --------------
 
-Some topics requires extra installs and/or configuration.
+Some topics require extra installs and/or configuration.
 These topics are covered here:
 
 * Awesome WM: `.config/awesome <../.config/awesome/>`_

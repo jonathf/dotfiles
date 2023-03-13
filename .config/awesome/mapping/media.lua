@@ -24,6 +24,6 @@ return awful.util.table.join(
     {group="media", description="brightness max"}),
   utils.key("m  ", "F7", command.xrandr),
   utils.key("m  ", "F8", utils.spawn("nmcli connection up 'unifon'")),
-  utils.key("   ", "Print", utils.spawn("scrot -e 'mv $f ~/temp/screenshots/ 2>/dev/null'"),
+  utils.key("   ", "Print", utils.spawn("flameshot gui -p /home/jonathf/temp/screenshot"),
     {group="media", description="print screen"})
 )

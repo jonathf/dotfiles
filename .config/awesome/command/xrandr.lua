@@ -25,4 +25,9 @@ local function xrandr()
   end)
 end
 
+
+function run_xrandr()
+  xrandr()
+end
+
 return xrandr

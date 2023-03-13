@@ -1,5 +1,6 @@
 import qutebrowser
 from mappings import set_mappings
+import dracula.draw
 
 # these are provided by Qutebrowser
 container: qutebrowser.config.config.ConfigContainer = c
@@ -10,6 +11,13 @@ try:
 except:
     api.load_autoconfig()  # old style loading
 
+dracula.draw.blood(container, {
+    "spacing": {
+        "vertical": 2,
+        "horizontal": 0,
+    }
+})
+
 container.colors.webpage.bg = None
 container.colors.webpage.darkmode.enabled = True
 container.window.transparent = False
@@ -17,6 +25,9 @@ container.window.title_format = "{current_title}"
 
 set_mappings(container, api)
 
+# Load a restored tab as soon as it takes focus.
+# Type: Bool
+container.session.lazy_restore = True
 
 # Always restore open sites when qutebrowser is reopened. Without this
 # option set, `:wq` (`:quit --save`) needs to be used to save open tabs
@@ -26,6 +37,11 @@ set_mappings(container, api)
 # `session.default_name` setting.
 # Type: Bool
 container.auto_save.session = True
+
+# Automatically start playing `<video>` elements. Note: On Qt < 5.11,
+# this option needs a restart and does not support URL patterns.
+# Type: Bool
+container.content.autoplay = False
 
 # Number of commands to save in the command history. 0: no history / -1:
 # unlimited
@@ -68,7 +84,77 @@ container.completion.use_best_match = False
 
 # Try to pre-fetch DNS entries to speed up browsing.
 # Type: Bool
-container.content.dns_prefetch = True
+container.content.dns_prefetch = False
+
+# Limit fullscreen to the browser window (does not expand to fill the
+# screen).
+# Type: Bool
+container.content.fullscreen.window = False
+
+# User agent to send. Unset to send the default. Note that the value
+# read from JavaScript is always the global value.
+# Type: String
+# TODO: User Agent extension
+# container.content.headers.user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'
+container.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}'
+
+# Which method of blocking ads should be used. Support for Adblock Plus (ABP) syntax blocklists using Brave’s Rust library requires the adblock Python package to be installed, which is an optional dependency of qutebrowser. It is required when either adblock or both are selected.
+# Type: String
+# Valid values:
+#   - auto: Use Brave’s ABP-style adblocker if available, host blocking otherwise
+#   - adblock: Use Brave’s ABP-style adblocker
+#   - hosts: Use hosts blocking
+#   - both: Use both hosts blocking and Brave’s ABP-style adblocker
+# Default: auto
+container.content.blocking.method = 'both'
+
+# List of URLs of lists which contain hosts to block.  The file can be
+# in one of the following formats:  - An `/etc/hosts`-like file - One
+# host per line - A zip-file of any of the above, with either only one
+# file, or a file   named `hosts` (with any extension).  It's also
+# possible to add a local file or directory via a `file://` URL. In case
+# of a directory, all files in the directory are read as adblock lists.
+# The file `~/.config/qutebrowser/blocked-hosts` is always read if it
+# exists.
+# Type: List of Url
+container.content.blocking.hosts.lists = [
+    'https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts',
+    'https://hosts.anudeep.me/mirror/adservers.txt',
+]
+
+container.content.blocking.adblock.lists = [
+    'https://secure.fanboy.co.nz/r/fanboy-ultimate.txt',
+    'https://easylist-downloads.adblockplus.org/advblock.txt',
+    'https://raw.githubusercontent.com/hant0508-zz/uBlock-fillters/master/filters.txt',
+    'https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&showintro=1&mimetype=plaintext',
+    'https://easylist-downloads.adblockplus.org/antiadblockfilters.txt',
+]
+
+# A list of patterns that should always be loaded, despite being ad-
+# blocked. Note this whitelists blocked hosts, not first-party URLs. As
+# an example, if `example.org` loads an ad from `ads.example.org`, the
+# whitelisted host should be `ads.example.org`. If you want to disable
+# the adblocker on a given page, use the `content.host_blocking.enabled`
+# setting with a URL pattern instead. Local domains are always exempt
+# from hostblocking.
+# Type: List of UrlPattern
+container.content.blocking.whitelist = [
+    '*.reddit.com',
+    '*.redditstatic.com',
+    '*.redditmedia.com',
+    '*.redd.it',
+]
+
+
+# Enable hyperlink auditing (`<a ping>`).
+# Type: Bool
+container.content.hyperlink_auditing = True
+
+# Allow JavaScript to read from or write to the clipboard. With
+# QtWebEngine, writing the clipboard as response to a user interaction
+# is always allowed.
+# Type: Bool
+container.content.javascript.clipboard = 'none'
 
 # Allow pdf.js to view PDF files in the browser. Note that the files can
 # still be downloaded by clicking the download button in the pdf.js
@@ -180,10 +266,10 @@ container.url.searchengines = {
 
 # Default zoom level.
 # Type: Perc
-container.zoom.default = '120%'
+container.zoom.default = '100%'
 
 # Available zoom levels.
 # Type: List of Perc
 container.zoom.levels = ['50%', '75%', '80%', '100%', '120%', '150%', '200%', '300%']
 
-api.source("theme.py")
+# api.source("theme.py")

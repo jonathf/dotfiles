@@ -116,6 +116,11 @@ def bluetooth_get_enabled() -> Optional[bool]:
 class Action():  # pylint: disable=too-few-public-methods
     """Helper class to execute functions from a string variable"""
 
+    name: str
+    func: Callable
+    is_active: bool
+    args: tuple
+
     def __init__(
         self,
         name: str,
@@ -190,7 +195,7 @@ def create_other_actions(client: NM.Client) -> List[Action]:
     return actions
 
 
-def rescan_wifi():
+def rescan_wifi() -> None:
     """
     Rescan Wifi Access Points
     """

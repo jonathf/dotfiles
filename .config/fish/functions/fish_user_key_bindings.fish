@@ -1,11 +1,12 @@
 function fish_user_key_bindings --description "key mapping"
-  bind -M insert jk bind_jk
-  bind -M insert ! bind_bang
-  bind -M insert '/' bind_slash
-  bind -M insert . bind_dot
+  # bind -M insert § bind_paragraph
+  # bind -M insert ! bind_bang
+  # bind -M insert '/' bind_slash
+  # bind -M insert . bind_dot
+  # bind -M insert \e\x7F 'backward-kill-path-component'
 end
 
-function bind_jk
+function bind_paragraph
   if commandline -P
     commandline -f cancel
   else

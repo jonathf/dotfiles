@@ -1,0 +1,30 @@
+[Default Applications]
+x-scheme-handler/http=qutebrowser.desktop
+text/html=org.qutebrowser.qutebrowser.desktop
+application/xhtml+xml=org.qutebrowser.qutebrowser.desktop
+x-scheme-handler/https=qutebrowser.desktop
+image/jpeg=feh.desktop
+image/png=feh.desktop
+image/gif=feh.desktop
+image/tiff=feh.desktop
+image/bmp=feh.desktop
+image/x-icon=feh.desktop
+image/x-xpixmap=feh.desktop
+image/x-xbitmap=feh.desktop
+image/webp=feh.desktop
+x-scheme-handler/msteams=teams.desktop
+x-scheme-handler/eclipse+command=_usr_share_dbeaver-ce_.desktop
+
+[Added Associations]
+x-scheme-handler/http=org.qutebrowser.qutebrowser.desktop;
+text/html=org.qutebrowser.qutebrowser.desktop;
+application/xhtml+xml=org.qutebrowser.qutebrowser.desktop;
+x-scheme-handler/https=org.qutebrowser.qutebrowser.desktop;
+image/png=feh.desktop;
+image/gif=feh.desktop;
+image/tiff=feh.desktop;
+image/bmp=feh.desktop;
+image/x-icon=feh.desktop;
+image/x-xpixmap=feh.desktop;
+image/x-xbitmap=feh.desktop;
+image/webp=feh.desktop;

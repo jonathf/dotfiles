@@ -165,76 +165,76 @@ container.colors.prompts.bg = base00
 # Background color for the selected item in filename prompts.
 container.colors.prompts.selected.bg = base02
 
-# Foreground color of the statusbar.
-container.colors.statusbar.normal.fg = base0B
-
-# Background color of the statusbar.
-container.colors.statusbar.normal.bg = base00
-
-# Foreground color of the statusbar in insert mode.
-container.colors.statusbar.insert.fg = base00
-
-# Background color of the statusbar in insert mode.
-container.colors.statusbar.insert.bg = base0D
-
-# Foreground color of the statusbar in passthrough mode.
-container.colors.statusbar.passthrough.fg = base00
-
-# Background color of the statusbar in passthrough mode.
-container.colors.statusbar.passthrough.bg = base0C
-
-# Foreground color of the statusbar in private browsing mode.
-container.colors.statusbar.private.fg = base00
-
-# Background color of the statusbar in private browsing mode.
-container.colors.statusbar.private.bg = base01
-
-# Foreground color of the statusbar in command mode.
-container.colors.statusbar.command.fg = base05
-
-# Background color of the statusbar in command mode.
-container.colors.statusbar.command.bg = base00
-
-# Foreground color of the statusbar in private browsing + command mode.
-container.colors.statusbar.command.private.fg = base05
-
-# Background color of the statusbar in private browsing + command mode.
-container.colors.statusbar.command.private.bg = base00
-
-# Foreground color of the statusbar in caret mode.
-container.colors.statusbar.caret.fg = base00
-
-# Background color of the statusbar in caret mode.
-container.colors.statusbar.caret.bg = base0E
-
-# Foreground color of the statusbar in caret mode with a selection.
-container.colors.statusbar.caret.selection.fg = base00
-
-# Background color of the statusbar in caret mode with a selection.
-container.colors.statusbar.caret.selection.bg = base0D
-
-# Background color of the progress bar.
-container.colors.statusbar.progress.bg = base0D
-
-# Default foreground color of the URL in the statusbar.
-container.colors.statusbar.url.fg = base05
-
-# Foreground color of the URL in the statusbar on error.
-container.colors.statusbar.url.error.fg = base08
-
-# Foreground color of the URL in the statusbar for hovered links.
-container.colors.statusbar.url.hover.fg = base05
-
-# Foreground color of the URL in the statusbar on successful load
-# (http).
-container.colors.statusbar.url.success.http.fg = base0C
-
-# Foreground color of the URL in the statusbar on successful load
-# (https).
-container.colors.statusbar.url.success.https.fg = base0B
-
-# Foreground color of the URL in the statusbar when there's a warning.
-container.colors.statusbar.url.warn.fg = base0E
+# # Foreground color of the statusbar.
+# container.colors.statusbar.normal.fg = base0B
+#
+# # Background color of the statusbar.
+# container.colors.statusbar.normal.bg = base00
+#
+# # Foreground color of the statusbar in insert mode.
+# container.colors.statusbar.insert.fg = base00
+#
+# # Background color of the statusbar in insert mode.
+# container.colors.statusbar.insert.bg = base0D
+#
+# # Foreground color of the statusbar in passthrough mode.
+# container.colors.statusbar.passthrough.fg = base00
+#
+# # Background color of the statusbar in passthrough mode.
+# container.colors.statusbar.passthrough.bg = base0C
+#
+# # Foreground color of the statusbar in private browsing mode.
+# container.colors.statusbar.private.fg = base00
+#
+# # Background color of the statusbar in private browsing mode.
+# container.colors.statusbar.private.bg = base01
+#
+# # Foreground color of the statusbar in command mode.
+# container.colors.statusbar.command.fg = base05
+#
+# # Background color of the statusbar in command mode.
+# container.colors.statusbar.command.bg = base00
+#
+# # Foreground color of the statusbar in private browsing + command mode.
+# container.colors.statusbar.command.private.fg = base05
+#
+# # Background color of the statusbar in private browsing + command mode.
+# container.colors.statusbar.command.private.bg = base00
+#
+# # Foreground color of the statusbar in caret mode.
+# container.colors.statusbar.caret.fg = base00
+#
+# # Background color of the statusbar in caret mode.
+# container.colors.statusbar.caret.bg = base0E
+#
+# # Foreground color of the statusbar in caret mode with a selection.
+# container.colors.statusbar.caret.selection.fg = base00
+#
+# # Background color of the statusbar in caret mode with a selection.
+# container.colors.statusbar.caret.selection.bg = base0D
+#
+# # Background color of the progress bar.
+# container.colors.statusbar.progress.bg = base0D
+#
+# # Default foreground color of the URL in the statusbar.
+# container.colors.statusbar.url.fg = base05
+#
+# # Foreground color of the URL in the statusbar on error.
+# container.colors.statusbar.url.error.fg = base08
+#
+# # Foreground color of the URL in the statusbar for hovered links.
+# container.colors.statusbar.url.hover.fg = base05
+#
+# # Foreground color of the URL in the statusbar on successful load
+# # (http).
+# container.colors.statusbar.url.success.http.fg = base0C
+#
+# # Foreground color of the URL in the statusbar on successful load
+# # (https).
+# container.colors.statusbar.url.success.https.fg = base0B
+#
+# # Foreground color of the URL in the statusbar when there's a warning.
+# container.colors.statusbar.url.warn.fg = base0E
 
 # Background color of the tab bar.
 container.colors.tabs.bar.bg = base00

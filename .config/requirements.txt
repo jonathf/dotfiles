@@ -3,19 +3,11 @@ setuptools
 wheel
 keyring
 artifacts-keyring
-mypy-ls
-python-lsp-server
-pycodestyle
-pydocstyle
-esbonio
-rope
-pylsp-rope
-python-lsp-black
-pylsp-mypy
 
 matplotlib
-matplotlib-sixel
-
+black==22.6.0
+pydocstyle==6.1.1
 ipython
 pyflyby
 rich
+jupytext

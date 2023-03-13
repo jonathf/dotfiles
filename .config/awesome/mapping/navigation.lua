@@ -10,7 +10,7 @@ return awful.util.table.join(
       if client.focus then client.focus:raise() end
     end, {group="navigation", description="client"}),
 
-  utils.key("ms ", "j", function() awful.client.swap.byidx(1) end, 
+  utils.key("m  ", "u", function() awful.client.swap.byidx(1) end,
     {group="navigation", description="CLIENT"}),
 
   utils.key("m  ", "k",
@@ -19,31 +19,15 @@ return awful.util.table.join(
       if client.focus then client.focus:raise() end
     end, {group="navigation", description="/client"}),
 
-  utils.key("ms ", "k",
+  utils.key("m  ", "i",
     function()
       awful.client.swap.byidx(-1)
     end, {group="navigation", description="/CLIENT"}),
 
-  utils.key("m  ", "h", awful.tag.viewprev,
-    {group="navigation", description="/tag"}),
-
-  utils.key("ms ", "h",
-    function()
-      if client.focus then
-        local idx = awful.tag.getidx()
-        idx = idx == 1 and 9 or idx-1
-        local tag = awful.screen.focused().tags[idx]
-        client.focus:move_to_tag(tag)
-        tag:view_only()
-      else
-        awful.tag.viewprev()
-      end
-    end, {group="navigation", description="/TAG"}),
-
   utils.key("m  ", "l", awful.tag.viewnext,
     {group="navigation", description="tag"}),
 
-  utils.key("ms ", "l",
+  utils.key("m  ", "o",
     function()
       if client.focus then
         local idx = awful.tag.getidx()
@@ -56,11 +40,26 @@ return awful.util.table.join(
       end
     end, {group="navigation", description="TAG"}),
 
+  utils.key("m  ", "h", awful.tag.viewprev,
+    {group="navigation", description="/tag"}),
+
+  utils.key("m  ", "y",
+    function()
+      if client.focus then
+        local idx = awful.tag.getidx()
+        idx = idx == 1 and 9 or idx-1
+        local tag = awful.screen.focused().tags[idx]
+        client.focus:move_to_tag(tag)
+        tag:view_only()
+      else
+        awful.tag.viewprev()
+      end
+    end, {group="navigation", description="/TAG"}),
+
   utils.key("m  ", "n", function() awful.screen.focus_relative(1) end, 
     {group="navigation", description="screen"}),
 
-  utils.key(
-    "ms ", "n", function()
+  utils.key("m  ", "m", function()
       local tag = awful.screen.focused().selected_tag
       local target = gears.math.cycle(screen:count(), awful.screen.focused().index + 1)
       if tag then
@@ -78,7 +77,7 @@ return awful.util.table.join(
     end,
     {group="navigation", description="SCREEN"}),
 
-  utils.key("m  ", "y",
+  utils.key("m  ", "space",
     function() awful.layout.inc(1, awful.screen.focused(), awful.layout.layouts) end,
     {group="navigation", description="layout"}),
 

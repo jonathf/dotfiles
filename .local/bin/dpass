@@ -7,7 +7,19 @@
 selected=$(cat /tmp/dpass-current | dmenu -l 20 -fn "Ubuntu Mono-14:normal")
 
 # Pass jobb to insertion
-[ -n "$selected" ] && $HOME/.local/bin/dpass-insert "$selected"
+# [ -n "$selected" ] && $HOME/.local/bin/dpass-insert "$selected"
 
 # Update database
 $HOME/.local/bin/dpass-update "$selected"
+
+[ -z "$selected" ] && selected=$(cat /tmp/dpass-selected)
+domain=${selected%/*}
+username=${selected#*/}
+password=$(pass show "$domain/$username" | sed -e 's/\n//')
+
+text="$selected"
+tab=$(printf '\t')
+if [[ "$password" = *"$tab"* ]]; then
+  text="$text\\n$password"
+fi
+awesome-client "require\"naughty\".notify{text=\"$text\"}"
