@@ -1,13 +1,13 @@
-[submodule ".config/awesome/lain"]
+[submodule "awesome/lain"]
 	path = .config/awesome/lain
 	url = https://github.com/copycat-killer/lain
-[submodule ".config/awesome/screenful"]
+[submodule "awesome/screenful"]
 	path = .config/awesome/screenful
 	url = https://github.com/dluksza/screenful
-[submodule ".config/awesome/sharedtags"]
+[submodule "awesome/sharedtags"]
 	path = .config/awesome/sharedtags
 	url = https://github.com/Drauthius/awesome-sharedtags
-[submodule ".config/qutebrowser/dracula"]
+[submodule "qutebrowser/dracula"]
 	path = .config/qutebrowser/dracula
 	url = https://github.com/dracula/qutebrowser-dracula-theme
 [submodule "pyenv"]
@@ -25,7 +25,3 @@
 [submodule "personal/tuppel.github.io"]
 	path = personal/tuppel.github.io
 	url = https://github.com/tuppel/tuppel.github.io
-[submodule "source/qutebrowser"]
-	path = source/qutebrowser
-	url = https://github.com/qutebrowser/qutebrowser
-	branch = qt6-v2
