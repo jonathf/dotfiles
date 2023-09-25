@@ -144,12 +144,12 @@ fi
 
 if [ "$install_neovim" ]; then
   if [ "$OS" == "arch" ]; then
-    yay -Sy --noconfirm neovim-git xsel ninja
+    yay -Sy --noconfirm neovim-git xsel ninja npm
   else if [ "$OS" == "ubuntu" ]; then
     sudo add-apt-repository -y ppa:neovim-ppa/unstable
-    sudo apt install -y xsel neovim lua5.1 ninja-build
+    sudo apt install -y xsel neovim lua5.1 ninja-build npm
   else if [ "$OS" == "mac" ]; then
-    brew install neovim
+    brew install neovim npm
   fi fi fi
   if [ ! -d ~/.config/nvim/venv ]; then
     $PYTHON -m venv ~/.config/nvim/venv

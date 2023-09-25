@@ -22,6 +22,7 @@ container.colors.webpage.bg = None
 container.colors.webpage.darkmode.enabled = True
 container.window.transparent = False
 container.window.title_format = "{current_title}"
+container.window.hide_decoration = True
 
 set_mappings(container, api)
 
@@ -169,7 +170,7 @@ container.content.plugins = True
 # Directory to save downloads to. If unset, a sensible OS-specific
 # default is used.
 # Type: Directory
-container.downloads.location.directory = "/home/jonathf/temp/"
+container.downloads.location.directory = "~/temp/"
 
 # Prompt the user for the download location. If set to false,
 # `downloads.location.directory` will be used.

@@ -1,4 +1,3 @@
-#!/bin/bash
 [[ $- != *i* ]] && return
 source ~/.profile
 if [ -z "$BASH_EXECUTION_STRING" ]; then
@@ -28,7 +27,6 @@ eval "$(starship init bash)"
 greetings
 wait
 
-alias luamake=/home/jonathf/.cache/nvim/nlua/sumneko_lua/lua-language-server/3rd/luamake/luamake
 . "$HOME/.cargo/env"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
