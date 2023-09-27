@@ -68,6 +68,8 @@ export fish_pager_color_progress=("brwhite" "--background=cyan")
 
 # Extend PATH
 [[ "$PATH" != *"$HOME/.local/bin"* ]] && export PATH="$HOME/.local/bin:$PATH"
+[[ "$PATH" != *"/usr/local/bin"* ]] && export PATH="/usr/local/bin:$PATH"
+[[ "$PATH" != *"/opt/homebrew/bin"* ]] && [[ -d /opt/homebrew/bin ]] && export PATH="/opt/homebrew/bin:$PATH"
 
 export CARGO_ROOT="$HOME/.cargo"
 [[ "$PATH" != *"$CARGO_ROOT/bin"* ]] && export PATH="$PATH:$CARGO_ROOT/bin"
@@ -84,3 +86,4 @@ export PYFLYBY_PATH=$HOME/.config/pyflyby.py:.../.pyflyby.py
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export AWS_REGION="eu-west-1"
 export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/glittertind-4bcaf3ba3c05.json"
+. "$HOME/.cargo/env"

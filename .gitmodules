@@ -8,7 +8,7 @@
 	path = .config/awesome/sharedtags
 	url = https://github.com/Drauthius/awesome-sharedtags
 [submodule "qutebrowser/dracula"]
-	path = .config/qutebrowser/dracula
+	path = .qutebrowser/dracula
 	url = https://github.com/dracula/qutebrowser-dracula-theme
 [submodule "pyenv"]
 	path = .pyenv

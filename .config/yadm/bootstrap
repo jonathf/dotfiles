@@ -47,10 +47,7 @@ if [ $install_common ]; then
     yay -Syu
   else if [ "$OS" == "ubuntu" ]; then
     sudo apt install curl
-  else if [ "$OS" = "mac" ]; then
-    [ ! -f "$HOME/.Brewfile" ] && brew bundle --global
-    brew install cmake
-  fi fi fi
+  fi fi
   if [[ ! -d ~/.cargo ]]; then
     curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   fi
@@ -96,7 +93,7 @@ if [ "$install_qutebrowser" ]; then
     popd
 
   else if [ "$OS" == "mac" ]; then
-    brew install qutebrowser lua5.1
+    brew install qutebrowser lua@5.1
   fi fi fi
 fi
 
@@ -124,7 +121,10 @@ if [ "$install_awesome" ]; then
     fc-cache -f -v
 
   else if [ "$OS" == "mac" ]; then
-    brew install awesome
+    brew install koekeishiya/formulae/yabai
+    brew install koekeishiya/formulae/skhd
+    git clone https://github.com/Jean-Tinland/simple-bar $HOME/Library/Application\ Support/Übersicht/widgets/simple-bar
+    sudo ln -s /opt/homebrew/bin/yabai /usr/local/bin/yabai
   fi fi fi
 fi
 

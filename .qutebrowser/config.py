@@ -20,9 +20,9 @@ dracula.draw.blood(container, {
 
 container.colors.webpage.bg = None
 container.colors.webpage.darkmode.enabled = True
-container.window.transparent = False
+container.window.transparent = True
 container.window.title_format = "{current_title}"
-container.window.hide_decoration = True
+container.window.hide_decoration = False
 
 set_mappings(container, api)
 
