@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -e
+
+[ "$(uname -s)" != "Darwin" ] && echo "Not a MacOS system; quiting" && exit 1
+[ "$(which brew)" != "/usr/local/bin/brew" ] && echo "brew executable missing or on wrong arch" && exit 1
+
+# Install Homebrew if missing.
+
+brew --version || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Make sure we’re using the latest Homebrew.
+brew update
+brew upgrade
+
+# Save Homebrew’s installed location.
+BREW_PREFIX=$(brew --prefix)
+
+# Install GNU core utilities (those that come with macOS are outdated).
+# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
+brew install coreutils
+[ ! -f ${BREW_PREFIX}/bin/sha256sum ] ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
+brew install moreutils
+brew install findutils
+brew install gnu-sed
+brew install bash
+brew install bash-completion2
+
+brew install gnupg openssl readline sqlite3 xz zlib tcl-tk grep openssh git
+brew install qutebrowser lua@5.1
+brew install alacritty
+brew install koekeishiya/formulae/yabai
+brew install koekeishiya/formulae/skhd
+brew install fish direnv
+brew install --cask neovim-nightly
+brew install npm
+brew install pass gnupg xdotool xsel pinentry pinentry-mac
+brew install pipx
+
+brew cleanup

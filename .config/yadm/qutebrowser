@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+[ -z "$(which pipx)" ] && echo "pipx missing" && exit 1
+
+pipx install qutebrowser
+
+clone-if-missing qutebrowser/qutebrowser $HOME/personal/qutebrowser
+
+pushd ~/personal/qutebrowser
+source ~/.local/pipx/venv/qutebrowser/bin/activate
+~/.local/pipx/venv/qutebrowser/python scripts/mkvenv.py --keep --pyqt-type link --pyqt-version 6 --virtualenv --update --venv-dir ~/.local/pipx/venvs/qutebrowser/
+deactive
+popd

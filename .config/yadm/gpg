@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -e
+
+# arch and ubuntu behaves the same here
+
+
+if [ "$(uname -s)" == "Darwin" ]; then
+  echo "pinentry-program /opt/homebrew/bin/pinentry-mac" | sudo tee ~/.gnupg/gpg-agent.conf
+else
+  echo "pinentry-program /usr/bin/pinentry-gnome3" | sudo tee ~/.gnupg/gpg-agent.conf
+fi
+
+if [[ -f "~/.gnupg/private_keys.gpg" ]]; then
+  gpg --import ~/.gnupg/private_keys.gpg
+  KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
+  echo -e "5\ny\n" |  gpg --command-fd 0 --expert --edit-key $KEY trust
+  mv ~/.gnupg/{,delete_my_}private_key.gpg
+  gpg --armor --export jonathf@gmail.com > ~/.gnupg/public_key.asc
+else
+  KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
+fi
+
+clone-if-missing jonathf/passwords $HOME/.pasword-store
+
+if [[ ! -f "~/.password-store/.gpg-id" ]]; then
+  pass init $KEY
+fi
