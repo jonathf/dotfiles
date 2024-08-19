@@ -42,6 +42,7 @@ def set_mappings(c, config):
 
     config.bind(';m', 'hint links spawn mpv {hint-url}')
     config.bind('<Escape>', 'fake-key <Escape>;;search')
+    config.bind('<Space>t', 'config-cycle tabs.show always never')
 
     config.bind('<Return>', 'spawn --userscript dispatch <Return> fake-key <Return>')
     config.bind('d', 'spawn --userscript dispatch d tab-close')

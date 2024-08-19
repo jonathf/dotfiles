@@ -1,4 +1,4 @@
-from IPython import get_ipython
+from IPython import get_ipython, embed
 
 ipython = get_ipython()
 

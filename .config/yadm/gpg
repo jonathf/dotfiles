@@ -20,7 +20,7 @@ else
   KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
 fi
 
-clone-if-missing jonathf/passwords $HOME/.pasword-store
+clone jonathf/passwords $HOME/.pasword-store
 
 if [[ ! -f "~/.password-store/.gpg-id" ]]; then
   pass init $KEY

@@ -5,7 +5,7 @@ set -e
 
 pipx install qutebrowser
 
-clone-if-missing qutebrowser/qutebrowser $HOME/personal/qutebrowser
+clone qutebrowser/qutebrowser $HOME/personal/qutebrowser
 
 pushd ~/personal/qutebrowser
 source ~/.local/pipx/venv/qutebrowser/bin/activate

@@ -69,21 +69,33 @@ export fish_pager_color_progress=("brwhite" "--background=cyan")
 # Extend PATH
 [[ "$PATH" != *"$HOME/.local/bin"* ]] && export PATH="$HOME/.local/bin:$PATH"
 [[ "$PATH" != *"/usr/local/bin"* ]] && export PATH="/usr/local/bin:$PATH"
-[[ "$PATH" != *"/opt/homebrew/bin"* ]] && [[ -d /opt/homebrew/bin ]] && export PATH="/opt/homebrew/bin:$PATH"
+export PATH=$(echo $PATH | sed -e  's,/opt/homebrew/bin:,,' | sed -e 's,/opt/homebrew/sbin:,,')
+
+export COREUTILS_ROOT=/usr/local/opt/coreutils/libexec/gnubin
+[[ -d "$COREUTILS_ROOT" ]] && export PATH=$COREUTILS_ROOT:$PATH
+
+export GNUSED_ROOT="/usr/local/opt/gnu-sed/libexec/gnubin"
+[[ -d "$GNUSED_ROOT" ]] && export PATH=$GNUSED_ROOT:$PATH
 
 export CARGO_ROOT="$HOME/.cargo"
 [[ "$PATH" != *"$CARGO_ROOT/bin"* ]] && export PATH="$PATH:$CARGO_ROOT/bin"
 [[ -f "$CARGO_ROOT/env" ]] && . "$CARGO_ROOT/env"
 
-[ -d "$HOME/.pyenv" ] && 
-export PYENV_ROOT="$HOME/.pyenv"
+[ -d "$HOME/.pyenv" ] && export PYENV_ROOT="$HOME/.pyenv"
 [ -d "$HOME/.pyenv" ] && [[ "$PATH" != *"$HOME/.pyenv"* ]] && export PATH="$PATH:$PYENV_ROOT/bin"
+[ -d "$HONE/.pyenv" ] && eval "$(pyenv init --path)"
+[ -d "$HOME/.pyenv/plugins/pyenv-virtualenv" ] && eval "$(pyenv virtualenv-init -)"
+[ -d "$HONE/.pyenv" ] && eval "$(pyenv init -)"
+
 [ -d "/opt/clang-format-static" ] && export PATH="$PATH:/opt/clang-format-static"
-[ -d "/opt/homebrew/bin" ] && export PATH="$PATH:/opt/homebrew/bin"
 
 export RMVIEW_CONF=$HOME/.rmview.json
 export PYFLYBY_PATH=$HOME/.config/pyflyby.py:.../.pyflyby.py
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export AWS_REGION="eu-west-1"
 export GOOGLE_APPLICATION_CREDENTIALS="$HOME/.config/gcloud/glittertind-4bcaf3ba3c05.json"
-. "$HOME/.cargo/env"
+
+export KD=confluent-gp.dev.transhub.io:9092
+export KT=confluent-gp.tet.transhub.io:9092
+export KS=confluent-gp.stage.transhub.io:9092
+export KP=confluent-gp.transhub.io:9092

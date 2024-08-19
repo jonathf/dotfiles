@@ -14,13 +14,6 @@ local function fmt(arg)
   return out
 end
 
-local full_filename = {{
-  "filename",
-  path=0,
-  shorting_target=0,
-  symbols = {modified = "+", readonly = "-", unnamed = "?", newfile = "!"},
-}}
-
 local function diff_source()
   local gitsigns = vim.b["gitsigns_status_dict"]
   if gitsigns then
@@ -102,10 +95,11 @@ return {
       lualine_b = {{
         "buffers",
         mode = 4,
-        show_filename_only = false,
+        show_filename_only = true,
         symbols = {modified = "+"},
         buffers_color = {
-          active = {fg="#6baedb"},
+          active = {fg="#ffffff"},
+          inactive = {fg="#9a9a9a"},
         },
       }},
       lualine_c = {
@@ -115,10 +109,9 @@ return {
         {"lsp_progress", display_components = { "lsp_client_name", { "title", "message" }}},
       },
       lualine_y = {
-        {"filename", fmt=function() return vim.fn.getcwd():gsub("^" .. os.getenv("HOME"), "~") end},
+        {"filename", fmt=function() return vim.fn.expand("%:~:h") end},
       },
-      lualine_z = {
-      },
+      lualine_z = {},
     },
     extensions = {},
   }

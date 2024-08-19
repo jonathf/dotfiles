@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-clone-if-missing copycat-killer/lain $HOME/.config/awesome/lain
+clone copycat-killer/lain $HOME/.config/awesome/lain
 
 sudo cp -v ~/.config/awesome/{pics/background.jpg,slick-greeter.conf} /etc/lightdm
 sudo chmod -v 644 /etc/lightdm/{background.jpg,slick-greeter.conf}

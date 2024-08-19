@@ -7,35 +7,65 @@
     ls = "ls-files ."
     fame = "!git-fame"
     stats = "!git-stats"
+[branch]
+    sort = committerdate
 [color]
     ui = auto
 [color "branch"]
-    current = yellow
+    current = yellow reverse
     local = yellow
     remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold # line info
+    old = red # deletions
+    new = green # additions
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
 [color "diff-highlight"]
     oldNormal = red bold
     oldHighlight = red bold 52
     newNormal = green bold
     newHighlight = green bold 22
-[color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
-[color "status"]
-    untracked = dim
-    added = green
-    changed = cyan
 [commit]
     gpgsign = true
+    verbose = true
 [core]
     excludesfile = ~/.config/git/ignore
     autocrlf = input
     filemode = false
-    pager = less --LONG-PROMPT --chop-long-lines --tabs=4 --jump-target=3 --ignore-case --status-column
+    pager = diff-highlight | less --LONG-PROMPT --chop-long-lines --tabs=4 --jump-target=3 --ignore-case --status-column
+    ; pager = delta
+[credential]
+    helper = cache
+; [delta]
+;     navigate = true
+;     light = false
+;     features = decorations
+; [delta "interactive"]
+;     keep-plus-minus-markers = false
+; [delta "decorations"]
+;     commit-decoration-style = blue ol
+;     commit-style = raw
+;     file-style = omit
+;     hunk-header-decoration-style = blue box
+;     hunk-header-file-style = red
+;     hunk-header-line-number-style = "#067a00"
+;     hunk-header-style = file line-number syntax
+[diff]
+    algorithm = histogram
+    submodule = log
+    tool = nvimdiff
+    colorMoved = default
+[difftool]
+    prompt = false
+[difftool "nvimdiff"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [fetch]
     prune = true
+    fsckobjects = true
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
@@ -43,19 +73,38 @@
     required = true
 [gpg]
     program = gpg
+[init]
+    defaultBranch = main
+[interactive]
+    diffFilter = delta --color-only
 [merge]
     conflictstyle=diff3
+    tool = nvimdiff
+[mergetool]
+    prompt = false
+[mergetool "nvimdiff"]
+  cmd = 'nvim -f -c "Gvdiffsplit!" "$MERGED"'
 [pull]
     rebase = true
 [push]
     default = current
+[rebase]
+    autosquash = true
+    autostash = true
+[recieve]
+    fsckobjects = true
+[rerere]
+    enabled = true
+[status]
+    submoduleSummary = true
+[submodule]
+    recurse = true
 [tag]
     forceSignAnnotated = true
+    sort = taggerdate
+[transfer]
+    fsckobjects = true
 [user]
     email = jonathf@gmail.com
     name = Jonathan Feinberg
     signingkey = 558C5F4DBB8597A140DA91C53673F898D24A40A7
-[credential]
-    helper = cache
-[init]
-    defaultBranch = main

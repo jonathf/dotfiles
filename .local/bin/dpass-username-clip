@@ -8,6 +8,9 @@ selected="$@"
 [ -z "$selected" ] && selected=$(cat /tmp/dpass-selected)
 username=${selected#*/}
 
-
-printf "$username" | xsel -p -t $CLIP_TIMEOUT
-printf "$username" | xsel -b -t $CLIP_TIMEOUT
+if [[ -n "$(which pbcopy)" ]]; then
+  printf "$username" | pbcopy
+else
+  printf "$username" | xsel -p -t $CLIP_TIMEOUT
+  printf "$username" | xsel -b -t $CLIP_TIMEOUT
+fi

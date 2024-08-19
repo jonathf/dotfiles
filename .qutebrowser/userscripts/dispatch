@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/lua5.1
+#!/usr/local/bin/lua5.1
 
 -- Assumes that arg[1] is the key in question and
 -- arg[2],.. is the default behavior for when there are no specific key rule.

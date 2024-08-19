@@ -10,31 +10,6 @@ local function folder_exists(_, trigger)
   return trigger:sub(1, 1) == "/" and trigger:sub(-1) ~= "/" and filepath_exists(trigger.."/")
 end
 
--- local function in_context(string)
---   local query = vim.treesitter.parse_query(vim.bo.filetype, string)
---   local row = vim.fn.line(".")-1
---   local col = vim.fn.col(".")
---   local parser = vim.treesitter.get_parser(0)
---   local root = parser:parse()[1]:root()
---   for _, match in query:iter_matches(root, 0) do
---     for _, node in pairs(match) do
---       local r1, c1, r2, c2 = node:range()
---       if r1 <= row and r2 >= row then
---         if (r2 == row and c2 >= col) or
---           (r1 == row and c1 <= col) or
---           (r1 < row and r2 > row)
---         then
---           return true
---         end
---       end
---     end
---   end
---   return false
--- end
-
--- local function in_comment() return in_context("(comment) @comment") end
--- local function in_string() return in_context("(string) @string") end
-
 local function expand_underline(_, args)
   local cur = vim.api.nvim_win_get_cursor(0)
   local aline = vim.api.nvim_buf_get_lines(0, cur[1]-2, cur[1]-1, false)
@@ -67,12 +42,15 @@ return {
         snippet({trig = "False", hidden = true}, t"True"),
         snippet({trig = "~", hidden = true}, t"$HOME"),
 
+        --- Substitute environment variable names with their corresponding value
         snippet({trig = "$[a-zA-Z-_]+", regTrig = true, hidden = true},
-                func(function(_, args)
-                  local out = os.getenv(args.trigger:sub(2))
-                  if out == "" then return args.trigger end
-                  return out
-                end, {})),
+          func(function(_, args)
+            local out = os.getenv(args.trigger:sub(2))
+            if out == nil then
+              return args.trigger
+            end
+            return out
+          end, {})),
 
         --- Repeat special char to be same
         snippet({trig = "(-)-+", regTrig = true, hidden = true}, func(expand_underline, {})),
@@ -104,6 +82,7 @@ return {
         snippet({trig = "doctest: +ELLIPSIS", hidden = true}, t"doctest: +IGNORE_EXCEPTION_DETAILS"),
         snippet({trig = "doctest: +IGNORE_EXCEPTION_DETAILS", hidden = true}, t"doctest: +SKIP"),
         snippet({trig = "__name__",}, fmt('__name__ == "__main__":', {})),
+        snippet({trig = "from pathlib",}, fmt('from pathlib import Path', {})),
 
         --- string stuff
         -- snippet({trig = ":", hidden = true}, {t{":", '    """'}, insert(0), t'"""'}),
@@ -121,18 +100,25 @@ return {
         snippet({trig = "assert False", hidden = true}, {t{'assert False, f"""', "{"}, insert(0), t{"}", '"""'}}),
         snippet({trig = "logger"}, t"logger = logging.getLogger(__name__)"),
         snippet({trig = "log"}, fmt("logger.debug(\"{}\")", {insert(0)})),
-        snippet({trig = "loggger.debug(\"", hidden = true}, t"logger.info(\""),
-        snippet({trig = "loggger.info(\"", hidden = true}, t"logger.warning(\""),
-        snippet({trig = "loggger.warning(\"", hidden = true}, t"logger.error(\""),
-        snippet({trig = "loggger.error(\"", hidden = true}, t"logger.debug(\""),
+        snippet({trig = "logger.debug(\"", hidden = true}, t"logger.info(\""),
+        snippet({trig = "logger.info(\"", hidden = true}, t"logger.warning(\""),
+        snippet({trig = "logger.warning(\"", hidden = true}, t"logger.error(\""),
+        snippet({trig = "logger.error(\"", hidden = true}, t"logger.debug(\""),
         -- snippet({trig = "print"}, fmt('print(f"{{{}=}}")', {insert(0)}))
       },
-      norg = {
-        snippet(
-          {trig = "@code %w+", regTrig = true},
-          { func(function(_, snip) return snip.trigger end, {}),
-            insert(0), t{"", "@end"} }
-        ),
+      terraform = {
+        snippet({trig = "^resource ([%w_]+)", regTrig = true, hidden = true},
+          func(function(_, snip) return "resource \"" .. snip.captures[1] .. "\" " end, {})),
+        snippet({trig = "^data ([%w_]+)", regTrig = true, hidden = true},
+          func(function(_, snip) return "data \"" .. snip.captures[1] .. "\" " end, {})),
+        snippet({trig = "^variable ([%w_]+)", regTrig = true, hidden = true},
+          func(function(_, snip) return "data \"" .. snip.captures[1] .. "\" " end, {})),
+        snippet({trig = "^(resource \"[%w_]+\") ([a-z-]+)", regTrig = true, hidden = true},
+          func(function(_, args) return args.captures[1] .. " \"" .. args.captures[2] .. "\"" end, {})),
+        snippet({trig = "^(data \"[%w_]+\") ([a-z-]+)", regTrig = true, hidden = true},
+          func(function(_, args) return args.captures[1] .. " \"" .. args.captures[2] .. "\"" end, {})),
+        -- snippet({trig = "^(resource|data) \"([a-z-]+)\" ([a-z_]+)", regTrig = true, hidden = true},
+        --   func(function(_, args) return args.captures[1] .. " \"" .. args.captures[2] .. "\" \"" .. args.captures[3] .. "\"" end, {})),
       },
     })
   end,

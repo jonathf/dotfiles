@@ -1,15 +1,21 @@
+-- handlers:
+--   repr:
+--     project_dir:
+--       repl: str,
+--       buf_id: str,
+--       term_id: str,
 local handlers = {}
 local M = {}
 local config = {
   bash = {
     repl = "bash --norc",
-    shell_exec_file = "bash ",
     repl_exec_file = "bash ",
+    shell_exec_file = "bash ",
   },
   fish = {
     repl = "fish",
-    shell_exec_file = "fish ",
     repl_exec_file = "./",
+    shell_exec_file = "fish ",
   },
   python = {
     repl = "ipython --nosep",
@@ -35,7 +41,7 @@ local config = {
 -- repl: string
 --   Name of the REPL it should initiate.
 --
--- return: terminmal handle
+-- return: terminal handle
 local build = function(repl)
   local current_dir = vim.fn.expand("%:p:h")
   local current_id = vim.fn.bufnr()
@@ -56,18 +62,20 @@ end
 --
 -- If it does not exists, creating on first.
 --
--- repl: string
+-- name: string
 --   Name of the REPL it should initiate.
 --
--- return: terminmal handle
-local function get_term_handle(name)
-  if name == nil then name = vim.bo.filetype end
-  config_ft = config[name]
-  if handlers[config_ft.repl] == nil then handlers[config_ft.repl] = {} end
-  local repl_ = handlers[config_ft.repl]
+-- return: terminal handle
+local function get_term_handle(name, repl)
   local project_dir = vim.fn.getcwd()
-  if repl_[project_dir] == nil then repl_[project_dir] = build(config_ft.repl) end
-  return repl_[project_dir]
+  if handlers[project_dir] == nil then handlers[project_dir] = {} end
+  local handlers_ = handlers[project_dir]
+  if name == nil then name = vim.bo.filetype end
+  local config_ft = config[name]
+  if repl == nil then repl = config_ft.repl end
+  if handlers_[repl] == nil then handlers_[repl] = build(repl) end
+  handlers_["current"] = handlers_[repl]
+  return handlers_[repl]
 end
 
 --- Go to terminal window.
@@ -95,8 +103,8 @@ M.do_ = function(cmd, name)
 end
 
 --- Close previously opened terminal window
-M.close = function(name)
-  local term_handle = get_term_handle(name)
+M.close = function(name, repl)
+  local term_handle = get_term_handle(name, repl)
   for _, win_id in pairs(vim.fn.win_findbuf(term_handle.buf_id)) do
     vim.cmd(vim.fn.win_id2win(win_id) .. "quit")
   end
@@ -114,8 +122,9 @@ M.open = function(name)
 end
 
 M.exec_current_line = function(shell)
+  local current_line = vim.api.nvim_get_current_line()
   M.open(shell)
-  send_command(shell, vim.api.nvim_get_current_line())
+  send_command(shell, current_line)
 end
 
 local function exec(shell, cmd)

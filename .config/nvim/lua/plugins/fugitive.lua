@@ -1,4 +1,4 @@
 return {
-  "kylechui/nvim-surround",
+  "tpope/vim-fugitive",
   event = "VeryLazy",
 }

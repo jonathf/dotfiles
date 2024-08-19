@@ -4,18 +4,23 @@
 function cd --description "Change directory"
     set -l MAX_DIR_HIST 25
 
-    # make nvim aware of cd
-    if test -n "$NVIM_LISTEN_ADDRESS"
-        ~/.config/nvim/venv/bin/python -c "
-import neovim
-with neovim.attach('socket', path='$NVIM_LISTEN_ADDRESS') as session:
-    session.vars['__autocd_cwd'] = '$argv'
-    session.command('execute \"lcd \" . fnameescape(g:__autocd_cwd)')"
-    end
-
     if test (count $argv) -gt 1
         printf "%s\n" (_ "Too many args for cd command")
         return 1
+    end
+
+    if test ! -d "$argv" -a "$argv" != "-" -a -n "$argv"
+      set matches "$argv"*/
+      if test (count $matches) = 1
+        echo -n "'$argv' not found; expanding to '$matches[1]'"
+        set argv $matches[1]
+      else if test (count $matches) = 0
+        echo "'$argv' not found; no matches"
+        return 1
+      else
+        echo "'$argv' ambiguous: $matches"
+        return 1
+      end
     end
 
     # Skip history in subshells.
@@ -24,18 +29,24 @@ with neovim.attach('socket', path='$NVIM_LISTEN_ADDRESS') as session:
         return $status
     end
 
+    # make nvim aware of cd
+    if test -n "$NVIM"
+        ~/.venv/nvim/312/bin/python -c "
+import neovim
+with neovim.attach('socket', path='$NVIM') as session:
+    session.vars['__autocd_cwd'] = '$argv'
+    session.command('execute \"lcd \" . fnameescape(g:__autocd_cwd)')"
+    end
+
     # Skip history when going home.
     if test -z "$argv"
         set argv "$HOME"
-    end
-    if test (realpath $argv) = "$HOME"
-        builtin cd $argv
-        return $status
     end
 
     # Avoid set completions.
     set -l previous $PWD
 
+    # Let - jump back in history
     if test "$argv" = "-"
         if test "$__fish_cd_direction" = "next"
             nextd
@@ -45,9 +56,15 @@ with neovim.attach('socket', path='$NVIM_LISTEN_ADDRESS') as session:
         return $status
     end
 
+    # Jump to home folder is not stored in history
+    if test (realpath $argv) = "$HOME"
+        builtin cd $argv
+        return $status
+    end
+
     # allow explicit "cd ." if the mount-point became stale in the meantime
     if test "$argv" = "."
-        cd "$PWD"
+        builtin cd "$PWD"
         return $status
     end
 

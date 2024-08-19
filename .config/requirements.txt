@@ -1,13 +1,7 @@
 pip
 setuptools
 wheel
-keyring
-artifacts-keyring
 
-matplotlib
-black==22.6.0
-pydocstyle==6.1.1
 ipython
 pyflyby
 rich
-jupytext

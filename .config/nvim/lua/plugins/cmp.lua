@@ -2,6 +2,12 @@
 --
 -- Suggestions while you type
 
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
@@ -10,6 +16,7 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
+    "hrsh7th/cmp-cmdline",
     "ray-x/cmp-treesitter",
     "lukas-reineke/cmp-under-comparator",
     "L3MON4D3/LuaSnip",
@@ -24,36 +31,24 @@ return {
         ["<tab>"] = function(fallback)
           if require"luasnip".expand_or_locally_jumpable() then
             require"luasnip".expand_or_jump()
-          elseif require"cmp".visible() then
-            require"cmp".select_next_item()
+          elseif has_words_before() and cmp.visible() then
+            cmp.select_next_item()
+            cmp.mapping.confirm({ select = true })
           else
             fallback()
           end
         end,
+        ["<up>"] = function() cmp.select_prev_item() end,
+        ["<down>"] = function() cmp.select_next_item() end,
       },
-      formatting = {},
       sources = {
-        { name = "neorg" },
+        { name = "lazydev", group_index = 0 },
         { name = "path" },
-        { name = "nvim_lua" },
         { name = "nvim_lsp" },
         { name = "luasnip" },
         { name = "treesitter" },
         { name = "buffer",
           option = { get_bufnrs = function() return { vim.api.nvim_get_current_buf() } end } }
-      },
-      view = { entries = "native" },
-      sorting = {
-        comparators = {
-          cmp.config.compare.offset,
-          cmp.config.compare.exact,
-          cmp.config.compare.score,
-          require "cmp-under-comparator".under,
-          cmp.config.compare.kind,
-          cmp.config.compare.sort_text,
-          cmp.config.compare.length,
-          cmp.config.compare.order,
-        },
       },
       snippet = {
         expand = function(args)

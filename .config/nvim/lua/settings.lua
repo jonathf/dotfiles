@@ -91,13 +91,13 @@ vim.o.diffopt = "internal,filler,closeoff,vertical,linematch:100"
 
 -- * Command line rules
 
-vim.o.completeopt = "menuone,noinsert,noselect"
+vim.o.completeopt = "menuone,preview"
 vim.o.wildmode = "longest:full,full"
 
 -- * Look and feel:
 
 --   Visual mode stuff:
-vim.o.virtualedit = "block"
+vim.o.virtualedit = "block,insert,onemore"
 vim.o.inccommand = "nosplit"
 
 vim.o.number = true
@@ -109,7 +109,7 @@ vim.o.termguicolors = true
 vim.o.showtabline = 1
 vim.o.shortmess = "filnxtToOCFc"
 vim.o.showcmdloc = "statusline"
-vim.o.cursorline = true
+vim.o.colorcolumn = "80"
 
 --   Make sure splitting puts new buffer to the right or below:
 
@@ -133,6 +133,4 @@ vim.g.maplocalleader = " "
 
 -- * Providers
 
-vim.g.python3_host_prog = "~/.config/nvim/venv/bin/python"
-
---   Content after
+vim.g.python3_host_prog = "~/.venv/nvim/312/bin/python"

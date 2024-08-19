@@ -19,28 +19,14 @@ autocmd{
 
 autocmd{
   event = {"BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdlineLeave"},
-  callback = function() vim.o.relativenumber = true end,
+  callback = function()
+    vim.o.number = true
+    vim.o.relativenumber = true
+  end,
 }
 autocmd{
   event = {"BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdlineEnter"},
   callback = function() vim.o.relativenumber = false end,
-}
-
--- Cursor line and color column
-
-autocmd{
-  event = {"BufEnter", "WinEnter"},
-  callback = function()
-    vim.opt.colorcolumn = "80"
-    vim.opt.cursorline = true
-  end,
-}
-autocmd{
-  event = {"BufLeave", "WinLeave"},
-  callback = function()
-  vim.opt.colorcolumn = "0"
-  vim.opt.cursorline = false
-  end,
 }
 
 -- Remember the last cursor position in the document
@@ -51,6 +37,27 @@ autocmd{
     local cursor = vim.api.nvim_buf_get_mark(0, '"')
     if cursor[1] > 0 and cursor[1] <= vim.api.nvim_buf_line_count(0) then
       vim.api.nvim_win_set_cursor(0, cursor)
+    end
+  end,
+}
+
+local cursorPreYank
+
+vim.keymap.set({ "n", "x" }, "y", function()
+  cursorPreYank = vim.api.nvim_win_get_cursor(0)
+  return "y"
+end, { expr = true })
+
+vim.keymap.set("n", "Y", function()
+  cursorPreYank = vim.api.nvim_win_get_cursor(0)
+  return "y$"
+end, { expr = true })
+
+autocmd{
+  event = "TextYankPost",
+  callback = function()
+    if vim.v.event.operator == "y" and cursorPreYank then
+      vim.api.nvim_win_set_cursor(0, cursorPreYank)
     end
   end,
 }
@@ -70,10 +77,10 @@ autocmd{
   callback = function(event) vim.bo[event.buf].formatexpr = nil end,
 }
 
--- Neorg metagen
-
 autocmd{
-  event = "BufWritePre",
-  pattern = "*.norg",
-  command = "Neorg update-metadata",
+  event = { "BufRead", "BufNewFile" },
+  pattern = ".gitlab*",
+  callback = function()
+    vim.bo.filetype = "yaml.gitlab"
+  end,
 }

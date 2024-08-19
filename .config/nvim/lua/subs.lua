@@ -1,3 +1,25 @@
+---Register a global internal keymap that wraps `rhs` to be repeatable.
+---@param mode string|table keymap mode, see vim.keymap.set()
+---@param lhs string lhs of the internal keymap to be created, should be in the form `<Plug>(...)`
+---@param rhs string|function rhs of the keymap, see vim.keymap.set()
+---@return string The name of a registered internal `<Plug>(name)` keymap. Make sure you use { remap = true }.
+local make_repeatable_keymap = function (mode, lhs, rhs)
+  vim.validate {
+    mode = { mode, { 'string', 'table' } },
+    rhs = { rhs, { 'string', 'function' },
+    lhs = { name = 'string' } }
+  }
+  if not vim.startswith(lhs, "<Plug>") then
+    error("`lhs` should start with `<Plug>`, given: " .. lhs)
+  end
+  vim.keymap.set(mode, lhs, function()
+    rhs()
+    vim.fn['repeat#set'](vim.api.nvim_replace_termcodes(lhs, true, true, true))
+  end)
+  return lhs
+end
+
+
 local nfunc = function(func)
   local old_func = vim.go.operatorfunc -- backup previous reference
   _G.__funcoperator = function(type)
@@ -56,7 +78,9 @@ M.set_nmap = function(key, callback, opts)
     _G[name] = function() nfunc(callback) end
     operators[key] = name
   end
-  vim.keymap.set("n", key, "<cmd>lua " .. name .. "()<cr>", opts)
+  opts = opts or {}
+  opts.remap = true
+  vim.keymap.set("n", key, make_repeatable_keymap("n", "<Plug>(subs-" .. key .. ")", _G[name]), opts)
 end
 
 M.set_omap = function(key, callback, opts)

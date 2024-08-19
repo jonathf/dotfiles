@@ -24,7 +24,6 @@ eval "$(starship init bash)"
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_bindings ] && source ~/.bash_bindings
 
-greetings
 wait
 
 . "$HOME/.cargo/env"
@@ -32,3 +31,5 @@ wait
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+source /Users/jonathf/.config/broot/launcher/bash/br

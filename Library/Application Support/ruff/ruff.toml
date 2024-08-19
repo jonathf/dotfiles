@@ -1,0 +1,8 @@
+[lint]
+select = ["D", "E", "F", "W"]
+
+[lint.pydocstyle]
+convention = "google"
+
+[format]
+docstring-code-format = true

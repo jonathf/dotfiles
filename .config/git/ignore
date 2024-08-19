@@ -8,5 +8,7 @@
 *.aux
 .venv
 .[0-9][0-9]
+.[0-9][0-9][0-9]
 .ipynb_checkpoints
 .envrc
+.DS_Store

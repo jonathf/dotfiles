@@ -1,18 +1,19 @@
 function fish_user_key_bindings --description "key mapping"
-  # bind -M insert § bind_paragraph
-  # bind -M insert ! bind_bang
-  # bind -M insert '/' bind_slash
-  # bind -M insert . bind_dot
-  # bind -M insert \e\x7F 'backward-kill-path-component'
-end
+  fish_vi_key_bindings
+  bind -M insert ! bind_bang
+  bind -M insert '/' bind_slash
+  bind -M insert . bind_dot
+  bind -M insert \e\x7F 'backward-kill-path-component' # m-bs
 
-function bind_paragraph
-  if commandline -P
-    commandline -f cancel
-  else
-    set fish_bind_mode default
-    commandline -f backward-char force-repaint
-  end
+  bind -M insert › 'backward-bigword' # m-b
+  bind -M insert Ω 'forward-bigword' # m-w
+  bind -M insert ç 'beginning-of-line' # m-c
+  bind -M insert ¸ 'end-of-line' # m-g
+  bind -M insert … 'history-token-search-backward' # m-.
+  bind -M insert \cC 'commandline ""' # c-c
+  bind -M insert \cZ 'fg 2>/dev/null; commandline -f repaint' # c-z
+  # bind -M insert ﬁ  'ls' # m-l
+  bind -M insert ﬁ  'history-pager' # m-l
 end
 
 function bind_bang
@@ -28,6 +29,9 @@ end
 function bind_slash
   # Make // an abbrevated shortcut to git root, when in workdir.
   switch (commandline -t)
+    case "\\/"
+      commandline -t //
+      commandline -f repaint
     case "/"
       set _path (git rev-parse --show-toplevel 2>/dev/null)
       [ "$_path" = "" ] && set _path "/"
@@ -50,6 +54,9 @@ function bind_dot
       set current_token $current_token/
     end
     commandline -t $current_token
+    commandline -f repaint
+  else if test "$current_token" = "\\."
+    commandline -t ..
     commandline -f repaint
   else
     commandline -i "."

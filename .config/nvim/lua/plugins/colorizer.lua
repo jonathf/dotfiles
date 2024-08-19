@@ -7,4 +7,6 @@ return {
       mode = "background",
     })
   end,
+  lazy = false,
+  priority = 1000,
 }
