@@ -1,8 +1,16 @@
 ``systemd`` configuration
 =========================
 
-This folder contains user services for systemd to use.
-Each service can be enabled/disabled/started/stopped using ``systemctl --user``.
+This folder contains user services for systemd to use. Each service can be
+enabled/disabled/started/stopped using ``systemctl --user``.
+
+Services
+--------
+
+To have services run independent of your login, the following command must be
+run to allow that::
+
+  loginctl enable-linger
 
 Suspend, hibernate and lock screen
 ----------------------------------

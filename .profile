@@ -83,9 +83,7 @@ export CARGO_ROOT="$HOME/.cargo"
 
 [ -d "$HOME/.pyenv" ] && export PYENV_ROOT="$HOME/.pyenv"
 [ -d "$HOME/.pyenv" ] && [[ "$PATH" != *"$HOME/.pyenv"* ]] && export PATH="$PATH:$PYENV_ROOT/bin"
-[ -d "$HONE/.pyenv" ] && eval "$(pyenv init --path)"
-[ -d "$HOME/.pyenv/plugins/pyenv-virtualenv" ] && eval "$(pyenv virtualenv-init -)"
-[ -d "$HONE/.pyenv" ] && eval "$(pyenv init -)"
+[ -d "$HOME/.pyenv" ] && eval "$(pyenv init -)"
 
 [ -d "/opt/clang-format-static" ] && export PATH="$PATH:/opt/clang-format-static"
 

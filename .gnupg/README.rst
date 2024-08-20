@@ -41,7 +41,7 @@ When migrating later, use the following two commands to export and import your
 private key::
 
     $ gpg --export-secret-keys > private_keys.gpg
-    $ gpg --import private_keys.gpg
+    $ gpg --batch --import private_keys.gpg
     $ gpg -K  # read $KEY
     $ gpg --edit-key $KEY
     >   trust -> 5 (trust ultimately) -> quit

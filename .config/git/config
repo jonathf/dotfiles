@@ -72,7 +72,7 @@
     process = git-lfs filter-process
     required = true
 [gpg]
-    program = gpg
+    program = "gpg"
 [init]
     defaultBranch = main
 [interactive]
