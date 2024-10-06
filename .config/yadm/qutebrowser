@@ -12,3 +12,5 @@ source ~/.local/pipx/venv/qutebrowser/bin/activate
 ~/.local/pipx/venv/qutebrowser/python scripts/mkvenv.py --keep --pyqt-type link --pyqt-version 6 --virtualenv --update --venv-dir ~/.local/pipx/venvs/qutebrowser/
 deactive
 popd
+
+clone dracula/qutebrowser-dracula-theme $HOME/.config/qutebrowser/dracula

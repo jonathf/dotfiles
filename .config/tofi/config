@@ -1,0 +1,139 @@
+# Default config for tofi
+#
+# Copy this file to ~/.config/tofi/config and get customising!
+#
+# A complete reference of available options can be found in `man 5 tofi`.
+
+border-width = 1
+outline-width = 0
+background-color = #000C
+padding-top = 2%
+padding-left = 2%
+
+#
+### Fonts
+#
+  # Font to use, either a path to a font file or a name.
+  #
+  # If a path is given, tofi will startup much quicker, but any
+  # characters not in the chosen font will fail to render.
+  #
+  # Otherwise, fonts are interpreted in Pango format.
+  font = "Sans"
+
+  # Point size of text.
+  font-size = 12
+
+  # Comma separated list of OpenType font feature settings to apply,
+  # if supported by the chosen font. The format is similar to the CSS
+  # "font-feature-settings" property.
+  #
+  # Examples:
+  #
+  # font-features = "smcp, c2sc" (all small caps)
+  # font-features = "liga 0" (disable ligatures)
+  font-features = ""
+
+  # Comma separated list of OpenType font variation settings to apply
+  # to variable fonts. The format is similar to the CSS
+  # "font-variation-settings" property.
+  #
+  # Examples:
+  #
+  # font-variations = "wght 900" (Extra bold)
+  # font-variations = "wdth 25, slnt -10" (Narrow and slanted)
+  font-variations = ""
+
+  # Perform font hinting. Only applies when a path to a font has been
+  # specified via `font`. Disabling font hinting speeds up text
+  # rendering appreciably, but will likely look poor at small font pixel
+  # sizes.
+  hint-font = true
+
+#
+### Text theming
+#
+  # Default text color
+  #
+  # All text defaults to this color if not otherwise specified.
+  text-color = #FFFFFF
+
+  # All pieces of text have the same theming attributes available:
+  #
+  # *-color
+  #     Foreground color
+  #
+  # *-background
+  #     Background color
+  #
+  # *-background-padding
+  #     Background padding in pixels (comma-delimited, CSS-style list).
+  #     See "DIRECTIONAL VALUES" under `man 5 tofi` for more info.
+  #
+  # *-background-corner-radius
+  #     Radius of background box corners in pixels
+
+  # Prompt text theme
+  # prompt-color = #FFFFFF
+  prompt-background = #00000000
+  prompt-background-padding = 5
+  prompt-background-corner-radius = 0
+
+  # Placeholder text theme
+  placeholder-color = #FFFFFFA8
+  placeholder-background = #00000000
+  placeholder-background-padding = 0
+  placeholder-background-corner-radius = 0
+
+  # Input text theme
+  # input-color = #FFFFFF
+  input-background = #00000000
+  input-background-padding = 0
+  input-background-corner-radius = 0
+
+  # Default result text theme
+  # default-result-color = #FFFFFF
+  default-result-background = #00000000
+  default-result-background-padding = 0
+  default-result-background-corner-radius = 0
+
+  # Alternate (even-numbered) result text theme
+  #
+  # If unspecified, these all default to the corresponding
+  # default-result-* attribute.
+  #
+  # alternate-result-color = #FFFFFF
+  # alternate-result-background = #00000000
+  # alternate-result-background-padding = 0
+  # alternate-result-background-corner-radius = 0
+
+  border-color = #81a2be
+  border-width = 3
+
+  # Selection text
+  selection-background = #81a2be
+  selection-color = #000000
+  selection-background-padding = 0
+  selection-background-corner-radius = 0
+
+  # Matching portion of selection text
+  selection-match-color = #00000000
+
+
+#
+### Text cursor theme
+#
+  # Style of the optional text cursor.
+  #
+  # Supported values: bar, block, underscore
+  text-cursor-style = bar
+
+  # Color of the text cursor
+  #
+  # If unspecified, defaults to the same as input-color
+  # text-cursor-color = #FFFFFF
+
+  # Color of text behind the text cursor when text-cursor-style = block
+  #
+  # If unspecified, defaults to the same as background-color
+  # text-cursor-background = #000000

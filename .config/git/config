@@ -36,7 +36,7 @@
     excludesfile = ~/.config/git/ignore
     autocrlf = input
     filemode = false
-    pager = diff-highlight | less --LONG-PROMPT --chop-long-lines --tabs=4 --jump-target=3 --ignore-case --status-column
+    ; pager = diff-highlight | less --LONG-PROMPT --chop-long-lines --tabs=4 --jump-target=3 --ignore-case --status-column
     ; pager = delta
 [credential]
     helper = cache

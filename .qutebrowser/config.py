@@ -198,6 +198,7 @@ c.editor.command = ["alacritty", "-e", "sh", "-c", "sleep 0.1 && nvim {}"]
 # "px" suffix.
 # Type: String
 c.fonts.default_size = '11pt'
+c.fonts.default_family = "UbuntuMono"
 
 # Mode to use for hints.
 # Type: String

@@ -3,8 +3,6 @@ set -e
 
 clone copycat-killer/lain $HOME/.config/awesome/lain
 
-sudo cp -v ~/.config/awesome/{pics/background.jpg,slick-greeter.conf} /etc/lightdm
-sudo chmod -v 644 /etc/lightdm/{background.jpg,slick-greeter.conf}
 sudo mkdir -p /root/.icons/default /root/.config/gtk-3.0
 sudo cp ~/.icons/default/index.theme /root/.icons/default/
 sudo cp ~/.config/gtk-3.0/settings.ini /root/.config/gtk-3.0/

@@ -1,6 +1,7 @@
 [[ $- != *i* ]] && return
 source ~/.profile
 if [ -z "$BASH_EXECUTION_STRING" ]; then
+  export BASH_EXECUTION_STRING="1"
   exec fish
 fi
 

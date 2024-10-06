@@ -6,7 +6,7 @@ After=network-online.target nss-lookup.target
 
 [Service]
 Type=exec
-ExecStart=/home/jonathf/.local/bin/qbittorrent-nox
+ExecStart=qbittorrent-nox
 
 [Install]
 WantedBy=multi-user.target
