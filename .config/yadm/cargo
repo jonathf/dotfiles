@@ -3,6 +3,8 @@ set -e
 
 [ -z "$(command -v cargo)" ] && curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
+export PATH=$PATH:~/.cargo/bin
+
 cargo install eza
 cargo install ripgrep
 cargo install starship

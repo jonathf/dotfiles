@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
+pacman -Sy --noconfirm pass xdotool xsel
+
+echo "pinentry-program /usr/bin/pinentry-gnome3" | sudo tee ~/.gnupg/gpg-agent.conf

@@ -1,0 +1,13 @@
+yay -Sy --noconfirm awesome vicious lain xcompmgr \
+  network-manager-applet scrot blueman powerline-fonts \
+  xorg-xbacklight ttf-ubuntu-font-family \
+  xtrlock lightdm-slick-greeter \
+  lxappearance materia-gtk-theme alacritty-sixel \
+  mpv
+
+clone copycat-killer/lain $HOME/.config/awesome/lain
+
+sudo mkdir -p /root/.icons/default /root/.config/gtk-3.0
+sudo cp ~/.icons/default/index.theme /root/.icons/default/
+sudo cp ~/.config/gtk-3.0/settings.ini /root/.config/gtk-3.0/
+fc-cache -f -v

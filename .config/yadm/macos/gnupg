@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
+brew install pass gnupg xdotool xsel pinentry pinentry-mac
+
+echo "pinentry-program /opt/homebrew/bin/pinentry-mac" | sudo tee ~/.gnupg/gpg-agent.conf

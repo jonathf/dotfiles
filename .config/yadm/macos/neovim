@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
+brew install neovim
+brew install npm
+brew install xsel

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+
+sudo dnf install clang cmake curl direnv fish gcc git

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+[ "$(which nvim)" != "" ] && echo "install neovim before configuring" && exit 1
+[ ! -d $HOME/.pyenv ] && echo "install pyenv before neovim" && exit 1
+
+python3.12 -m venv $HOME/.venv/nvim/312 || true
+
+source $HOME/.venv/nvim/312/bin/activate
+pip install neovim pynvim

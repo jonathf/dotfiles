@@ -1,15 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# arch and ubuntu behaves the same here
-
-
-if [ "$(uname -s)" == "Darwin" ]; then
-  echo "pinentry-program /opt/homebrew/bin/pinentry-mac" | sudo tee ~/.gnupg/gpg-agent.conf
-else
-  echo "pinentry-program /usr/bin/pinentry-gnome3" | sudo tee ~/.gnupg/gpg-agent.conf
-fi
-
 if [[ -f "~/.gnupg/private_keys.gpg" ]]; then
   gpg --import ~/.gnupg/private_keys.gpg
   KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')

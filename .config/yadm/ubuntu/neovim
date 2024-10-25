@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
+sudo apt install -y xsel neovim lua5.1 ninja-build npm

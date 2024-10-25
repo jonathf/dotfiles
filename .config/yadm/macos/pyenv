@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -e
+
+brew install openssl readline sqlite3 xz zlib tcl-tk

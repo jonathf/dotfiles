@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
 set -e
 
-clone https://github.com/pyenv/pyenv $HOME/.pyenv || true
+git clone git@github.com:pyenv/pyenv $HOME/.pyenv || true
 
 pushd ~/.pyenv
 git reset --hard
 git pull
 popd
 
-PYTHON=python
-python3 --version >/dev/null && PYTHON=python3
-[ -z "$(which $PYTHON)" ] && echo "python missing" && exit 1
+[[ "$PATH" != *"$HOME/.pyenv/bin"* ]] && export PATH=$PATH:$HOME/.pyenv/bin
 
-MINOR=$($PYTHON -c "import sys; print(sys.version_info.minor)")
-NVIM_VENV=$HOME/.venv/nvim/3${MINOR}
-[ ! -d $NVIM_VENV ] && $PYTHON -m venv $NVIM_VENV
+PATH=$PATH:$HOME/.pyenv/bin
 
-NVIM_PIP=$NVIM_VENV/bin/pip
-$NVIM_PIP install -Ur $HOME/.config/requirements.txt
-$NVIM_PIP install neovim-remote
+versions=()
+for idx in $(seq 12 -1 9); do
+  version=$(pyenv install -l | tr -d " " | grep "^3.$idx.[[:digit:]]\\+$" | tail -1)
+  versions+=($version)
+  echo pyenv install $version
+done
+echo pyenv global ${versions[@]}
+
+mkdir -p $HOME/.venv
