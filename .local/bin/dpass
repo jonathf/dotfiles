@@ -1,15 +1,19 @@
 #!/bin/bash
 set -e
 
+if [[ -n "$(which dmenu 2> /dev/null)" ]]; then
+  MENU='dmenu -l 20 -fn "Ubuntu Mono-14:normal"'
+else if [[ -n "$(which tofi 2> /dev/null)" ]]; then
+  MENU='tofi'
+else
+  MENU='/opt/homebrew/bin/choose'
+fi fi
+
 # Create database if first time executing
-[ -f "/tmp/dpass-current" ] || $HOME/.local/bin/dpass-update 2> /tmp/file
+[ -f "/tmp/dpass-current" ] || dpass-update 2> /tmp/file
 
 # Query user for entry
-if [[ -n "$(which dmenu 2> /dev/null)" ]]; then
-  selected=$(cat /tmp/dpass-current | dmenu -l 20 -fn "Ubuntu Mono-14:normal")
-else
-  selected=$(cat /tmp/dpass-current | /opt/homebrew/bin/choose)
-fi
+selected=$(cat /tmp/dpass-current | $MENU)
 
 # Pass jobb to insertion
 # [ -n "$selected" ] && $HOME/.local/bin/dpass-insert "$selected"
@@ -29,4 +33,13 @@ if [[ "$password" = *"$tab"* ]]; then
 fi
 if [[ -n "$(which awesome-client 2> /dev/null)" ]]; then
   awesome-client "require\"naughty\".notify{text=\"$text\"}"
+fi
+
+if [[ -n "$(which wl-copy)" ]]; then
+  text="$(wl-paste)"
+  wl-copy "$username"
+  sleep 2
+  wl-copy "$password"
+  sleep 20
+  wl-copy "text"
 fi

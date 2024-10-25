@@ -109,7 +109,6 @@ vim.o.termguicolors = true
 vim.o.showtabline = 1
 vim.o.shortmess = "filnxtToOCFc"
 vim.o.showcmdloc = "statusline"
-vim.o.colorcolumn = "80"
 
 --   Make sure splitting puts new buffer to the right or below:
 

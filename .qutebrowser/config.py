@@ -27,6 +27,8 @@ c.window.title_format = "{current_title}"
 c.window.hide_decoration = False
 
 set_mappings(c, config)
+# c.qt.args = ['widevine-path=/var/lib/widevine/libwidevinecdm.so']
+c.content.cookies.accept = 'no-3rdparty'
 
 # Load a restored tab as soon as it takes focus.
 # Type: Bool
@@ -44,7 +46,7 @@ c.auto_save.session = True
 # Automatically start playing `<video>` elements. Note: On Qt < 5.11,
 # this option needs a restart and does not support URL patterns.
 # Type: Bool
-c.content.autoplay = False
+c.content.autoplay = True
 
 # Number of commands to save in the command history. 0: no history / -1:
 # unlimited
@@ -98,8 +100,8 @@ c.content.fullscreen.window = False
 # read from JavaScript is always the global value.
 # Type: String
 # TODO: User Agent extension
-# container.content.headers.user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'
-c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}'
+c.content.headers.user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'
+# c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}'
 
 # Which method of blocking ads should be used. Support for Adblock Plus (ABP) syntax blocklists using Brave’s Rust library requires the adblock Python package to be installed, which is an optional dependency of qutebrowser. It is required when either adblock or both are selected.
 # Type: String
@@ -109,7 +111,7 @@ c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_vers
 #   - hosts: Use hosts blocking
 #   - both: Use both hosts blocking and Brave’s ABP-style adblocker
 # Default: auto
-c.content.blocking.method = 'both'
+c.content.blocking.method = 'auto'
 
 # List of URLs of lists which contain hosts to block.  The file can be
 # in one of the following formats:  - An `/etc/hosts`-like file - One
