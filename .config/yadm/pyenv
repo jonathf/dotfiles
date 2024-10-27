@@ -16,8 +16,8 @@ versions=()
 for idx in $(seq 12 -1 9); do
   version=$(pyenv install -l | tr -d " " | grep "^3.$idx.[[:digit:]]\\+$" | tail -1)
   versions+=($version)
-  echo pyenv install $version
+  pyenv install $version
 done
-echo pyenv global ${versions[@]}
+pyenv global ${versions[@]}
 
 mkdir -p $HOME/.venv

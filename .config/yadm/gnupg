@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
-if [[ -f "~/.gnupg/private_keys.gpg" ]]; then
+if [ -f "$HOME/.gnupg/private_keys.gpg" ]; then
   gpg --import ~/.gnupg/private_keys.gpg
   KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
   echo -e "5\ny\n" |  gpg --command-fd 0 --expert --edit-key $KEY trust
-  mv ~/.gnupg/{,delete_my_}private_key.gpg
+  mv ~/.gnupg/{,delete_my_}private_keys.gpg
   gpg --armor --export jonathf@gmail.com > ~/.gnupg/public_key.asc
 else
-  KEY=$(gpg -K | grep -e '^     ' | sed 's/^ \+//')
+  KEY=$(gpg -K | grep -e '^     ' | sed 's/^ *//')
 fi
 
 clone jonathf/passwords $HOME/.pasword-store

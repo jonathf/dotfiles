@@ -4,3 +4,4 @@ set -e
 sudo apt install -y pass xdotool xsel pinentry-gnome3
 
 echo "pinentry-program /usr/bin/pinentry-gnome3" | sudo tee ~/.gnupg/gpg-agent.conf
+gpgconf --kill gpg-agent

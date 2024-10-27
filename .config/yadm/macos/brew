@@ -1,21 +1,27 @@
+#!/usr/bin/env bash
+set -e
+
+[ "$(uname -s)" != "Darwin" ] && echo "Not a MacOS system; quiting" && exit 1
 [ "$(which brew)" != "/usr/local/bin/brew" ] && echo "brew executable missing or on wrong arch" && exit 1
 
 # Install Homebrew if missing.
-
-brew --version || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#brew --version || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#[ "$(which brew)" != "/opt/homebrew/bin/brew" ] && echo "brew executable missing or on wrong arch" && exit 1
 
 # Make sure we’re using the latest Homebrew.
 brew update
 brew upgrade
 
 export BREW_PREFIX=$(brew --prefix)
+brew install --cask nikitabobko/tap/aerospace
 
 # Install GNU core utilities (those that come with macOS are outdated).
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
 brew install coreutils
-[ ! -f ${BREW_PREFIX}/bin/sha256sum ] ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
+[ ! -f ${BREW_PREFIX}/bin/sha256sum ] && ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
 brew install moreutils
 brew install findutils
 brew install gnu-sed
+brew install cmake
 brew install bash
 brew install bash-completion2
