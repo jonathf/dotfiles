@@ -1,0 +1,33 @@
+return {}
+-- snippet(
+-- 	{ trig = "^resource ([%w_]+)", regTrig = true, hidden = true },
+-- 	func(function(_, snip)
+-- 		return 'resource "' .. snip.captures[1] .. '" '
+-- 	end, {})
+-- ),
+-- snippet(
+-- 	{ trig = "^data ([%w_]+)", regTrig = true, hidden = true },
+-- 	func(function(_, snip)
+-- 		return 'data "' .. snip.captures[1] .. '" '
+-- 	end, {})
+-- ),
+-- snippet(
+-- 	{ trig = "^variable ([%w_]+)", regTrig = true, hidden = true },
+-- 	func(function(_, snip)
+-- 		return 'data "' .. snip.captures[1] .. '" '
+-- 	end, {})
+-- ),
+-- snippet(
+-- 	{ trig = '^(resource "[%w_]+") ([a-z-]+)', regTrig = true, hidden = true },
+-- 	func(function(_, args)
+-- 		return args.captures[1] .. ' "' .. args.captures[2] .. '"'
+-- 	end, {})
+-- ),
+-- snippet(
+-- 	{ trig = '^(data "[%w_]+") ([a-z-]+)', regTrig = true, hidden = true },
+-- 	func(function(_, args)
+-- 		return args.captures[1] .. ' "' .. args.captures[2] .. '"'
+-- 	end, {})
+-- ),
+-- -- snippet({trig = "^(resource|data) \"([a-z-]+)\" ([a-z_]+)", regTrig = true, hidden = true},
+-- --   func(function(_, args) return args.captures[1] .. " \"" .. args.captures[2] .. "\" \"" .. args.captures[3] .. "\"" end, {})),

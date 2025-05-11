@@ -27,11 +27,11 @@ vim.g.do_filetype_lua = 1
 
 --   Lets add some missing filetypes:
 
-vim.filetype.add { extension = {
-    gms = "gams",
-    ipynb = "notebook",
-    keymap = "cpp",
-}}
+vim.filetype.add({ extension = {
+	gms = "gams",
+	ipynb = "notebook",
+	keymap = "cpp",
+} })
 
 -- * Backup, swap and undo files
 
@@ -42,12 +42,13 @@ vim.o.undofile = true
 
 --   Set location for backup, swap, undo and shada files:
 
-vim.o.backupdir = vim.fn.stdpath("data") .. "/backup//"
-vim.o.directory = vim.fn.stdpath("data") .. "/swap//"
-vim.o.undodir = vim.fn.stdpath("data") .. "/undo//"
-vim.o.shadafile = vim.fn.stdpath("data") .. "/shada"
+local data_path = vim.fn.stdpath("data")
+vim.o.backupdir = data_path .. "/backup//"
+vim.o.directory = data_path .. "/swap//"
+vim.o.undodir = data_path .. "/undo//"
+vim.o.shadafile = data_path .. "/shada"
 
--- * Space, tab, indentetion and newline behavior
+-- * Space, tab, indentation and newline behavior
 
 --   Spaces are better than tabs, so we do what we can to convert to to spaces:
 
@@ -63,11 +64,13 @@ vim.o.shiftround = true
 vim.o.copyindent = true
 vim.o.breakindent = true
 vim.o.linebreak = true
+vim.o.wrap = true
 
 --   Make the various spaces visually distinct:
 
 vim.o.list = true
-vim.o.listchars = "tab:↦ ,trail:▮,nbsp:░"
+vim.o.listchars = "tab:⇥ ,trail:▮,nbsp:░"
+vim.o.showbreak = "⏵"
 
 --   Rules for how and where to break up lines:
 
@@ -101,6 +104,9 @@ vim.o.virtualedit = "block,insert,onemore"
 vim.o.inccommand = "nosplit"
 
 vim.o.number = true
+vim.o.relativenumber = true
+vim.o.numberwidth = 1
+vim.o.signcolumn = "number"
 vim.o.mouse = "n"
 vim.o.scrolloff = 5
 vim.o.clipboard = "unnamed,unnamedplus"
@@ -109,6 +115,7 @@ vim.o.termguicolors = true
 vim.o.showtabline = 1
 vim.o.shortmess = "filnxtToOCFc"
 vim.o.showcmdloc = "statusline"
+vim.o.splitkeep = "screen"
 
 --   Make sure splitting puts new buffer to the right or below:
 
