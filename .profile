@@ -5,7 +5,7 @@ export XDG_CURRENT_DESKTOP="XFCE"
 export XDG_CONFIG_DIRS="/etc/xdg"
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 
-export BROWSER="qutebrowser"
+export BROWSER="firefox"
 export DIRENV_LOG_FORMAT=""
 export EDITOR="nvim"
 export LANG="en_US.UTF-8"
@@ -66,11 +66,15 @@ export fish_pager_color_completion="normal"
 export fish_pager_color_description="yellow"
 export fish_pager_color_prefix=("white" "--bold" "--underline")
 export fish_pager_color_progress=("brwhite" "--background=cyan")
+export fish_cursor_default="block"
+export fish_cursor_insert="line"
+export fish_cursor_replace_one="underscore"
+export fish_cursor_visual="block"
 
 # Extend PATH
 [[ "$PATH" != *"$HOME/.local/bin"* ]] && export PATH="$HOME/.local/bin:$PATH"
 [[ "$PATH" != *"/usr/local/bin"* ]] && export PATH="/usr/local/bin:$PATH"
-export PATH=$(echo $PATH | sed -e  's,/opt/homebrew/bin:,,' | sed -e 's,/opt/homebrew/sbin:,,')
+[[ "$PATH" != *"/opt/homebrew/bin"* ]] && export PATH="/opt/homebrew/bin:$PATH"
 
 export COREUTILS_ROOT=/usr/local/opt/coreutils/libexec/gnubin
 [[ -d "$COREUTILS_ROOT" ]] && export PATH=$COREUTILS_ROOT:$PATH
@@ -85,6 +89,7 @@ export CARGO_ROOT="$HOME/.cargo"
 [ -d "$HOME/.pyenv" ] && export PYENV_ROOT="$HOME/.pyenv"
 [ -d "$HOME/.pyenv" ] && [[ "$PATH" != *"$HOME/.pyenv"* ]] && export PATH="$PATH:$PYENV_ROOT/bin"
 [ -d "$HOME/.pyenv" ] && eval "$(pyenv init -)"
+[ -d "$HOME/.rd/bin" ] && [[ "$PATH" != *"$HOME/.rd/bin"* ]] && export PATH="$PATH:$HOME/.rd/bin"
 
 [ -d "/opt/clang-format-static" ] && export PATH="$PATH:/opt/clang-format-static"
 
@@ -98,3 +103,5 @@ export KD=confluent-gp.dev.transhub.io:9092
 export KT=confluent-gp.tet.transhub.io:9092
 export KS=confluent-gp.stage.transhub.io:9092
 export KP=confluent-gp.transhub.io:9092
+. "$HOME/.cargo/env"
+. "$HOME/.rye/env"

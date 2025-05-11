@@ -31,7 +31,7 @@ function cd --description "Change directory"
 
     # make nvim aware of cd
     if test -n "$NVIM"
-        ~/.venv/nvim/312/bin/python -c "
+        ~/.venv/nvim/312/bin/python -I -c "
 import neovim
 with neovim.attach('socket', path='$NVIM') as session:
     session.vars['__autocd_cwd'] = '$argv'

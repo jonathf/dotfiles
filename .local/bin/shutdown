@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+if [ "$(dist-name)" = "darwin" ]; then
+  osascript -e 'tell app "System Events" to shut down'
+else
+  command shutdown -h now
+fi

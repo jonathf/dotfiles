@@ -1,0 +1,84 @@
+[terminal]
+
+[colors.bright]
+black = "#2d3c46"
+blue = "#5f819d"
+cyan = "#5e8d87"
+green = "#8c9440"
+magenta = "#85678f"
+red = "#a54242"
+white = "#6c7a80"
+yellow = "#de935f"
+
+[colors.normal]
+black = "#1d1f21"
+blue = "#81a2be"
+cyan = "#8abeb7"
+green = "#b5bd68"
+magenta = "#b294bb"
+red = "#cc6666"
+white = "#c5c8c6"
+yellow = "#f0c674"
+
+[colors.primary]
+background = "#000000"
+bright_foreground = "#ffffff"
+dim_foreground = "#9a9a9a"
+foreground = "#d0d2d1"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 16.0
+
+[font.bold]
+family = "OperatorMono Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "OperatorMono Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "OperatorMono Nerd Font"
+style = "Light Italic"
+
+[font.normal]
+family = "OperatorMono Nerd Font"
+style = "Book"
+
+[[hints.enabled]]
+command = "firefox"
+hyperlinks = true
+post_processing = true
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+[hints.enabled.binding]
+key = "F"
+mods = "Alt"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "None"
+
+[keyboard]
+bindings = [
+  { key = "z", mods = "Alt", action = "ToggleViMode" },
+  { key = "y", mods = "Alt", action = "IncreaseFontSize" },
+  { key = "h", mods = "Alt", action = "DecreaseFontSize" },
+]
+
+[mouse]
+hide_when_typing = true
+
+[selection]
+save_to_clipboard = true
+
+[terminal.shell]
+program = "/opt/homebrew/bin/bash"
+
+[window]
+decorations = "full"
+dynamic_padding = true
+opacity = 0.7

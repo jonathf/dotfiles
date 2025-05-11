@@ -1,8 +1,7 @@
 [alias]
     graph = log --pretty=format:"%C(white)%h\\ %C(green)%ad\\ %C(cyan)%D\\ %Creset%s\\ %C(yellow)%cL" --graph --decorate --all --date=format:"%y%m%d"
     edit = "!$EDITOR `git ls-files -m | uniq` -c '/\\v^[<=>|]{7}( |$)'"
-    prune = "!f() { git branch -d $(git branch --merged=\"$1\" | grep -v \"$1\") \
-    git fetch --prune }; f"
+    prune = "!f() { git branch -d $(git branch --merged=\"$1\" | grep -v \"$1\") git fetch --prune }; f"
     add-all = "!git add `git ls-files -m | uniq`"
     ls = "ls-files ."
     fame = "!git-fame"
@@ -75,8 +74,8 @@
     program = "gpg"
 [init]
     defaultBranch = main
-[interactive]
-    diffFilter = delta --color-only
+; [interactive]
+;     diffFilter = delta --color-only
 [merge]
     conflictstyle=diff3
     tool = nvimdiff

@@ -6,7 +6,7 @@ if [[ -n "$(which dmenu 2> /dev/null)" ]]; then
 else if [[ -n "$(which tofi 2> /dev/null)" ]]; then
   MENU='tofi'
 else
-  MENU='/opt/homebrew/bin/choose'
+  MENU='/opt/homebrew/bin/timeout 20s /opt/homebrew/bin/choose'
 fi fi
 
 # Create database if first time executing
@@ -41,5 +41,12 @@ if [[ -n "$(which wl-copy)" ]]; then
   sleep 2
   wl-copy "$password"
   sleep 20
-  wl-copy "text"
+  wl-copy "$text"
+else
+  text="$(pbpaste)"
+  echo "$username" | pbcopy
+  sleep 2
+  echo "$password" | pbcopy
+  sleep 20
+  echo "$text" | pbcopy
 fi

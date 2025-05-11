@@ -5,14 +5,30 @@ abbr amf "git commit --amend -a --no-edit --allow-empty && git push --force-with
 abbr cm git commit
 abbr cma git commit -a
 abbr co git checkout
+abbr com git checkout main
 abbr cob git checkout -b
+abbr d direnv
+abbr de direnv edit
+abbr da direnv allow
+abbr dl "docker aws ecr get-login-password --profile dev --region eu-west-1 | docker login --username AWS --password-stdin 822152007605.dkr.ecr.eu-west-1.amazonaws.com"
 abbr en xmodmap ~/.Xmodmap
+abbr h helm
 abbr i ipython --nosep
 abbr j jira issue
 abbr p python
-abbr kls kcat -b confluent-gp.test.transhub.io:9092 -L \| grep -e \'^ \*topic \\\"\' \| sed \'s/^ \*topic \\\"\\\(.\*\\\)\\\" with \[0-9\]\* partitions:/\\1/\' \| sort
-abbr kcd kcat -b confluent-gp.dev.transhub.io:9092
-abbr kct kcat -b confluent-gp.test.transhub.io:9092
+abbr k kubectl
+abbr kgc kubectl config get-contexts
+abbr kdp kubectl describe pod
+abbr kg kubectl get
+abbr kgd kubectl get deployments
+abbr kgi kubectl get ingress
+abbr kgp kubectl get pods
+abbr kgs kubectl get services
+abbr kl kubectl logs
+abbr ksc kubectl config use-context
+# abbr kls kcat -b confluent-gp.test.transhub.io:9092 -L \| grep -e \'^ \*topic \\\"\' \| sed \'s/^ \*topic \\\"\\\(.\*\\\)\\\" with \[0-9\]\* partitions:/\\1/\' \| sort
+# abbr kcd kcat -b confluent-gp.dev.transhub.io:9092
+# abbr kct kcat -b confluent-gp.test.transhub.io:9092
 abbr l git --no-pager graph -20
 abbr la ls --all
 abbr ll ls --long
@@ -30,6 +46,7 @@ abbr rbc git rebase --continue
 abbr rbs git rebase --skip
 abbr rbi git rebase --autostash --interactive
 abbr s git status --short --branch
+abbr sf source ~/.config/fish/config.fish
 abbr t pytest -vv --doctest-modules
 abbr vi nvim
 abbr vim nvim

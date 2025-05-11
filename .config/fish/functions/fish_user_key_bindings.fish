@@ -1,5 +1,8 @@
 function fish_user_key_bindings --description "key mapping"
-  fish_vi_key_bindings
+  fish_default_key_bindings -M insert
+  if test -z "$NVIM"
+    fish_vi_key_bindings --no-erase insert
+  end
   bind -M insert ! bind_bang
   bind -M insert '/' bind_slash
   bind -M insert . bind_dot

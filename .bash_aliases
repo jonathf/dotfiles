@@ -60,9 +60,9 @@ function g(){
 alias z="zathura"
 
 alias lls="command ls"
-alias ls="exa"
-alias ll='exa -l -g --git'
-alias la='exa -a'
+alias ls="eza"
+alias ll='eza -l -g --git'
+alias la='eza -a'
 
 alias vi="nvim"
 alias vim="nvim"

@@ -1,5 +1,7 @@
 [[ $- != *i* ]] && return
-source ~/.profile
+export SHELL=$0
+source $HOME/.profile
+
 if [ -z "$BASH_EXECUTION_STRING" ]; then
   export BASH_EXECUTION_STRING="1"
   exec fish
@@ -24,7 +26,3 @@ eval "$(starship init bash)"
 
 [ -f ~/.bash_aliases ] && source ~/.bash_aliases
 [ -f ~/.bash_bindings ] && source ~/.bash_bindings
-
-wait
-
-. "$HOME/.cargo/env"

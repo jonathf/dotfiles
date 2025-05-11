@@ -3,5 +3,11 @@ setuptools
 wheel
 
 ipython
+docrepr
 pyflyby
 rich
+
+ruff
+docstrfmt
+toml-sort
+s3pathlib

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+if [ "$(uname -s)" == "Darwin" ]; then
+  echo "macos"
+else
+  echo "linux"
+fi

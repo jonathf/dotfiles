@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+if [ "$(uname -s)" == "Darwin" ]; then
+  echo "darwin"
+else
+  echo $(cat /etc/os-release | grep "^ID=" | sed -e 's/ID=//' | sed -e 's/"//')
+fi

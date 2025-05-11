@@ -1,141 +1,155 @@
-sanitise tridactyllocal tridactylsync
+" sanitise tridactyllocal tridactylsync
 
-" Git{Hub,Lab} git clone via SSH yank
-bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
-command clone js let uri = document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git"); tri.native.run("cd ~/src; git clone " + uri)
+" colourscheme ~/.config/tridactyl/themes/custom.css
+set theme dark
+colourscheme custom
 
-" Only hint relevant elements in results
-bindurl www.google.com f hint -Jc .rc > .r > a
-bindurl www.google.com F hint -Jbc .rc>.r>a
-bindurl news.ycombinator.com f hint -Jc span.pagetop > a,td.title > a,td.subtext > a:last-of-type
-bindurl news.ycombinator.com F hint -Jtc span.pagetop > a,td.title > a,td.subtext > a:last-of-type
-bindurl news.ycombinator.com/item f hint -Jc span.pagetop > a,a.storylink,a.hnuser,div.comment a
-bindurl news.ycombinator.com/item F hint -Jtc span.pagetop > a,a.storylink,a.hnuser,div.comment a
-bindurl www.reddit.com f hint -Jc a[data-click-id="subreddit"],a[data-click-id="body"],a.styled-outbound-link
-bindurl www.reddit.com F hint -Jtc a[data-click-id="subreddit"],a[data-click-id="body"],a.styled-outbound-link
-bindurl old.reddit.com f hint -Jc a[data-event-action="title"],a.subreddit,span.user > a,a.comments,div[id="srDropdownContainer"] > a,tr > td > a,ul.tabmenu > li > a,div.dropdown,div.drop-choices > form > a
-bindurl old\.reddit\.com\/r\/.*\/comments f hint -Jc a
-bindurl old\.reddit\.com\/r\/.*\/comments F hint -Jtc aindurl old.reddit.com F hint -Jtc a[data-event-action="title"],a.subreddit,span.user > a,a.comments,div.md > p > a,span.redditname > a,ul.tabmenu > li > a
-
-" Allow Ctrl-a to select all in the commandline
-" Allow Ctrl-c to copy in the commandline
-unbind --mode=ex <C-a>
-unbind --mode=ex <C-c>
-
-" Make yy use canonical / short links on the 5 websites that support them
-bind yy clipboard yankshort
-
-" Stupid workaround to let hint -; be used with composite which steals semi-colons
-command hint_focus hint -;
-bind ;m composite hint_focus; !s xdotool key Menu
-
-" Sane hinting mode
+set smoothscroll true
 set hintfiltermode vimperator-reflow
-
-" Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
+set scrollduration 100
+set yankto clipboard
+set putfrom selection
+set editorcmd alacritty -u -e "nvim %f '+normal!%lGzv%c|'"
+setpref browser.autofocus false
+set allowautofocus false
+set preventautofocusjackhammer true
+seturl .*github.com preventautofocusjackhammer false
 set hintdelay 80
 
-" Add helper commands that Mozillians think make Firefox irredeemably
-" insecure. For details, read the comment at the top of this file.
+" autocontain -s gitlab\.com/ruter-as ruter
+" autocontain -s d-93671bac31\.awsapps\.com ruter
+" autocontain -s console\.aws\.amazon\.com ruter
+
+" Make Tridactyl work on more sites at the expense of some security.
 command fixamo_quiet jsb tri.excmds.setpref("privacy.resistFingerprinting.block_mozAddonManager", "true").then(tri.excmds.setpref("extensions.webextensions.restrictedDomains", '""'))
 command fixamo js tri.excmds.setpref("privacy.resistFingerprinting.block_mozAddonManager", "true").then(tri.excmds.setpref("extensions.webextensions.restrictedDomains", '""').then(tri.excmds.fillcmdline_tmp(3000, "Permissions added to user.js. Please restart Firefox to make them take affect.")))
-
-" Make Tridactyl work on more sites at the expense of some security. For
-" details, read the comment at the top of this file.
 fixamo_quiet
 
-" Equivalent to `set csp clobber` before it was removed. This weakens your
-" defences against cross-site-scripting attacks and other types of
-" code-injection by reducing the strictness of Content Security Policy on
-" every site in a couple of ways.
-"
-" You may not wish to run this. Mozilla strongly feels that you shouldn't.
-"
-" It allows Tridactyl to function on more pages, e.g. raw GitHub pages.
-"
-" We remove the sandbox directive
-" https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox
-" which allows our iframe to run (and anyone else's) on any website.
-"
-" We weaken the style-src directive
-" https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src
-" to allow us to theme our elements. This exposes you to 'cross site styling'
-" attacks.
-"
-" Read https://wiki.mozilla.org/Security/CSP#Goals for more information.
-jsb browser.webRequest.onHeadersReceived.addListener(tri.request.clobberCSP,{urls:["<all_urls>"],types:["main_frame"]},["blocking","responseHeaders"])
+alias q ! killall firefox
+alias qall ! killall firefox
 
-" Make quickmarks for the sane Tridactyl issue view
-quickmark t https://github.com/tridactyl/tridactyl/issues?utf8=%E2%9C%93&q=sort%3Aupdated-desc+
-
-" Inject Google Translate
-" This (clearly) is remotely hosted code. Google will be sent the whole
-" contents of the page you are on if you run `:translate`
-" From https://github.com/jeremiahlee/page-translator
-command translate js let googleTranslateCallback = document.createElement('script'); googleTranslateCallback.innerHTML = "function googleTranslateElementInit(){ new google.translate.TranslateElement(); }"; document.body.insertBefore(googleTranslateCallback, document.body.firstChild); let googleTranslateScript = document.createElement('script'); googleTranslateScript.charset="UTF-8"; googleTranslateScript.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&tl=&sl=&hl="; document.body.insertBefore(googleTranslateScript, document.body.firstChild);
-
-" New reddit is bad
-autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
-" Mosquito nets won't make themselves
-autocmd DocStart ^http(s?)://www.amazon.co.uk js tri.excmds.urlmodify("-t", "www", "smile")
-
-" My stuff
-bind h tabprev
-bind l tabnext
-bind L scrollline 30
+bind ? fillcmdline find -?
 bind H scrollline -30
-bind p back
+bind L scrollline 30
+bind N findnext -1
 bind P forward
+bind d composite tabprev; tabclose #
+bind f hint
+bind h tabprev
 bind j scrollline 20
 bind k scrollline -20
-bind / fillcmdline find
-bind ? fillcmdline find -?
+bind l tabnext
 bind n findnext 1
-bind N findnext -1
+bind p back
 
-" Ctrl-F should use the browser's native 'find' functionality.
-unbind <C-f>
+" " Git{Hub,Lab} git
+bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | pbcopy
 
-bind --mode=ex <ArrowDown> ex.next_completion
-bind --mode=ex <ArrowUp> ex.prev_completion
+" gmail
+bindurl mail.google.com/mail gi js \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'g'})); \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'i'}))
+bindurl mail.google.com/mail I js \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'i', shiftKey: truek}))
+bindurl mail.google.com/mail j js \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'j'}))
+bindurl mail.google.com/mail k js \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'k'}))
+bindurl mail.google.com/mail o js \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'o'}))
+bindurl mail.google.com/mail e js \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'e'}))
+bindurl mail.google.com/mail I js \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'I'}))
+bindurl mail.google.com/mail x js \
+  document.dispatchEvent(new KeyboardEvent('keydown',{key: 'x'}))
+bindurl mail.google.com/mail f js hint('-x', get('badSelectors'))
 
-" Use sensitive case. Smart case would be nice here, but it doesn't work.
-set findcase sensitive
-set modeindicatorshowkeys true
-set tabopenpos last
-guiset_quiet hoverlink right
+" set searchurls.g https://www.google.com/search?q=%s
+" set searchurls.h https://github.com/search?utf8=%E2%9C%93&q=%s&ref=simplesearch
+" set searchurls.m https://www.google.com/maps/search/%s
+" set searchurls.t https://torrentz2.eu/search?f=%s
+" set searchurls.w https://en.wikipedia.org/w/index.php?search=%s&title=Special%3ASearch
+" set searchurls.y https://www.youtube.com/results?search_query=%s
 
-" Smooth scrolling, yes please. This is still a bit janky in Tridactyl.
-set smoothscroll true
-set scrollduration 200
-set yankto both
-set putfrom selection
+set searchurls.aws https://d-93671bac31.awsapps.com/start
+set searchurls.athena https://eu-west-1.console.aws.amazon.com/athena/home?region=eu-west-1
+set searchurls.cloudwatch https://eu-west-1.console.aws.amazon.com/cloudwatch/home?region=eu-west-1
+set searchurls.ec2 https://eu-west-1.console.aws.amazon.com/ec2/home?region=eu-west-1
+set searchurls.ecr https://d-93671bac31.awsapps.com/start/#/console?account_id=822152007605&role_name=PowerUserAccess&destination=https%3A%2F%2Feu-west-1.console.aws.amazon.com%2Fecr%2Fprivate-registry%2Frepositories%3Fregion%3Deu-west-1
+set searchurls.ecs https://eu-west-1.console.aws.amazon.com/ecs/v2/home?region=eu-west-1
+set searchurls.glue https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1
+set searchurls.iam https://eu-west-1.console.aws.amazon.com/iam/home?region=eu-west-1
+set searchurls.lambda https://eu-west-1.console.aws.amazon.com/lambda/home?region=eu-west-1
+set searchurls.s3 https://eu-west-1.console.aws.amazon.com/s3/home?region=eu-west-1
+set searchurls.sagemaker https://d-93671bac31.awsapps.com/start/#/saml/default/SageMaker-GP/ins-d6bc6ddbd4f78db5
+set searchurls.ssm https://eu-west-1.console.aws.amazon.com/systems-manager/parameters/?region=eu-west-1
 
-unbindurl mail.google.com --mode=normal j
-unbindurl mail.google.com --mode=normal k
-unbindurl mail.google.com --mode=normal o
-unbindurl mail.google.com --mode=normal x
-unbindurl mail.google.com --mode=normal gi
-
-unbindurl github.com --mode=normal gi
-unbindurl github.com --mode=normal j
-unbindurl github.com --mode=normal k
-unbindurl github.com --mode=normal x
-unbindurl github.com --mode=normal I
-unbindurl github.com --mode=normal e
-
-unbindurl feedly.com --mode=normal j
-bindurl feedly.com --mode=normal J scrollline 20
-unbindurl feedly.com --mode=normal k
-bindurl feedly.com --mode=normal K scrollline -20
-
-set searchurls.g https://www.google.com/search?q=%s
-set searchurls.h https://github.com/search?utf8=%E2%9C%93&q=%s&ref=simplesearch
-set searchurls.m https://www.google.com/maps/search/%s
-set searchurls.t https://torrentz2.eu/search?f=%s
-set searchurls.w https://en.wikipedia.org/w/index.php?search=%s&title=Special%3ASearch
-set searchurls.y https://www.youtube.com/results?search_query=%s
-
-set theme dark
-
-" vim: set filetype=vim:
+set searchurls.qbittorrent http://192.168.68.84:9090/
+set searchurls.rss https://rss.jofe.io/
+set searchurls.bilkollektivet https://desktop.bilkollektivet.no/nb/login
+set searchurls.calendar https://calendar.google.com
+set searchurls.chaospy https://github.com/jonathf/chaospy
+set searchurls.cirleci https://app.circleci.com
+set searchurls.codecov https://codecov.io
+set searchurls.danskebank https://danskebank.no/bedrift?n-login=bbnettbank
+set searchurls.depositum https://storebrand.no/create-bank-account-web/depositumskonto
+set searchurls.doffin https://www.doffin.no/Notice?pageNumber=1&pageSize=10&OrderingType=1&OrderingDirection=1&CountyId=29&IsAdvancedSearch=false&location=29&NoticeType=2&IncludeExpired=false
+set searchurls.facebook https://facebook.com
+set searchurls.fiken https://fiken.no
+set searchurls.folio https://app.folio.no/org/929045939
+set searchurls.g https://google.com/search?q=%s
+set searchurls.gmail https://mail.google.com
+set searchurls.keep https://keep.google.com
+set searchurls.maps https://www.google.com/maps/search/%s
+set searchurls.numpoly https://github.com/jonathf/numpoly
+set searchurls.photos https://photos.google.com
+set searchurls.pogdesign https://pogdesign.co.uk/cat
+set searchurls.pyvroom https://github.com/VROOM-Project/pyvroom
+set searchurls.vroom https://github.com/VROOM-Project/vroom
+set searchurls.youtube https://youtube.com
+set searchurls.yr https://yr.no/en/forecast/daily-table/1-72837/Norway/Oslo/Oslo/Oslo
+set searchurls.tripletex https://tripletex.no/
+set searchurls.slack-brainbase https://brainbaseteam.slack.com
+set searchurls.slack-folq https://folq.slack.com
+set searchurls.slack-witted https://wittednetwork.slack.com
+set searchurls.slack-turbodata https://turbodata.slack.com
+set searchurls.slack-ruter https://ruteras.slack.com
+set searchurls.bank-nybygger https://www.nybygger.no/
+set searchurls.bank-obos https://bank.obos.no/logg-inn
+set searchurls.bank-santander https://minnettbank.santanderconsumer.no/
+set searchurls.bank-handelsbanken https://nettbank.handelsbanken.no/ebank/web/9055
+set searchurls.bank-dnb https://dnb.no/
+set searchurls.aws-console https://d-93671bac31.awsapps.com/start/#/console?account_id=621389033208&role_name=AdministratorAccess
+set searchurls.ruter-outlook https://outlook.office365.com/mail/
+set searchurls.ruter-intility https://portal.intility.com/no/
+set searchurls.ruter-jira-overview https://jira.ruter.no/secure/RapidBoard.jspa
+set searchurls.ruter-jira-calendar https://jira.ruter.no/secure/Dashboard.jspa?selectPageId=23931
+set searchurls.ruter-confluence-datascience https://ruterwiki.ruter.no/display/DS/Data+Science
+set searchurls.ruter-confluence-applikasjonsoversikt https://ruterwiki.ruter.no/display/DS/Applikasjonsoversikt
+set searchurls.ruter-confluence-passasjertelling https://ruterwiki.ruter.no/display/DS/Team+Passasjertelling
+set searchurls.ruter-gitlab-ci https://gitlab.com/ruter-as/datascience/common/gitlab-ci
+set searchurls.ruter-docs-ci https://ruter-as.gitlab.io/datascience/common/docs/gitlab-ci
+set searchurls.ruter-gitlab-terraform https://gitlab.com/ruter-as/datascience/common/terraform
+set searchurls.ruter-docs-terraform https://ruter-as.gitlab.io/datascience/common/docs/terraform
+set searchurls.ruter-gitlab-docs https://gitlab.com/ruter-as/datascience/common/docs
+set searchurls.ruter-docs https://ruter-as.gitlab.io/ruter-as/datascience/common/docs
+set searchurls.ruter-gitlab-wiki https://gitlab.com/ruter-as/datascience/common/wiki
+set searchurls.ruter-docs-wiki https://ruter-as.gitlab.io/datascience/common/docs/wiki
+set searchurls.ruter-common-baseimage https://gitlab.com/ruter-as/datascience/common/baseimage
+set searchurls.ruter-loadpredlive https://gitlab.com/ruter-as/datascience/data-engineering/flink/loadpredlive
+set searchurls.ruter-dataload https://gitlab.com/ruter-as/datascience/ml/data-load/pipeline-steps
+set searchurls.ruter-loadpred https://gitlab.com/ruter-as/datascience/ml/load-pred/pipeline-steps
+set searchurls.ruter-apcpred https://gitlab.com/ruter-as/datascience/ml/apc-pred/pipeline-steps
+set searchurls.ruter-ksqldb-connect https://gitlab.com/ruter-as/datascience/data-engineering/ksqldb/ksqldb-connect
+set searchurls.ruter-common https://gitlab.com/ruter-as/datascience/common
+set searchurls.ruter-datascience https://gitlab.com/ruter-as/datascience
+set searchurls.ruter-ml https://gitlab.com/ruter-as/datascience/ml
+set searchurls.ruter-apc-calendar https://ruterwiki.ruter.no/calendar/mycalendar.action
+set searchurls.zmk https://zmk.dev
+set searchurls.zmk-corne https://github.com/jonathf/zmk-corne
+set searchurls.zmk-kurp https://github.com/jonathf/zmk-kurp
+"
+"
+"
+" " " vim: set filetype=vim:

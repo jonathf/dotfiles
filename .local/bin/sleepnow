@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+if [ "$(dist-name)" = "darwin" ]; then
+  osascript -e 'tell app "System Events" to sleep'
+else
+  echo "not supported for $(dist-name)"
+fi
+

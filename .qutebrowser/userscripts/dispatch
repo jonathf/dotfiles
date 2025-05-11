@@ -1,45 +1,69 @@
-#!/usr/bin/env lua-5.1
+#!/opt/homebrew/bin/luajit
 
 -- Assumes that arg[1] is the key in question and
 -- arg[2],.. is the default behavior for when there are no specific key rule.
 
 -- The translation rule for each page.
 RULES = {
-  ["feedly.com"] = function() map{j="j", k="k", gi="gi", r="r", x="x"} end,
+	["feedly.com"] = function()
+		map({ j = "j", k = "k", gi = "gi", r = "r", x = "x" })
+	end,
 
-  ["pdfjs"] = function() map{j="<down><down><down><down>", k="<up><up><up><up>"} end,
+	["pdfjs"] = function()
+		map({ j = "<down><down><down><down>", k = "<up><up><up><up>" })
+	end,
 
-  ["youtube.com"] = function() map{
-    ["<Return>"]="f", ["<Escape>"]="<Escape>", m="m",
-    ["<Space>"]="k", ["<Left>"]="j", ["<Right>"]="l"}
-  end,
+	["youtube.com"] = function()
+		map({
+			["<Return>"] = "f",
+			["<Escape>"] = "<Escape>",
+			m = "m",
+			["<Space>"] = "k",
+			["<Left>"] = "j",
+			["<Right>"] = "l",
+		})
+	end,
 
-  ["github.com"] = function()
-    if string.match(QUTE_URL, "/pulls$")
-      then map{gc="gc", gi="gi", gp="gp", gw="gw", j="j", k="k", x="x", ["<Return>"]="<Return>"}
-      else map{gc="gc", gi="gi", gp="gp", gw="gw"}
-    end end,
+	["github.com"] = function()
+		if string.match(QUTE_URL, "/pulls$") then
+			map({ gc = "gc", gi = "gi", gp = "gp", gw = "gw", j = "j", k = "k", x = "x", ["<Return>"] = "<Return>" })
+		else
+			map({ gc = "gc", gi = "gi", gp = "gp", gw = "gw" })
+		end
+	end,
 
-  -- server taken by jupyter notebook
-  ["localhost:8888"] = function() map{j="j", k="k", s="s", A="A", B="B"} end,
+	-- server taken by jupyter notebook
+	["localhost:8888"] = function()
+		map({ j = "j", k = "k", s = "s", A = "A", B = "B" })
+	end,
 
-  ["mail.google.com"] = function()
-    -- exact url for the root view
-    if QUTE_URL == "https://mail.google.com/mail/u/0/#inbox"
-      then map{e="e", I="I", j="j", k="k", ga="ga", gi="gi", gt="gt", o="o", x="x"}
-      else map{e="e", j="<down><down><down><down>", k="<up><up><up><up>", J="j", K="k", gi="gi", o="gi", ["?"]="?"}
-    end
-  end,
+	["mail.google.com"] = function()
+		-- exact url for the root view
+		if QUTE_URL == "https://mail.google.com/mail/u/0/#inbox" then
+			map({ e = "e", I = "I", j = "j", k = "k", ga = "ga", gi = "gi", gt = "gt", o = "o", x = "x" })
+		else
+			map({
+				e = "e",
+				j = "<down><down><down><down>",
+				k = "<up><up><up><up>",
+				J = "j",
+				K = "k",
+				gi = "gi",
+				o = "gi",
+				["?"] = "?",
+			})
+		end
+	end,
 }
 
 -- pass cmd to qutebrowser FIFO
 --
 -- cmd: string to be written to pipe.
 function pass(cmd)
-  file = io.open(os.getenv("QUTE_FIFO"), "a")
-  io.output(file)
-  io.write(cmd)
-  io.close(file)
+	file = io.open(os.getenv("QUTE_FIFO"), "a")
+	io.output(file)
+	io.write(cmd)
+	io.close(file)
 end
 
 -- execute map rule
@@ -49,16 +73,16 @@ end
 --
 -- values: table with key trigger and key translation pairs
 function map(values)
-  local value = values[arg[1]]
-  if value then
-    pass("fake-key "..value)
-    return
-  end
-  value = arg[2]
-  for i = 3, #arg do
-    value = value .. " " .. arg[i]
-  end
-  pass(value)
+	local value = values[arg[1]]
+	if value then
+		pass("fake-key " .. value)
+		return
+	end
+	value = arg[2]
+	for i = 3, #arg do
+		value = value .. " " .. arg[i]
+	end
+	pass(value)
 end
 
 -- The page we are in
@@ -70,5 +94,7 @@ BASE_URL = string.match(BASE_URL, "qute://(.*)") or BASE_URL
 BASE_URL = string.match(BASE_URL, "([^/]+).*") or BASE_URL
 
 -- extract mapping rule (with sensible defaults)
-func = RULES[BASE_URL] or function() map{} end
+func = RULES[BASE_URL] or function()
+	map({})
+end
 func()

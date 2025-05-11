@@ -44,6 +44,7 @@ symbol = " "
 style = "bg:bright-black"
 
 [package]
+disabled = true
 format = "( [ $version ](bold bg:bright-black fg:bright-white))"
 
 [python]
@@ -52,6 +53,7 @@ version_format = "${raw}"
 detect_extensions = []
 
 [conda]
+disabled = true
 format = "( [ $environment ](italic bright-white))"
 
 [git_branch]
@@ -102,11 +104,20 @@ bisect = "BISECT"
 
 [aws]
 format = "( [ $profile ](bold bg:bright-yellow fg:black))"
+symbol = ""
+expiration_symbol = "X"
 
 [aws.profile_aliases]
-ds-admin = "admin"
-ds-read = "read"
-ds-pu = "power"
+genai-admin = "ga"
+ds-admin = "da"
+ds-read = "dr"
+ds-pu = "dp"
+dev-ds = "dd"
+qa-ds = "ds"
+prod-ds = "dp"
+dev-ds-eks = "ddK"
+qa-ds-eks = "dsK"
+prod-ds-eks = "dpK"
 
 [env_var]
 variable = "AWS_ACTIVE_VPN_SESSION"

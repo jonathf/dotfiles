@@ -8,10 +8,10 @@ I personally use `YADM <https://yadm.io/#>`_, but either works.
 Start by copying over Github keys GPG keys to the new system, and clone the
 repo:
 
-```sh
+.. code-block:: bash
+
   sudo apt install yadm
   yadm clone git@github.com:jonathf/dotfiles
-```
 
 Kickstart the bootstrap script when prompted to install accompanied software
 dependencies.
