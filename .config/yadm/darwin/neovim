@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+[ "$(dist-name)" != "darwin" ] && exit
+
 brew install neovim
 brew install npm
 brew install xsel
+brew install jq

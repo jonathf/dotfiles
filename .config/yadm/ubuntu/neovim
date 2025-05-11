@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+[ "$(dist-name)" != "ubuntu" ] && exit
+
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
-sudo apt install -y xsel neovim lua5.1 ninja-build npm
+sudo apt install -y xsel neovim lua5.1 ninja-build npm jq

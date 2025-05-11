@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-sudo dnf install neovim
+[ "$(dist-name)" != "fedora" ] && exit
+
+sudo dnf install neovim jq

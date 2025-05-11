@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 set -e
 
-sudo pacman -Sy --noconfirm neovim-git xsel ninja npm
+[ "$(dist-name)" != "arch" ] && exit
+sudo pacman -Sy --noconfirm neovim-git xsel ninja npm jq

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
+for subexec in ./*/neovim; do
+  $subexec
+done
+
 [ "$(which nvim)" == "" ] && echo "install neovim before configuring" && exit 1
 [ ! -d $HOME/.pyenv ] && echo "install pyenv before neovim" && exit 1
 

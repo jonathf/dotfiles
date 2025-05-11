@@ -1,0 +1,2 @@
+mkdir -p $HOME/personal
+git clone git@github.com:ajaybhatia/operator-mono-nerd-fonts.git $HOME/personal

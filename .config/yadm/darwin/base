@@ -11,4 +11,6 @@ brew install bash
 brew install bash-completion2
 brew install direnv
 brew install fish
+brew install choose-gui
+brew install --cask hiddenbar
 [ ! -f ${BREW_PREFIX}/bin/sha256sum ] && sudo ln -s "${BREW_PREFIX}/bin/gsha256sum" "${BREW_PREFIX}/bin/sha256sum"
