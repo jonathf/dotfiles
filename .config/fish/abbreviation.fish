@@ -26,9 +26,9 @@ abbr kgp kubectl get pods
 abbr kgs kubectl get services
 abbr kl kubectl logs
 abbr ksc kubectl config use-context
-# abbr kls kcat -b confluent-gp.test.transhub.io:9092 -L \| grep -e \'^ \*topic \\\"\' \| sed \'s/^ \*topic \\\"\\\(.\*\\\)\\\" with \[0-9\]\* partitions:/\\1/\' \| sort
-# abbr kcd kcat -b confluent-gp.dev.transhub.io:9092
-# abbr kct kcat -b confluent-gp.test.transhub.io:9092
+abbr kls kcat -b confluent-gp.test.transhub.io:9092 -L \| grep -e \'^ \*topic \\\"\' \| sed \'s/^ \*topic \\\"\\\(.\*\\\)\\\" with \[0-9\]\* partitions:/\\1/\' \| sort
+abbr kcd kcat -b confluent-gp.dev.transhub.io:9092
+abbr kct kcat -b confluent-gp.test.transhub.io:9092
 abbr l git --no-pager graph -20
 abbr la ls --all
 abbr ll ls --long

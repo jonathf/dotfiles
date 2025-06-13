@@ -14,6 +14,11 @@ return {
 		_on_attach_pre = function(_, callback)
 			require("gitsigns-yadm").yadm_signs(callback)
 		end,
+		on_attach = function(bufnr)
+			if vim.api.nvim_buf_get_name(bufnr):match("%.ipynb$") then
+				return false -- because jupytext.nvim
+			end
+		end,
 		signs = {
 			add = { text = "" },
 			change = { text = "" },

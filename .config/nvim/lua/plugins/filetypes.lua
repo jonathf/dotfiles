@@ -5,10 +5,28 @@ return {
 	{ "zorab47/vim-gams", ft = "gams" },
 	{ "Vimjas/vim-python-pep8-indent", ft = "python" },
 	{ "nmac427/guess-indent.nvim", opts = {}, ft = "python" },
-	{ "jamessan/vim-gnupg", event = "VeryLazy" },
+	{ "benoror/gpg.nvim" },
 	{ "Glench/Vim-Jinja2-Syntax", ft = "html" },
 	{ "hashivim/vim-terraform", ft = "terraform" },
-	{ "goerz/jupytext.vim", ft = { "ipynb", "json" } },
+	{
+		"GCBallesteros/jupytext.nvim",
+		ft = { "ipynb" },
+		lazy = false,
+		config = function()
+			require("jupytext").setup({
+				style = "hydrogen",
+				output_extension = "auto", -- Default extension. Don't change unless you know what you are doing
+				force_ft = nil, -- Default filetype. Don't change unless you know what you are doing
+				custom_language_formatting = {
+					-- python = {
+					-- 	-- extension = "py",
+					-- 	-- style = "sphinx",
+					-- 	-- force_ft = "sphinx", -- you can set whatever filetype you want here
+					-- },
+				},
+			})
+		end,
+	},
 	-- {
 	-- 	"chrisbra/csv.vim",
 	-- 	ft = "csv",
