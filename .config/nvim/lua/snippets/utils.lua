@@ -11,7 +11,20 @@ local function process_target(target)
 			target[key] = luasnip.function_node(function(_, args)
 				return value(args)
 			end, {})
-		elseif type(value) == "string" or type(value) == "table" then
+		elseif type(value) == "string" then
+			target[key] = {}
+			while true do
+				local idx = value:find("\n")
+				if idx == nil then
+					break
+				end
+				table.insert(target[key], value:sub(0, idx - 1))
+				value = value:sub(idx + 1)
+			end
+			table.insert(target[key], value)
+			vim.print(target[key])
+			target[key] = luasnip.text_node(target[key])
+		elseif type(value) == "table" then
 			target[key] = luasnip.text_node(value)
 		elseif type(value) == "number" then
 			target[key] = luasnip.insert_node(value)

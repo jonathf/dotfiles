@@ -47,6 +47,7 @@
   "oil-git-status.nvim": { "branch": "main", "commit": "293021c42f9d725981616c26c05964c7e5a88a08" },
   "oil.nvim": { "branch": "master", "commit": "9a59256c8e88b29d2150e99b5960b2f111e51f75" },
   "plenary.nvim": { "branch": "master", "commit": "2d9b06177a975543726ce5c73fca176cedbffe9d" },
+  "printer.nvim": { "branch": "master", "commit": "bdd5310075f9d4fe5d4270b7dc75188347fa9353" },
   "pymple.nvim": { "branch": "main", "commit": "110cc9499b89f2b7230a0c3a7332b3e4b1ac5b7b" },
   "qmk.nvim": { "branch": "main", "commit": "ad51cb15e607da0983fcf9882d38a2aafac32149" },
   "snacks.nvim": { "branch": "main", "commit": "ff803a60b3b68d2f50d5e5eb68a12d4c25cf7f1e" },
@@ -63,5 +64,5 @@
   "vim-terraform": { "branch": "master", "commit": "24de93afb05078bac6a2e966402cc1f672277708" },
   "vim-toml": { "branch": "main", "commit": "d36caa6b1cf508a4df1c691f915572fc02143258" },
   "which-key.nvim": { "branch": "main", "commit": "9b365a6428a9633e3eeb34dbef1b791511c54f70" },
-  "yadm-git.vim": { "branch": "master", "commit": "e611bbdf6e7c2c0b3e265ca9edea83ebb91e7f9a" }
+  "yadm-git.nvim": { "branch": "main", "commit": "6cfe54c8e72d847bb2cb3f781f3f8065f08b53c0" }
 }

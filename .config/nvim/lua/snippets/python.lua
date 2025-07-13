@@ -85,6 +85,7 @@ return {
 	utils.snippet("Args:", expand_args, { condition = in_docstring }),
 	utils.snippet("logger", "logger = logging.getLogger(__name__)"),
 	utils.snippet("from pathlib", "from pathlib import Path"),
+	utils.snippet("embed", "from IPython import embed; embed()"),
 }
 -- {
 -- 	--- doctest stuff

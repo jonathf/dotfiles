@@ -50,13 +50,6 @@ return {
 			lualine_a = {},
 			lualine_b = {
 				-- { "navic", navic_opts = { icons = {} } },
-				-- {
-				-- 	"modified",
-				-- 	fmt = function()
-				-- 		local buf = vim.api.nvim_get_current_buf()
-				-- 		return vim.bo[buf].modified and "+" or " "
-				-- 	end,
-				-- },
 			},
 			lualine_c = {},
 			lualine_x = {
@@ -65,15 +58,23 @@ return {
 					display_components = { "lsp_client_name", { "title", "message" } },
 				},
 			},
-			lualine_z = {
+			lualine_y = {
+				{
+					"modified",
+					fmt = function()
+						local buf = vim.api.nvim_get_current_buf()
+						return vim.bo[buf].modified and "+" or ""
+					end,
+				},
 				{
 					"filename",
 					fmt = function()
-						return vim.fn.expand("%:~:h")
+						return vim.fn.expand("%:~")
 					end,
 				},
 			},
-			lualine_y = {
+			lualine_z = {
+				"%n:%{bufnr('$')-1}",
 				-- {
 				-- 	"buffers",
 				-- 	mode = 3,

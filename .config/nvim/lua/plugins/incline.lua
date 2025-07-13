@@ -22,7 +22,8 @@ return {
 				if vim.api.nvim_get_current_buf() == props.buf then
 					local mode = vim.api.nvim_get_mode()["mode"]
 					local colors = {
-						n = { " " .. filename .. " ", guibg = color },
+						-- n = { " " .. filename .. " ", guibg = color },
+						n = { "" },
 						i = { " I ", guibg = "#98bb6c" },
 						v = { " V ", guibg = "#8992a7" },
 						V = { " L ", guibg = "#8992a7" },

@@ -6,6 +6,7 @@ ipython
 docrepr
 pyflyby
 rich
+jupytext
 
 ruff
 docstrfmt

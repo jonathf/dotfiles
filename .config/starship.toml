@@ -1,7 +1,7 @@
 add_newline = false
 format = """\
 $directory$sudo$memory_usage $fill\
-$env_var$aws$package$python$conda\
+$direnv$env_var$aws$terraform$helm$package$python$conda\
 $git_branch$git_commit \
 $newline
 $character\
@@ -14,20 +14,22 @@ command = "eza --color=always --group-directories-first | paste -sd ' ' - "
 format = '$output'
 
 [directory]
-format = "[$path](fg:blue)([$read_only](fg:red))"
-repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style)'
+format = "([ $path ](fg:black bg:bright-blue))( [ $read_only ](bold fg:black bg:red) )"
+repo_root_format = '[ $before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path ]($style)[$read_only]($read_only_style)'
 read_only = "!"
 home_symbol = "~"
 truncation_length = 8
 truncate_to_repo = true
 fish_style_pwd_dir_length = 10
-repo_root_style = "bold fg:blue"
-style = "fg:bright-blue"
+repo_root_style = "bold fg:black bg:bright-blue"
+style = "fg:black bg:bright-blue"
 
 [direnv]
 disabled = false
-allowed_msg = "asdf"
-
+allowed_msg = ""
+not_allowed_msg = "X"
+loaded_msg = "env"
+format = "( [ $allowed ](bg:bright-red fg:black))( [ $loaded ](bg:bright-blue fg:black))"
 
 [sudo]
 disabled = false
@@ -37,18 +39,18 @@ symbol = "#"
 [memory_usage]
 disabled = false
 threshold = 80
-format = "( [ $ram_pct ](bold bg:bright-black fg:bright-yellow))([$swap_pct ](bold bg:bright-black fg:bright-red))"
+format = "( [ $ram_pct ](bg:bright-black fg:bright-yellow))([$swap_pct ](bg:bright-black fg:bright-red))"
 
 [fill]
 symbol = " "
-style = "bg:bright-black"
+# style = "bg:bright-black"
 
 [package]
 disabled = true
-format = "( [ $version ](bold bg:bright-black fg:bright-white))"
+format = "( [ $version ](bg:bright-black fg:bright-white))"
 
 [python]
-format = "( [ $virtualenv ](bold bg:bright-black fg:yellow))"
+format = "( [ $virtualenv ](bg:bright-black fg:yellow))"
 version_format = "${raw}"
 detect_extensions = []
 
@@ -57,45 +59,45 @@ disabled = true
 format = "( [ $environment ](italic bright-white))"
 
 [git_branch]
-format = "( [ $branch ](bold bg:bright-black))"
+format = "( [ $branch ](bg:bright-black))"
 
 [git_commit]
-format = "( [ $hash ](bold bg:bright-black fg:bright-yellow))"
+format = "( [ $hash ](bg:bright-black fg:bright-yellow))"
 commit_hash_length = 7
 only_detached = true
 
 [git_status]
 format = "( [ $conflicted$deleted$renamed$modified$staged$diverged$ahead$behind$up_to_date$untracked$stashed ](bg:bright-black))"
-up_to_date = "[====](bold bg:bright-black fg:green)"
-conflicted = "([!$count](bold bg:bright-black fg:bright-red))"
-ahead = "([+${count}](bold bg:bright-black fg:bright-yellow))"
-behind = "([-${count}](bold bg:bright-black fg:bright-yello))"
-untracked = "([?$count](bold bg:bright-black fg:bright-white))"
-stashed = "([_${count}](bold bg:bright-black fg:bright-white))"
-modified = "([M${count}](bold bg:bright-black fg:bright-cyan))"
-staged = "([S${count}](bold bg:bright-black fg:bright-green))"
-renamed = "([^${count}](bold: bg:bright-black fg:bright-green))"
-deleted = "([x${count}](bold bg:bright-black fg:bright-red))"
+up_to_date = "[====](bg:bright-black fg:green)"
+conflicted = "([!$count](bg:bright-black fg:bright-red))"
+ahead = "([+${count}](bg:bright-black fg:bright-yellow))"
+behind = "([-${count}](bg:bright-black fg:bright-yello))"
+untracked = "([?$count](bg:bright-black fg:bright-white))"
+stashed = "([_${count}](bg:bright-black fg:bright-white))"
+modified = "([M${count}](bg:bright-black fg:bright-cyan))"
+staged = "([S${count}](bg:bright-black fg:bright-green))"
+renamed = "([^${count}](: bg:bright-black fg:bright-green))"
+deleted = "([x${count}](bg:bright-black fg:bright-red))"
 
 [character]
 format = "$symbol "
-success_symbol = '[\$](bold bright-green)'
-error_symbol = '[\$](bold bright-red)'
-vicmd_symbol = '[N](bold blue)'
-vimcmd_replace_one_symbol = '[R](bold bright-cyan)'
-vimcmd_replace_symbol = '[R](bold magenta)'
-vimcmd_visual_symbol = '[V](bold yellow)'
+success_symbol = '[\$](bright-green)'
+error_symbol = '[\$](bright-red)'
+vicmd_symbol = '[N](blue)'
+vimcmd_replace_one_symbol = '[R](bright-cyan)'
+vimcmd_replace_symbol = '[R](magenta)'
+vimcmd_visual_symbol = '[V](yellow)'
 
 [cmd_duration]
 format = "[$duration ](yellow)"
 min_time = 1000
 
 [jobs]
-format = "[&$number ](bold yellow)"
+format = "[&$number ](yellow)"
 threshold = 1
 
 [git_state]
-format = "( [ $state $progress_current/$progress_total ](bold fg:black bg:bright-green) )"
+format = "( [ $state $progress_current/$progress_total ](fg:black bg:bright-green) )"
 rebase = "REBASE"
 merge = "MERGE"
 revert = "REVERT"
@@ -103,7 +105,7 @@ cherry_pick = "CHERRY-PICK"
 bisect = "BISECT"
 
 [aws]
-format = "( [ $profile ](bold bg:bright-yellow fg:black))"
+format = "( [ $profile ](bg:bright-yellow fg:black))"
 symbol = ""
 expiration_symbol = "X"
 
@@ -119,6 +121,13 @@ dev-ds-eks = "ddK"
 qa-ds-eks = "dsK"
 prod-ds-eks = "dpK"
 
+[terraform]
+format = "( [ $workspace ](bg:bright-blue fg:black))"
+
+[helm]
+format = "( [ ${version} ](bg:bright-blue fg:black))"
+version_format = "helm"
+
 [env_var]
 variable = "AWS_ACTIVE_VPN_SESSION"
-format = "( [ $env_value ](bold fg:bright-black bg:yellow))"
+format = "( [ $env_value ](fg:bright-black bg:yellow))"

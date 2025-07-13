@@ -25,6 +25,7 @@ return {
 	snippet("false", "true"),
 	snippet("True", "False"),
 	snippet("False", "True"),
+	snippet("jonathan", "jonathan.feinberg@ruter.no"),
 
 	--- Substitute environment variable names with their corresponding value
 	snippet("$[a-zA-Z-_]+", function(args)

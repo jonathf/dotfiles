@@ -1,4 +1,5 @@
 function __fish_prompt --description "make fish prompt transient"
+    tput cup $COLUMNS 0
     if test -n "$(functions -v fish_prompt | string match --regex '^\s+# @__TRANSIENT__@')"
         return 0
     end
